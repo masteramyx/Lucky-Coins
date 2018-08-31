@@ -1,6 +1,6 @@
 package com.example.kyleamyx.luckycoins.api
 
-import com.example.kyleamyx.luckycoins.models.CoinListItem
+import com.example.kyleamyx.luckycoins.api.response.CoinListResponse
 import io.reactivex.Observable
 import retrofit2.http.GET
 
@@ -11,6 +11,6 @@ import retrofit2.http.GET
 interface LuckyCoinApiService {
 
     @GET("listings/")
-    fun getCoinListing() : Observable<List<CoinListItem>>
+    fun getCoinListing() : Observable<CoinListResponse>
 
 }

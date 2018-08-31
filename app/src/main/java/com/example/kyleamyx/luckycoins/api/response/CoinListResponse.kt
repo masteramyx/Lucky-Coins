@@ -9,4 +9,4 @@ import com.google.gson.annotations.SerializedName
  */
 data class CoinListResponse(@Expose
                             @SerializedName("data")
-                            val coinList: List<CoinListItem>)
+                            val cryptoList: List<CoinListItem>)

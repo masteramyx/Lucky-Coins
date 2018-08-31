@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/LuckyCoins.iml" filepath="$PROJECT_DIR$/LuckyCoins.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib/lib.iml" filepath="$PROJECT_DIR$/lib/lib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/presenterRx2/presenterRx2.iml" filepath="$PROJECT_DIR$/presenterRx2/presenterRx2.iml" />
     </modules>
   </component>
 </project>

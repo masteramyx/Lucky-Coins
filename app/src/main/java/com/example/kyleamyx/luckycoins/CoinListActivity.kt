@@ -2,7 +2,6 @@ package com.example.kyleamyx.luckycoins
 
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -15,7 +14,7 @@ import com.example.kyleamyx.luckycoins.list.CoinListController
 import com.example.kyleamyx.luckycoins.models.CoinListItem
 import kotlinx.android.synthetic.main.activity_coin_list.*
 
-class CoinListActivity : AppCompatActivity(), CoinListController.onCoinClicked {
+class CoinListActivity : AppCompatActivity(), CoinListController.OnCoinClicked {
 
     private lateinit var router: Router
 
@@ -26,15 +25,17 @@ class CoinListActivity : AppCompatActivity(), CoinListController.onCoinClicked {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coin_list)
         setSupportActionBar(toolbar)
-        title = "Crypto Price lIst"
+        title = "Crypto Price List"
         router = Conductor.attachRouter(this, container, savedInstanceState)
-        if (!router.hasRootController()) {
-            router.setRoot(RouterTransaction.with(CoinListController.newInstance()))
-        }
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
+//        if (!router.hasRootController()) {
+//            router.setRoot(RouterTransaction.with(CoinListController.newInstance()))
+//        }
+        router.setRoot(RouterTransaction.with(CoinListController.newInstance()))
+//        fab.setOnClickListener { view ->
+//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                    .setAction("Action", null).show()
+//        }
+
     }
 
     override fun onBackPressed() {

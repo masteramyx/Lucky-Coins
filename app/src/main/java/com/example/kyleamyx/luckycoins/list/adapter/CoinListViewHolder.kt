@@ -8,9 +8,9 @@ import kotlinx.android.synthetic.main.coin_list_item.view.*
 /**
  * Created by kyleamyx on 6/23/18.
  */
-class CoinListViewHolder(view : View) : RecyclerView.ViewHolder(view){
+class CoinListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-    fun bindView(coin : CoinListItem) {
+    fun bindView(coin: CoinListItem) {
         itemView.coinName.text = coin.name
         itemView.coinSymbol.text = coin.symbol
 

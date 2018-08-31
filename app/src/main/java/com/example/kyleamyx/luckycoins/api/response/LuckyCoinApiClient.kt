@@ -10,5 +10,7 @@ import io.reactivex.Observable
 class LuckyCoinApiClient : CoinListRetroFit() {
 
     fun getCoins(): Observable<List<CoinListItem>> =
-            coinList.getCoinListing()
+            coinList.getCoinListing().map { response ->
+                response.cryptoList
+            }
 }
