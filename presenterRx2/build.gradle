@@ -34,3 +34,6 @@ dependencies {
 
     compile project(':lib')
 }
+repositories {
+    mavenCentral()
+}
