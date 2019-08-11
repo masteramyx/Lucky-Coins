@@ -26,7 +26,6 @@ class CoinDetailController(private val arg: Bundle) : Controller() {
 
     private var coin: CoinListItem? = null
     private var compositeDisposable: CompositeDisposable? = null
-    //private var detailView : View? = null
     private lateinit var detailView: View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {

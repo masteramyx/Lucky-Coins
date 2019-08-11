@@ -5,28 +5,27 @@
                 android:animateLayoutChanges="true"
                 android:orientation="vertical">
 
-    <ScrollView
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_below="@+id/edit">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/listRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/listRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/edit"/>
 
 
             <LinearLayout
                 android:id="@+id/edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/lc_default_padding"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/lc_default_padding">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -41,6 +40,8 @@
                         android:layout_margin="@dimen/lc_default_margin"
                         android:layout_weight="1"
                         android:background="@drawable/list_edit_text"
+                        android:hint="Search a coin here"
+                        android:drawablePadding="@dimen/lc_default_padding"
                         android:inputType="text"/>
 
 
@@ -67,6 +68,7 @@
 
             </LinearLayout>
 
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -79,6 +81,4 @@
                     android:visibility="gone"/>
             </FrameLayout>
 
-        </RelativeLayout>
-    </ScrollView>
 </RelativeLayout>

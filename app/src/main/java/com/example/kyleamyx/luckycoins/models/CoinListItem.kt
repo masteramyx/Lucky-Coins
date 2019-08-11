@@ -9,26 +9,29 @@ import kotlinx.android.parcel.Parcelize
 /**
  * Created by kyleamyx on 6/22/18.
  */
-data class CoinListItem(val logo: String? = null,
-                        @Expose
-                        @SerializedName("id")
-                        var id: String? = null,
-                        @Expose
-                        @SerializedName("name")
-                        var name: String? = null,
-                        @Expose
-                        @SerializedName("symbol")
-                        val symbol: String? = null,
-                        @Expose
-                        @SerializedName("website_slug")
-                        val slug: String? = null,
-                        @Expose
-                        @SerializedName("quote")
-                        val quoteItem: CoinListQuoteItem
+data class CoinListItem(
+        @Expose
+        @SerializedName("id")
+        var id: String? = null,
+        @Expose
+        @SerializedName("name")
+        var name: String? = null,
+        @Expose
+        @SerializedName("symbol")
+        val symbol: String? = null,
+        @Expose
+        @SerializedName("website_slug")
+        val slug: String? = null,
+        @Expose
+        @SerializedName("quote")
+        val quoteItem: CoinListQuoteItem? = null,
+        @Expose
+        @SerializedName("tags")
+        val tags: List<String>? = null
 ) : Parcelable {
 
+
     constructor(source: Parcel) : this(
-            source.readString(),
             source.readString(),
             source.readString(),
             source.readString(),
@@ -39,7 +42,6 @@ data class CoinListItem(val logo: String? = null,
     override fun describeContents() = 0
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
-        writeString(logo)
         writeString(id)
         writeString(name)
         writeString(symbol)

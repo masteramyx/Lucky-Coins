@@ -1,5 +1,7 @@
 package com.example.kyleamyx.luckycoins.list
 
+import android.app.Activity
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -12,15 +14,16 @@ import com.bluelinelabs.conductor.Controller
 import com.example.kyleamyx.luckycoins.R
 import com.example.kyleamyx.luckycoins.api.response.LuckyCoinApiClient
 import com.example.kyleamyx.luckycoins.list.adapter.CoinListAdapter
+import com.example.kyleamyx.luckycoins.models.CoinDetailItem
 
 import com.example.kyleamyx.luckycoins.models.CoinListItem
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.jakewharton.rxbinding2.widget.TextViewAfterTextChangeEvent
 import io.reactivex.Observable
-import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.coin_list_controller.view.*
 import java.util.concurrent.TimeUnit
@@ -35,6 +38,7 @@ class CoinListController : Controller(), CoinListAdapter.CoinListListener {
     var compositeDisposable: CompositeDisposable? = null
     var recyclerView: RecyclerView? = null
     var searchDisposable: Disposable? = null
+    lateinit var swipeLayout: SwipeRefreshLayout
 
     private val adapter by lazy(LazyThreadSafetyMode.NONE) {
         CoinListAdapter(applicationContext!!, this)
@@ -52,16 +56,24 @@ class CoinListController : Controller(), CoinListAdapter.CoinListListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val view = inflater.inflate(R.layout.coin_list_controller, container, false)
+        swipeLayout = view.findViewById(R.id.swipeContainer)
         recyclerView = view.findViewById(R.id.listRecycler)
         recyclerView!!.layoutManager = LinearLayoutManager(activity)
         recyclerView!!.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
         recyclerView!!.adapter = adapter
         recyclerView!!.isNestedScrollingEnabled = false
+        view.swipeContainer.apply {
+            this.setOnRefreshListener {
+                getCoinList()
+                this.isRefreshing = false
+            }
+        }
 
         activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
 
         return view
     }
+
 
     override fun onAttach(view: View) {
         super.onAttach(view)
@@ -72,24 +84,7 @@ class CoinListController : Controller(), CoinListAdapter.CoinListListener {
 
 
         //Make network call to receive coin items...this call doesn't contain link to Currency symbol
-        addDisposable(LuckyCoinApiClient()
-                .getCoins()
-                .take(100)
-                .compose { upstream: Observable<List<CoinListItem>> ->
-                    upstream
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                }
-                .subscribe({ response ->
-                    list = response
-                    adapter.addItems(list)
-                    setViewVisibility(view.progressBar, false, View.GONE)
-                },
-                        { _ ->
-                            Log.e("CoinListController", "Error retrieving list!!")
-                        }))
-
-
+        getCoinList()
 
 
         searchDisposable = RxTextView.afterTextChangeEvents(view.searchView).map { t: TextViewAfterTextChangeEvent? ->
@@ -107,6 +102,73 @@ class CoinListController : Controller(), CoinListAdapter.CoinListListener {
                 })
 
     }
+
+//    fun getWhole(): Observable<List<CoinListItem>> {
+//        val wholeList = mutableListOf<CoinListItem>()
+//        return Observable.zip(LuckyCoinApiClient().getCoins().map { it.subList(0, 10) }, getImages(list),
+//                BiFunction<List<CoinListItem>, List<CoinListItem>, List<CoinListItem>> { list, imageList ->
+//                    list.forEach { listItem ->
+//                        val matched = imageList.find {
+//                            it.id == listItem.id
+//                        }
+//                        wholeList.add(CoinListItem(id = listItem.id,
+//                                name = listItem.name,
+//                                symbol = listItem.symbol,
+//                                slug = listItem.slug,
+//                                quoteItem = listItem.quoteItem,
+//                                imageUrl = matched?.imageUrl))
+//                    }
+//                    wholeList
+//                })
+//    }
+
+    private fun getCoinList() {
+        addDisposable(LuckyCoinApiClient()
+                .getCoins()
+                .compose { upstream: Observable<List<CoinListItem>> ->
+                    upstream
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                }
+                .subscribe({ response ->
+                    // make call here to fill the list with the images?
+                    list = response
+                    adapter.addItems(list)
+                    setViewVisibility(view?.progressBar, false, View.GONE)
+                },
+                        { _ ->
+                            Log.e("CoinListController", "Error retrieving list!!")
+                        }))
+
+
+    }
+
+
+    /**
+     * Currently not worth the effort, will settle with displaying coin logo on the detail page only.
+     */
+//    private fun getImages(coinList: List<CoinListItem>) {
+//        val list = mutableListOf<CoinListItem>()
+//        coinList.forEach { coin ->
+//            LuckyCoinApiClient()
+//                    .getCoinDetail(coin.id!!)
+//                    .compose { upstream: Observable<CoinDetailItem> ->
+//                        upstream
+//                                .subscribeOn(Schedulers.io())
+//                                .observeOn(AndroidSchedulers.mainThread())
+//                    }
+//                    .doOnComplete {
+//                        adapter.addItems(list)
+//                        setViewVisibility(view?.progressBar, false, View.GONE)
+//
+//                    }
+//                    .subscribe {
+//                        coin.setImage(it.logo!!)
+//                        list.add(coin)
+//                    }
+//        }
+//
+//    }
 
 
     override fun onDetach(view: View) {

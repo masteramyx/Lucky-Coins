@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_coin_list.*
 class CoinDetailActivity : AppCompatActivity() {
 
     private lateinit var router: Router
-    private var coinFromList: CoinListItem? = null
+    private lateinit var coinFromList: CoinListItem
 
     /**
      * Current implementation uses BlueLineLabs Router to navigate between views and handle animations
@@ -26,13 +26,12 @@ class CoinDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coin_list)
         coinFromList = intent.getBundleExtra("coin").getParcelable<CoinListItem>("coinItem")
-        title = coinFromList?.name
+        title = coinFromList.name
         router = Conductor.attachRouter(this, container, savedInstanceState)
 //        if (!router.hasRootController()) {
 //            router.setRoot(RouterTransaction.with(CoinListController.newInstance()))
 //        }
-        router.setRoot(RouterTransaction.with(CoinDetailController.newInstance(intent
-                .getBundleExtra("coin"))))
+        router.setRoot(RouterTransaction.with(CoinDetailController.newInstance(args = intent.getBundleExtra("coin"))))
 //        fab.setOnClickListener { view ->
 //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                    .setAction("Action", null).show()

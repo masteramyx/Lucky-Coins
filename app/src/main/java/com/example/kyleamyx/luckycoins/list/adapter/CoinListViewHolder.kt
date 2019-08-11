@@ -20,11 +20,22 @@ class CoinListViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnCli
         itemView.coinName.text = coin.name
         itemView.coinSymbol.text = coin.symbol
         itemView.coinListPrice.text = String.format(itemView.context.getString(R.string.list_item_price),
-                coin.quoteItem.quoteUSD.priceUSD)
+                coin.quoteItem?.quoteUSD?.priceUSD)
         itemView.setOnClickListener(this)
+
+        if (coin.tags!!.contains(itemView.getStringResource(R.string.list_item_mineable))) {
+            itemView.listItemLogo.setImageResource(R.mipmap.bitcoin_mine)
+        } else {
+            itemView.listItemLogo.setImageResource(R.mipmap.no_bitcoin_mine)
+        }
     }
 
     override fun onClick(v: View?) {
         listener?.onCoinClicked(coinItem)
     }
+
+
+    // String Resource Ext. Function
+    fun View.getStringResource(resourceId: Int): String = this.context.getString(resourceId)
+
 }
