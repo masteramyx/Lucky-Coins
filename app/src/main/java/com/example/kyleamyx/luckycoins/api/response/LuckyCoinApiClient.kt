@@ -1,6 +1,7 @@
 package com.example.kyleamyx.luckycoins.api.response
 
 import com.example.kyleamyx.luckycoins.CoinListRetroFit
+import com.example.kyleamyx.luckycoins.models.CoinDetailItem
 import com.example.kyleamyx.luckycoins.models.CoinListItem
 import io.reactivex.Observable
 
@@ -10,7 +11,12 @@ import io.reactivex.Observable
 class LuckyCoinApiClient : CoinListRetroFit() {
 
     fun getCoins(): Observable<List<CoinListItem>> =
-            coinList.getCoinListing().map { response ->
+            coinService.getCoinListing().map { response ->
                 response.cryptoList
+            }
+
+    fun getCoinDetail(id: String): Observable<CoinDetailItem> =
+            coinService.getCoinDetail(id).map { response ->
+                response.data.item
             }
 }

@@ -8,12 +8,21 @@ import kotlinx.android.synthetic.main.coin_list_item.view.*
 /**
  * Created by kyleamyx on 6/23/18.
  */
-class CoinListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+class CoinListViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
+
+    var listener: CoinListAdapter.CoinListListener? = null
+
+    lateinit var coinItem: CoinListItem
 
     fun bindView(coin: CoinListItem) {
+        coinItem = coin
         itemView.coinName.text = coin.name
         itemView.coinSymbol.text = coin.symbol
-
+        itemView.coinListPrice.text = coin.quoteItem.quoteUSD.priceUSD.toString()
+        itemView.setOnClickListener(this)
     }
 
+    override fun onClick(v: View?) {
+        listener?.onCoinClicked(coinItem)
+    }
 }

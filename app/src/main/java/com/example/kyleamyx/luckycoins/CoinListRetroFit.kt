@@ -13,9 +13,9 @@ import java.util.concurrent.TimeUnit
  */
 open class CoinListRetroFit {
 
-    val httpLoggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-    val okHttpClient = OkHttpClient.Builder()
-            .readTimeout(1000, TimeUnit.SECONDS)
+    private val httpLoggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+    private val okHttpClient = OkHttpClient.Builder()
+            .readTimeout(100, TimeUnit.SECONDS)
             .addInterceptor(httpLoggingInterceptor)
             .build()
 
@@ -24,9 +24,13 @@ open class CoinListRetroFit {
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
-            .baseUrl("https://api.coinmarketcap.com/v2/")
+            .baseUrl("https://pro-api.coinmarketcap.com")
             .build()
 
-    val coinList: LuckyCoinApiService = retroFit.create(LuckyCoinApiService::class.java)
+    val coinService: LuckyCoinApiService = retroFit.create(LuckyCoinApiService::class.java)
+
+    companion object {
+        val MARKET_API_KEY = "7b08fc3a-c443-4d59-932d-04bfd6074005"
+    }
 
 }

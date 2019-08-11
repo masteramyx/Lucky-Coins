@@ -1,24 +1,23 @@
-package com.example.kyleamyx.luckycoins
+package com.example.kyleamyx.luckycoins.detail
 
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
-import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
-import com.example.kyleamyx.luckycoins.detail.CoinDetailActivity
-import com.example.kyleamyx.luckycoins.detail.CoinDetailController
-import com.example.kyleamyx.luckycoins.list.CoinListController
+import com.example.kyleamyx.luckycoins.R
 import com.example.kyleamyx.luckycoins.models.CoinListItem
 import kotlinx.android.synthetic.main.activity_coin_list.*
 
-class CoinListActivity : AppCompatActivity(), CoinListController.OnCoinClicked {
+class CoinDetailActivity : AppCompatActivity() {
 
     private lateinit var router: Router
+    private var coinFromList: CoinListItem? = null
 
     /**
      * Current implementation uses BlueLineLabs Router to navigate between views and handle animations
@@ -26,11 +25,14 @@ class CoinListActivity : AppCompatActivity(), CoinListController.OnCoinClicked {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coin_list)
+        coinFromList = intent.getBundleExtra("coin").getParcelable<CoinListItem>("coinItem")
+        title = coinFromList?.name
         router = Conductor.attachRouter(this, container, savedInstanceState)
 //        if (!router.hasRootController()) {
 //            router.setRoot(RouterTransaction.with(CoinListController.newInstance()))
 //        }
-        router.setRoot(RouterTransaction.with(CoinListController.newInstance()))
+        router.setRoot(RouterTransaction.with(CoinDetailController.newInstance(intent
+                .getBundleExtra("coin"))))
 //        fab.setOnClickListener { view ->
 //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                    .setAction("Action", null).show()
@@ -41,29 +43,7 @@ class CoinListActivity : AppCompatActivity(), CoinListController.OnCoinClicked {
     override fun onBackPressed() {
         if (!router.handleBack()) {
             super.onBackPressed()
-        } else {
-            title = "Crypto Price List"
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        title = "Crypto Price List"
-    }
-
-    /**
-     *Upon Item click the router pushes a new {@link CoinDetailController} to the backstack and
-     * handles the view animation
-     */
-    override fun onItemClicked(coin: CoinListItem) {
-
-//        router.pushController(RouterTransaction.with(CoinDetailController())
-//                .pushChangeHandler(HorizontalChangeHandler())
-//                .popChangeHandler(HorizontalChangeHandler()))
-        Toast.makeText(this, "Heading into the Detail Activity", Toast.LENGTH_SHORT).show()
-        startActivity(CoinDetailActivity.getLaunchIntent(this, coin))
-
-
     }
 
 
@@ -81,5 +61,12 @@ class CoinListActivity : AppCompatActivity(), CoinListController.OnCoinClicked {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    companion object {
+        fun getLaunchIntent(context: Context, coin: CoinListItem): Intent = Intent(context,
+                CoinDetailActivity::class.java).putExtra("coin", Bundle().apply {
+            putParcelable("coinItem", coin)
+        })
     }
 }

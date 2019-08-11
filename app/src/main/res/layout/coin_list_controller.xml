@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
-    android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -18,36 +18,54 @@
                 android:id="@+id/listRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/edit" />
+                android:layout_below="@id/edit"/>
+
 
             <LinearLayout
                 android:id="@+id/edit"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/lc_default_padding"
+                android:orientation="vertical">
 
-                <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/searchView"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start|center_vertical"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:inputType="text" />
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/searchView"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="start|center_vertical"
+                        android:layout_margin="@dimen/lc_default_margin"
+                        android:layout_weight="1"
+                        android:background="@drawable/list_edit_text"
+                        android:inputType="text"/>
 
 
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical">
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="end|center_vertical"
-                        android:src="@android:drawable/ic_menu_search" />
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="end|center_vertical"
+                            android:src="@android:drawable/ic_menu_search"/>
 
-                </FrameLayout>
+                    </FrameLayout>
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorPrimaryDark"/>
+
             </LinearLayout>
-
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -57,30 +75,10 @@
                     android:id="@+id/progressBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center"
+                    android:visibility="gone"/>
             </FrameLayout>
 
         </RelativeLayout>
     </ScrollView>
-</RelativeLayout><!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:animateLayoutChanges="true">-->
-
-
-    <!--<android.support.v7.widget.RecyclerView--><!--android:id="@+id/listRecycler"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content" />-->
-
-    <!--<LinearLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content">-->
-
-    <!--<android.support.v7.widget.AppCompatEditText--><!--android:id="@+id/searchView"--><!--android:layout_width="0dp"--><!--android:layout_height="wrap_content"--><!--android:layout_gravity="start|center_vertical"--><!--android:layout_weight="1"--><!--android:background="@android:color/transparent"--><!--android:inputType="text" />-->
-
-
-    <!--<FrameLayout--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content">-->
-
-    <!--<ImageView--><!--android:layout_width="24dp"--><!--android:layout_height="24dp"--><!--android:layout_gravity="end|center_vertical"--><!--android:src="@android:drawable/ic_menu_search" />-->
-
-    <!--</FrameLayout>--><!--</LinearLayout>-->
-
-
-    <!--<FrameLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent">-->
-
-    <!--<ProgressBar--><!--android:id="@+id/progressBar"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_gravity="center" />--><!--</FrameLayout>-->
-
-    <!--</FrameLayout>-->
+</RelativeLayout>

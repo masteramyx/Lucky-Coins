@@ -4,11 +4,13 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 /**
  * Created by kyleamyx on 6/22/18.
  */
-data class CoinListItem(@Expose
+data class CoinListItem(val logo: String? = null,
+                        @Expose
                         @SerializedName("id")
                         var id: String? = null,
                         @Expose
@@ -19,33 +21,37 @@ data class CoinListItem(@Expose
                         val symbol: String? = null,
                         @Expose
                         @SerializedName("website_slug")
-                        val slug: String? = null
-
+                        val slug: String? = null,
+                        @Expose
+                        @SerializedName("quote")
+                        val quoteItem: CoinListQuoteItem
 ) : Parcelable {
-    constructor(parcel: Parcel) : this(
-            parcel.readString(),
-            parcel.readString(),
-            parcel.readString()) {
+
+    constructor(source: Parcel) : this(
+            source.readString(),
+            source.readString(),
+            source.readString(),
+            source.readString(),
+            source.readString(),
+            source.readParcelable<CoinListQuoteItem>(CoinListQuoteItem::class.java.classLoader)
+    )
+
+    override fun describeContents() = 0
+
+    override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
+        writeString(logo)
+        writeString(id)
+        writeString(name)
+        writeString(symbol)
+        writeString(slug)
+        writeParcelable(quoteItem, 0)
     }
 
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(id)
-        parcel.writeString(name)
-        parcel.writeString(symbol)
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<CoinListItem> {
-        override fun createFromParcel(parcel: Parcel): CoinListItem {
-            return CoinListItem(parcel)
+    companion object {
+        @JvmField
+        val CREATOR: Parcelable.Creator<CoinListItem> = object : Parcelable.Creator<CoinListItem> {
+            override fun createFromParcel(source: Parcel): CoinListItem = CoinListItem(source)
+            override fun newArray(size: Int): Array<CoinListItem?> = arrayOfNulls(size)
         }
-
-        override fun newArray(size: Int): Array<CoinListItem?> {
-            return arrayOfNulls(size)
-        }
     }
-
 }
