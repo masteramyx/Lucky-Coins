@@ -2,6 +2,7 @@ package com.example.kyleamyx.luckycoins.list.adapter
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import com.example.kyleamyx.luckycoins.R
 import com.example.kyleamyx.luckycoins.models.CoinListItem
 import kotlinx.android.synthetic.main.coin_list_item.view.*
 
@@ -18,7 +19,8 @@ class CoinListViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnCli
         coinItem = coin
         itemView.coinName.text = coin.name
         itemView.coinSymbol.text = coin.symbol
-        itemView.coinListPrice.text = coin.quoteItem.quoteUSD.priceUSD.toString()
+        itemView.coinListPrice.text = String.format(itemView.context.getString(R.string.list_item_price),
+                coin.quoteItem.quoteUSD.priceUSD)
         itemView.setOnClickListener(this)
     }
 
