@@ -30,7 +30,7 @@ class CoinDetailController(private val arg: Bundle) : Controller() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         detailView = inflater.inflate(R.layout.coin_detail_controller, container, false);
-        val coin: CoinListItem = arg.getParcelable("coinItem")
+        val coin: CoinListItem = arg.getParcelable("coinItem")!!
         detailView.detailTv.text = "ID = ${coin.id} and Symbol = ${coin.symbol}"
 
         return detailView

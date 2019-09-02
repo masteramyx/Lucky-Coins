@@ -1,10 +1,9 @@
 package com.example.kyleamyx.luckycoins.list
 
-import android.app.Activity
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,16 +13,13 @@ import com.bluelinelabs.conductor.Controller
 import com.example.kyleamyx.luckycoins.R
 import com.example.kyleamyx.luckycoins.api.response.LuckyCoinApiClient
 import com.example.kyleamyx.luckycoins.list.adapter.CoinListAdapter
-import com.example.kyleamyx.luckycoins.models.CoinDetailItem
-
 import com.example.kyleamyx.luckycoins.models.CoinListItem
 import com.jakewharton.rxbinding2.widget.RxTextView
-import com.jakewharton.rxbinding2.widget.TextViewAfterTextChangeEvent
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import io.reactivex.functions.BiFunction
+import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.coin_list_controller.view.*
 import java.util.concurrent.TimeUnit
@@ -59,7 +55,8 @@ class CoinListController : Controller(), CoinListAdapter.CoinListListener {
         swipeLayout = view.findViewById(R.id.swipeContainer)
         recyclerView = view.findViewById(R.id.listRecycler)
         recyclerView!!.layoutManager = LinearLayoutManager(activity)
-        recyclerView!!.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
+        recyclerView!!.addItemDecoration(DividerItemDecoration(activity,
+                DividerItemDecoration.VERTICAL))
         recyclerView!!.adapter = adapter
         recyclerView!!.isNestedScrollingEnabled = false
         view.swipeContainer.apply {
@@ -87,11 +84,12 @@ class CoinListController : Controller(), CoinListAdapter.CoinListListener {
         getCoinList()
 
 
-        searchDisposable = RxTextView.afterTextChangeEvents(view.searchView).map { t: TextViewAfterTextChangeEvent? ->
-            t?.editable()
-                    .toString()
-                    .trim()
-        }
+        searchDisposable = RxTextView.afterTextChangeEvents(view.searchView)
+                .map(Function<com.jakewharton.rxbinding2.widget.TextViewAfterTextChangeEvent, String>() {
+                    it.editable()
+                            .toString()
+                            .trim()
+                })
                 .debounce(500.toLong(), TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ query ->
@@ -142,33 +140,6 @@ class CoinListController : Controller(), CoinListAdapter.CoinListListener {
 
 
     }
-
-
-    /**
-     * Currently not worth the effort, will settle with displaying coin logo on the detail page only.
-     */
-//    private fun getImages(coinList: List<CoinListItem>) {
-//        val list = mutableListOf<CoinListItem>()
-//        coinList.forEach { coin ->
-//            LuckyCoinApiClient()
-//                    .getCoinDetail(coin.id!!)
-//                    .compose { upstream: Observable<CoinDetailItem> ->
-//                        upstream
-//                                .subscribeOn(Schedulers.io())
-//                                .observeOn(AndroidSchedulers.mainThread())
-//                    }
-//                    .doOnComplete {
-//                        adapter.addItems(list)
-//                        setViewVisibility(view?.progressBar, false, View.GONE)
-//
-//                    }
-//                    .subscribe {
-//                        coin.setImage(it.logo!!)
-//                        list.add(coin)
-//                    }
-//        }
-//
-//    }
 
 
     override fun onDetach(view: View) {

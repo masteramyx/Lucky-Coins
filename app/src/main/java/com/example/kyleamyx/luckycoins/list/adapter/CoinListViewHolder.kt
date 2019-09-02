@@ -1,8 +1,9 @@
 package com.example.kyleamyx.luckycoins.list.adapter
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import com.example.kyleamyx.luckycoins.R
+import com.example.kyleamyx.luckycoins.StorageUtils
 import com.example.kyleamyx.luckycoins.models.CoinListItem
 import kotlinx.android.synthetic.main.coin_list_item.view.*
 
@@ -27,6 +28,14 @@ class CoinListViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnCli
             itemView.listItemLogo.setImageResource(R.mipmap.bitcoin_mine)
         } else {
             itemView.listItemLogo.setImageResource(R.mipmap.no_bitcoin_mine)
+        }
+
+        if (StorageUtils.isItemAFavorite(coin.id!!, itemView.context)) {
+            itemView.favoritesBtn.visibility = View.INVISIBLE
+        } else {
+            itemView.favoritesBtn.setOnClickListener {
+                StorageUtils.storeFavorite(itemView.context, coinItem.name!!, coinItem.id!!)
+            }
         }
     }
 

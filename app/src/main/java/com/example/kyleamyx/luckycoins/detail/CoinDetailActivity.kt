@@ -4,7 +4,7 @@ package com.example.kyleamyx.luckycoins.detail
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import com.bluelinelabs.conductor.Conductor
@@ -25,7 +25,7 @@ class CoinDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coin_list)
-        coinFromList = intent.getBundleExtra("coin").getParcelable<CoinListItem>("coinItem")
+        coinFromList = intent?.getBundleExtra("coin")?.getParcelable("coinItem") ?: CoinListItem.EMPTY
         title = coinFromList.name
         router = Conductor.attachRouter(this, container, savedInstanceState)
 //        if (!router.hasRootController()) {

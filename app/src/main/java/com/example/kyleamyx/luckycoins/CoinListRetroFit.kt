@@ -29,8 +29,6 @@ open class CoinListRetroFit {
 
     val coinService: LuckyCoinApiService = retroFit.create(LuckyCoinApiService::class.java)
 
-    companion object {
-        val MARKET_API_KEY = "7b08fc3a-c443-4d59-932d-04bfd6074005"
-    }
+    companion object {}
 
 }

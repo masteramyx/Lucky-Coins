@@ -19,4 +19,27 @@ data class CoinDetailItem(@Expose
                           @SerializedName("description")
                           val description: String? = null) {
 
+
+    fun favorite(): CoinFavoriteListItem {
+        return CoinFavoriteListItem(this.id,
+                this.logo,
+                this.name,
+                this.symbol)
+
+    }
+
+
+    data class CoinFavoriteListItem(@Expose
+                                    @SerializedName("id")
+                                    val id: String,
+                                    @Expose
+                                    @SerializedName("logo")
+                                    val logo: String? = null,
+                                    @Expose
+                                    @SerializedName("name")
+                                    val name: String? = null,
+                                    @Expose
+                                    @SerializedName("symbol")
+                                    val symbol: String? = null)
+
 }

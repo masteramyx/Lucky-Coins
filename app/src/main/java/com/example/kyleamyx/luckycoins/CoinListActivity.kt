@@ -1,8 +1,10 @@
 package com.example.kyleamyx.luckycoins
 
 
+import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import com.google.android.material.tabs.TabLayout
+import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -11,7 +13,7 @@ import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import com.example.kyleamyx.luckycoins.detail.CoinDetailActivity
-import com.example.kyleamyx.luckycoins.detail.CoinDetailController
+import com.example.kyleamyx.luckycoins.favorites.CoinFavoriteController
 import com.example.kyleamyx.luckycoins.list.CoinListController
 import com.example.kyleamyx.luckycoins.models.CoinListItem
 import kotlinx.android.synthetic.main.activity_coin_list.*
@@ -26,17 +28,42 @@ class CoinListActivity : AppCompatActivity(), CoinListController.OnCoinClicked {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coin_list)
-        router = Conductor.attachRouter(this, container, savedInstanceState)
-//        if (!router.hasRootController()) {
-//            router.setRoot(RouterTransaction.with(CoinListController.newInstance()))
-//        }
-        router.setRoot(RouterTransaction.with(CoinListController.newInstance()))
-//        fab.setOnClickListener { view ->
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                    .setAction("Action", null).show()
-//        }
+        val tabs: TabLayout = tabs
+        tabs.addTab(tabs.newTab().setText("List"))
+        tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                if (tab?.text == "List") {
 
+                    router.popCurrentController()
+                } else {
+                    Toast.makeText(applicationContext, "FAVORITE CLICKED!", Toast.LENGTH_SHORT).show()
+                    router.pushController(RouterTransaction.with(CoinFavoriteController())
+                            .pushChangeHandler(HorizontalChangeHandler())
+                            .popChangeHandler(HorizontalChangeHandler()))
+                }
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                //refresh list
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                // no op?
+            }
+        })
+        tabs.addTab(tabs.newTab().setText("Favorites"))
+
+        router = Conductor.attachRouter(this, container, savedInstanceState)
+        if (!SettingUtils().checkNetworkConnectivityStatus(this))
+            SettingUtils().launchPanel(this)
+        else
+            router.setRoot(RouterTransaction.with(CoinListController.newInstance()))
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        router.setRoot(RouterTransaction.with(CoinListController.newInstance()))
+    }
+
 
     override fun onBackPressed() {
         if (!router.handleBack()) {
@@ -56,16 +83,9 @@ class CoinListActivity : AppCompatActivity(), CoinListController.OnCoinClicked {
      * handles the view animation
      */
     override fun onItemClicked(coin: CoinListItem) {
-
-//        router.pushController(RouterTransaction.with(CoinDetailController())
-//                .pushChangeHandler(HorizontalChangeHandler())
-//                .popChangeHandler(HorizontalChangeHandler()))
         Toast.makeText(this, "Heading into the Detail Activity", Toast.LENGTH_SHORT).show()
         startActivity(CoinDetailActivity.getLaunchIntent(this, coin))
-
-
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.

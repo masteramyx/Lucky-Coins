@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="@dimen/coin_list_item_height"
-              android:background="@drawable/list_item"
-              android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/coin_list_item_height"
+    android:background="@drawable/list_item"
+    android:orientation="vertical">
 
 
     <LinearLayout
@@ -18,7 +18,7 @@
             android:layout_width="48dp"
             android:layout_height="wrap_content"
             android:paddingRight="@dimen/lc_default_padding"
-            tools:src="@mipmap/mining"/>
+            tools:src="@mipmap/mining" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -31,22 +31,30 @@
                 android:id="@+id/coinName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:text="Name"/>
+                android:text="Name"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/coinSymbol"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Symbol"/>
+                android:text="Symbol" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/favoritesBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/lc_default_padding"
+            android:text="+Favorites" />
 
         <TextView
             android:id="@+id/coinListPrice"
-            android:layout_width="wrap_content"
+            android:layout_width="98dp"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            tools:text="Current Price"/>
+            android:layout_gravity="end"
+            tools:text="Current Price" />
 
     </LinearLayout>
 

@@ -55,5 +55,6 @@ data class CoinListItem(
             override fun createFromParcel(source: Parcel): CoinListItem = CoinListItem(source)
             override fun newArray(size: Int): Array<CoinListItem?> = arrayOfNulls(size)
         }
+        val EMPTY get() = CoinListItem("", "", "", "", CoinListQuoteItem(CoinListQuoteItem.QuoteUSD(0.0)), emptyList())
     }
 }
