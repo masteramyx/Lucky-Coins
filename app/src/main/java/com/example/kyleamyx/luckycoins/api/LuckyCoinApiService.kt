@@ -14,11 +14,10 @@ import retrofit2.http.Query
 interface LuckyCoinApiService {
 
 
-    @Headers(
-            "X-CMC_PRO_API_KEY: 7b08fc3a-c443-4d59-932d-04bfd6074005"
-    )
     @GET("/v1/cryptocurrency/listings/latest")
-    fun getCoinListing(): Observable<CoinListResponse>
+    fun getCoinListing(@Query("CMC_PRO_API_KEY")
+                       key: String = "7b08fc3a-c443-4d59-932d-04bfd6074005"):
+            Observable<CoinListResponse>
 
     @Headers(
             "X-CMC_PRO_API_KEY: 7b08fc3a-c443-4d59-932d-04bfd6074005"

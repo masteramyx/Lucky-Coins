@@ -3,22 +3,22 @@ package com.example.kyleamyx.luckycoins
 
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.tabs.TabLayout
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
-import com.example.kyleamyx.luckycoins.detail.CoinDetailActivity
+import com.bluelinelabs.conductor.support.RouterPagerAdapter
+import com.example.kyleamyx.RoomSingleton
 import com.example.kyleamyx.luckycoins.favorites.CoinFavoriteController
 import com.example.kyleamyx.luckycoins.list.CoinListController
-import com.example.kyleamyx.luckycoins.models.CoinListItem
+import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_coin_list.*
 
-class CoinListActivity : AppCompatActivity(), CoinListController.OnCoinClicked {
+class CoinListActivity : AppCompatActivity() {
 
     private lateinit var router: Router
 
@@ -29,6 +29,7 @@ class CoinListActivity : AppCompatActivity(), CoinListController.OnCoinClicked {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coin_list)
         val tabs: TabLayout = tabs
+        //todo - How to Set up with ViewPager
         tabs.addTab(tabs.newTab().setText("List"))
         tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -58,9 +59,19 @@ class CoinListActivity : AppCompatActivity(), CoinListController.OnCoinClicked {
             SettingUtils().launchPanel(this)
         else
             router.setRoot(RouterTransaction.with(CoinListController.newInstance()))
+
+        RoomSingleton.initDB(this)
+
+        println("Router: ${router.containerId}")
+        //todo - remove this shit if it doesn't work
+        viewPager.adapter = TabAdapter()
+
+        tabs.setupWithViewPager(viewPager)
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         router.setRoot(RouterTransaction.with(CoinListController.newInstance()))
     }
 
@@ -78,15 +89,6 @@ class CoinListActivity : AppCompatActivity(), CoinListController.OnCoinClicked {
         title = "Crypto Price List"
     }
 
-    /**
-     *Upon Item click the router pushes a new {@link CoinDetailController} to the backstack and
-     * handles the view animation
-     */
-    override fun onItemClicked(coin: CoinListItem) {
-        Toast.makeText(this, "Heading into the Detail Activity", Toast.LENGTH_SHORT).show()
-        startActivity(CoinDetailActivity.getLaunchIntent(this, coin))
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_coin_list, menu)
@@ -102,4 +104,21 @@ class CoinListActivity : AppCompatActivity(), CoinListController.OnCoinClicked {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    inner class TabAdapter : RouterPagerAdapter(CoinListController.newInstance()) {
+        override fun configureRouter(router: Router, position: Int) {
+            when (position) {
+                0 -> this@CoinListActivity.router.setRoot(RouterTransaction.with(CoinListController.newInstance()))
+//                    router.pushController(RouterTransaction.with(CoinListController())
+//                            .pushChangeHandler(HorizontalChangeHandler())
+//                            .popChangeHandler(HorizontalChangeHandler()))
+                1 -> this@CoinListActivity.router.pushController(RouterTransaction.with(CoinFavoriteController())
+                        .pushChangeHandler(HorizontalChangeHandler())
+                        .popChangeHandler(HorizontalChangeHandler()))
+            }
+        }
+
+        override fun getCount(): Int = 2
+    }
+
 }

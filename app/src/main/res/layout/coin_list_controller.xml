@@ -40,7 +40,6 @@
                 android:layout_weight="1"
                 android:background="@drawable/list_edit_text"
                 android:drawablePadding="@dimen/lc_default_padding"
-                android:hint="Search a coin here"
                 android:inputType="text" />
 
 

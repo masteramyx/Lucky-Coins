@@ -1,17 +1,19 @@
 package com.example.kyleamyx.luckycoins.api.response
 
-import com.example.kyleamyx.luckycoins.CoinListRetroFit
+import com.example.kyleamyx.luckycoins.api.LuckyCoinApiService
 import com.example.kyleamyx.luckycoins.models.CoinDetailItem
 import com.example.kyleamyx.luckycoins.models.CoinListItem
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import io.reactivex.Observable
-import org.json.JSONObject
+import org.koin.core.context.GlobalContext.get
 
 /**
  * Created by kyleamyx on 6/23/18.
  */
-class LuckyCoinApiClient : CoinListRetroFit() {
+class LuckyCoinApiClient {
+
+    val coinService: LuckyCoinApiService = get().koin.get()
 
     private val GSON = GsonBuilder()
             .excludeFieldsWithoutExposeAnnotation()

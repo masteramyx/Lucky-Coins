@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.kyleamyx.luckycoins.R
+import com.example.kyleamyx.luckycoins.favorites.FavoriteCoin
 import com.example.kyleamyx.luckycoins.models.CoinListItem
 
 /**
@@ -19,6 +20,7 @@ class CoinListAdapter(context: Context, val listener: CoinListListener) : Recycl
 
     interface CoinListListener {
         fun onCoinClicked(coin: CoinListItem)
+        fun onFavoriteClicked(coin: FavoriteCoin)
     }
 
 

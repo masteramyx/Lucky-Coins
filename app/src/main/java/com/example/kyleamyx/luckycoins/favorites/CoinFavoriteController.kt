@@ -1,27 +1,40 @@
 package com.example.kyleamyx.luckycoins.favorites
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bluelinelabs.conductor.Controller
 import com.example.kyleamyx.luckycoins.R
-import com.example.kyleamyx.luckycoins.list.adapter.CoinListAdapter
-import com.example.kyleamyx.luckycoins.models.CoinListItem
+import com.example.kyleamyx.luckycoins.favorites.adapter.CoinFavoriteAdapter
+import com.example.kyleamyx.luckycoins.favorites.db.FavoritesRepository
+import kotlinx.android.synthetic.main.coin_favorite_controller.view.*
 
-class CoinFavoriteController : Controller(), CoinListAdapter.CoinListListener {
+class CoinFavoriteController : Controller() {
+
+    lateinit var repository: FavoritesRepository
+
+    private val adapter by lazy(LazyThreadSafetyMode.NONE) {
+        CoinFavoriteAdapter(applicationContext!!)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
-        return inflater.inflate(R.layout.coin_favorite_controller, container, false)
+        return inflater.inflate(R.layout.coin_favorite_controller, container, false).apply {
+            favoritesRecycler.layoutManager = LinearLayoutManager(activity)
+            favoritesRecycler.adapter = adapter
+            favoritesRecycler.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
+        }
     }
-
-    override fun onCoinClicked(coin: CoinListItem) {
-        Log.d("CoinFavoriteController", coin.id!!)
-    }
-
 
     override fun onAttach(view: View) {
         super.onAttach(view)
+
+        repository = FavoritesRepository()
+
+        val favoriteList = repository.getFavorites()
+        adapter.addItems(favoriteList)
 
     }
 

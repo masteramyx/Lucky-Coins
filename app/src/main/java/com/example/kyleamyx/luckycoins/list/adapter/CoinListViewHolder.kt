@@ -1,9 +1,10 @@
 package com.example.kyleamyx.luckycoins.list.adapter
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 import com.example.kyleamyx.luckycoins.R
 import com.example.kyleamyx.luckycoins.StorageUtils
+import com.example.kyleamyx.luckycoins.favorites.FavoriteCoin
 import com.example.kyleamyx.luckycoins.models.CoinListItem
 import kotlinx.android.synthetic.main.coin_list_item.view.*
 
@@ -34,7 +35,8 @@ class CoinListViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnCli
             itemView.favoritesBtn.visibility = View.INVISIBLE
         } else {
             itemView.favoritesBtn.setOnClickListener {
-                StorageUtils.storeFavorite(itemView.context, coinItem.name!!, coinItem.id!!)
+                //call dao here
+                listener?.onFavoriteClicked(FavoriteCoin(coin.id.toInt(), coin.slug, coin.name, coin.symbol))
             }
         }
     }
