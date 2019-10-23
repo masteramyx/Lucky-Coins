@@ -2,7 +2,7 @@ package com.example.kyleamyx.luckycoins.favorites.db
 
 import com.example.kyleamyx.luckycoins.favorites.FavoriteCoin
 
-interface IFavoritesRepository {
+interface CoinFavoriteRepository {
 
     fun saveCoin(coin: FavoriteCoin)
 

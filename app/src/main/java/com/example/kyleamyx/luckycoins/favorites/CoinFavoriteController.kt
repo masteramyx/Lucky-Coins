@@ -5,16 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bluelinelabs.conductor.Controller
 import com.example.kyleamyx.luckycoins.R
 import com.example.kyleamyx.luckycoins.favorites.adapter.CoinFavoriteAdapter
-import com.example.kyleamyx.luckycoins.favorites.db.FavoritesRepository
+import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteRepositoryImpl
 import kotlinx.android.synthetic.main.coin_favorite_controller.view.*
 
 class CoinFavoriteController : Controller() {
 
-    lateinit var repository: FavoritesRepository
+    lateinit var repositoryImpl: CoinFavoriteRepositoryImpl
 
     private val adapter by lazy(LazyThreadSafetyMode.NONE) {
         CoinFavoriteAdapter(applicationContext!!)
@@ -31,9 +30,9 @@ class CoinFavoriteController : Controller() {
     override fun onAttach(view: View) {
         super.onAttach(view)
 
-        repository = FavoritesRepository()
+        repositoryImpl = CoinFavoriteRepositoryImpl()
 
-        val favoriteList = repository.getFavorites()
+        val favoriteList = repositoryImpl.getFavorites()
         adapter.addItems(favoriteList)
 
     }

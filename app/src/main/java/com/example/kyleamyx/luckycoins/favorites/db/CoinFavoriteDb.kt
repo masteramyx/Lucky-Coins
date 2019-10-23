@@ -5,6 +5,6 @@ import androidx.room.RoomDatabase
 import com.example.kyleamyx.luckycoins.favorites.FavoriteCoin
 
 @Database(entities = [FavoriteCoin::class], version = 1)
-abstract class FavoritesDatabase : RoomDatabase() {
-    abstract fun favoritesDao(): FavoritesDao
+abstract class CoinFavoriteDb : RoomDatabase() {
+    abstract fun favoritesDao(): CoinFavoriteDao
 }

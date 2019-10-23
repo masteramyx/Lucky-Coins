@@ -15,7 +15,7 @@ import com.example.kyleamyx.luckycoins.base.BaseMvvmController
 import com.example.kyleamyx.luckycoins.base.Mvvm
 import com.example.kyleamyx.luckycoins.detail.CoinDetailActivity
 import com.example.kyleamyx.luckycoins.favorites.FavoriteCoin
-import com.example.kyleamyx.luckycoins.favorites.db.IFavoritesRepository
+import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteRepository
 import com.example.kyleamyx.luckycoins.list.adapter.CoinListAdapter
 import com.example.kyleamyx.luckycoins.models.CoinListItem
 import com.google.android.material.snackbar.Snackbar
@@ -38,7 +38,7 @@ class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContrac
     var recyclerView: RecyclerView? = null
     var searchDisposable: Disposable? = null
     lateinit var swipeLayout: SwipeRefreshLayout
-    lateinit var repository: IFavoritesRepository
+    lateinit var repository: CoinFavoriteRepository
 
     private val adapter by lazy(LazyThreadSafetyMode.NONE) {
         CoinListAdapter(applicationContext!!, this)
@@ -116,7 +116,7 @@ class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContrac
 
     //
 //    override fun onFavoriteClicked(coin: FavoriteCoin) {
-//        repository.saveCoin(coin)
+//        repositoryImpl.saveCoin(coin)
 //    }
 //
 //    var listener: OnCoinClicked? = null
@@ -149,7 +149,7 @@ class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContrac
 //                }, { throwable ->
 //                    Log.e("CoinListController", "Error search crypto list")
 //                })
-//        repository = FavoritesRepository()
+//        repositoryImpl = CoinFavoriteRepositoryImpl()
 //
 //    }
 //

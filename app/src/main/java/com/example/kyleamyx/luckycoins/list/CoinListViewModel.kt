@@ -1,13 +1,11 @@
 package com.example.kyleamyx.luckycoins.list
 
-import android.util.Log
 import android.view.View
 import com.example.kyleamyx.luckycoins.base.BaseViewModel
 import com.example.kyleamyx.luckycoins.base.subscribeBy
-import com.example.kyleamyx.luckycoins.list.adapter.CoinListAdapter
+import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteRepository
 import com.example.kyleamyx.luckycoins.models.CoinListItem
 import com.jakewharton.rxbinding2.widget.RxTextView
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Function
 import kotlinx.android.synthetic.main.coin_list_controller.view.*
@@ -15,7 +13,7 @@ import me.ameriod.lib.mvp.presenter.rx2.IObservableSchedulerRx2
 import java.util.concurrent.TimeUnit
 
 data class CoinListViewModel internal constructor(
-        val repository: CoinListRepository,
+        val remoteRepository: CoinListRepository,
         val scheduler: IObservableSchedulerRx2
 ) : BaseViewModel<CoinListContract.State>() {
 
@@ -23,7 +21,7 @@ data class CoinListViewModel internal constructor(
     private var searchList: List<CoinListItem> = emptyList()
 
     fun getCoinList() {
-        addToDisposables(repository.getCoinList()
+        addToDisposables(remoteRepository.getCoinList()
                 .compose(scheduler.scheduleSingle())
                 .subscribeBy(
                         onSuccess = {

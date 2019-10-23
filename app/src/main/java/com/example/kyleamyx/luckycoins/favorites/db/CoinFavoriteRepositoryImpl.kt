@@ -4,9 +4,9 @@ import android.util.Log
 import com.example.kyleamyx.RoomSingleton
 import com.example.kyleamyx.luckycoins.favorites.FavoriteCoin
 
-class FavoritesRepository : IFavoritesRepository {
+class CoinFavoriteRepositoryImpl : CoinFavoriteRepository {
 
-    private val favoritesDao: FavoritesDao
+    private val favoritesDao: CoinFavoriteDao
 
     init {
         favoritesDao = RoomSingleton.getInstance().getRoomDb().favoritesDao()

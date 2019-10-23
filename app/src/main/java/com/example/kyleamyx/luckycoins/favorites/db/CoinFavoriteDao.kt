@@ -7,7 +7,7 @@ import androidx.room.Query
 import com.example.kyleamyx.luckycoins.favorites.FavoriteCoin
 
 @Dao
-interface FavoritesDao {
+interface CoinFavoriteDao {
     @Query("SELECT * FROM favorites")
     fun getFavorites(): List<FavoriteCoin>
 

@@ -12,6 +12,7 @@ import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
 import com.example.kyleamyx.luckycoins.R
 import com.example.kyleamyx.luckycoins.models.CoinListItem
+import kotlinx.android.synthetic.main.activity_coin_detail.*
 import kotlinx.android.synthetic.main.activity_coin_list.*
 
 class CoinDetailActivity : AppCompatActivity() {
@@ -24,10 +25,10 @@ class CoinDetailActivity : AppCompatActivity() {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_coin_list)
+        setContentView(R.layout.activity_coin_detail)
         coinFromList = intent?.getBundleExtra("coin")?.getParcelable("coinItem") ?: CoinListItem.EMPTY
         title = coinFromList.name
-        router = Conductor.attachRouter(this, container, savedInstanceState)
+        router = Conductor.attachRouter(this, containerDetail, savedInstanceState)
 //        if (!router.hasRootController()) {
 //            router.setRoot(RouterTransaction.with(CoinListController.newInstance()))
 //        }

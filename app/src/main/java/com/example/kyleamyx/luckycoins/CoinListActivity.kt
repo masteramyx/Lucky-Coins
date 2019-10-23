@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
@@ -28,16 +27,16 @@ class CoinListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coin_list)
+
         val tabs: TabLayout = tabs
+
         //todo - How to Set up with ViewPager
         tabs.addTab(tabs.newTab().setText("List"))
         tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 if (tab?.text == "List") {
-
                     router.popCurrentController()
                 } else {
-                    Toast.makeText(applicationContext, "FAVORITE CLICKED!", Toast.LENGTH_SHORT).show()
                     router.pushController(RouterTransaction.with(CoinFavoriteController())
                             .pushChangeHandler(HorizontalChangeHandler())
                             .popChangeHandler(HorizontalChangeHandler()))
@@ -55,6 +54,8 @@ class CoinListActivity : AppCompatActivity() {
         tabs.addTab(tabs.newTab().setText("Favorites"))
 
         router = Conductor.attachRouter(this, container, savedInstanceState)
+
+        //todo - fix this, should ask every 30 seconds or something
         if (!SettingUtils().checkNetworkConnectivityStatus(this))
             SettingUtils().launchPanel(this)
         else
@@ -64,9 +65,11 @@ class CoinListActivity : AppCompatActivity() {
 
         println("Router: ${router.containerId}")
         //todo - remove this shit if it doesn't work
-        viewPager.adapter = TabAdapter()
-
-        tabs.setupWithViewPager(viewPager)
+//        val adapter = TabAdapter()
+//        adapter.configureRouter(router, 0)
+//        viewPager.adapter = adapter
+//
+//        tabs.setupWithViewPager(viewPager)
 
     }
 
@@ -108,17 +111,19 @@ class CoinListActivity : AppCompatActivity() {
     inner class TabAdapter : RouterPagerAdapter(CoinListController.newInstance()) {
         override fun configureRouter(router: Router, position: Int) {
             when (position) {
-                0 -> this@CoinListActivity.router.setRoot(RouterTransaction.with(CoinListController.newInstance()))
-//                    router.pushController(RouterTransaction.with(CoinListController())
-//                            .pushChangeHandler(HorizontalChangeHandler())
-//                            .popChangeHandler(HorizontalChangeHandler()))
-                1 -> this@CoinListActivity.router.pushController(RouterTransaction.with(CoinFavoriteController())
-                        .pushChangeHandler(HorizontalChangeHandler())
-                        .popChangeHandler(HorizontalChangeHandler()))
+                0 -> this@CoinListActivity.router.pushController(RouterTransaction.with(CoinListController.newInstance()))
+                1 -> this@CoinListActivity.router.pushController(RouterTransaction.with(CoinFavoriteController()))
             }
         }
 
         override fun getCount(): Int = 2
+
+        override fun getPageTitle(position: Int): CharSequence? {
+            return if (position == 0)
+                "List"
+            else
+                "Favorites"
+        }
     }
 
 }

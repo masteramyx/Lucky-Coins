@@ -2,6 +2,8 @@ package com.example.kyleamyx.luckycoins.list
 
 import androidx.annotation.VisibleForTesting
 import com.example.kyleamyx.luckycoins.api.LuckyCoinApiService
+import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteRepository
+import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteRepositoryImpl
 import okhttp3.OkHttpClient
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -16,15 +18,21 @@ val listDi = module {
         buildLuckyCoinsListApiService(okHttpClient = get())
     }
 
-    // Inject Repository which communicates with the remote database and local DB
+    // Inject List Repository which communicates with the remote database
     single<CoinListRepository> {
         CoinListRepositoryImpl(coinListService = get())
     }
 
-    //Inject View Model which communicates the repository above and uses the injected scheduler(Application Level) to
+
+//    // Inject Favorites Repository which communicates with the local DB
+//    single<CoinFavoriteRepository> {
+//        CoinFavoriteRepositoryImpl()
+//    }
+
+    //Inject View Model which communicates the repositoryImpl above and uses the injected scheduler(Application Level) to
     // schedule where it will observe and subscribe to the streams
     viewModel {
-        CoinListViewModel(repository = get(), scheduler = get())
+        CoinListViewModel(remoteRepository = get(), scheduler = get())
     }
 
 
