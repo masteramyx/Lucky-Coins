@@ -26,13 +26,17 @@ class CoinDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coin_detail)
-        coinFromList = intent?.getBundleExtra("coin")?.getParcelable("coinItem") ?: CoinListItem.EMPTY
+        coinFromList = intent?.getBundleExtra("coinFavoriteItem")?.getParcelable("coinFavoriteItemItem") ?: CoinListItem.EMPTY
         title = coinFromList.name
         router = Conductor.attachRouter(this, containerDetail, savedInstanceState)
-//        if (!router.hasRootController()) {
+
 //            router.setRoot(RouterTransaction.with(CoinListController.newInstance()))
 //        }
-        router.setRoot(RouterTransaction.with(CoinDetailController.newInstance(args = intent.getBundleExtra("coin"))))
+        if (!router.hasRootController())
+            router.pushController(RouterTransaction.with(CoinDetailController.newInstance(
+                    args = intent.getBundleExtra("coinFavoriteItem")!!)))
+
+        router.setPopsLastView(true)
 //        fab.setOnClickListener { view ->
 //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                    .setAction("Action", null).show()
@@ -42,8 +46,10 @@ class CoinDetailActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (!router.handleBack()) {
+            containerDetail.removeAllViews()
             super.onBackPressed()
         }
+        finish()
     }
 
 
@@ -65,8 +71,8 @@ class CoinDetailActivity : AppCompatActivity() {
 
     companion object {
         fun getLaunchIntent(context: Context, coin: CoinListItem): Intent = Intent(context,
-                CoinDetailActivity::class.java).putExtra("coin", Bundle().apply {
-            putParcelable("coinItem", coin)
+                CoinDetailActivity::class.java).putExtra("coinFavoriteItem", Bundle().apply {
+            putParcelable("coinFavoriteItemItem", coin)
         })
     }
 }

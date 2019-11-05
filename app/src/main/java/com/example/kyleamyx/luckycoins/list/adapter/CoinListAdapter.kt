@@ -5,14 +5,15 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.kyleamyx.luckycoins.R
-import com.example.kyleamyx.luckycoins.favorites.FavoriteCoin
+import com.example.kyleamyx.luckycoins.models.CoinFavoriteItem
 import com.example.kyleamyx.luckycoins.models.CoinListItem
 
 /**
  * Created by kyleamyx on 6/23/18.
  */
 
-class CoinListAdapter(context: Context, val listener: CoinListListener) : RecyclerView.Adapter<CoinListViewHolder>() {
+class CoinListAdapter(context: Context, private val listener: CoinListListener) : RecyclerView
+.Adapter<CoinListViewHolder>() {
 
     private var coinList: List<CoinListItem> = emptyList()
     private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -20,7 +21,7 @@ class CoinListAdapter(context: Context, val listener: CoinListListener) : Recycl
 
     interface CoinListListener {
         fun onCoinClicked(coin: CoinListItem)
-        fun onFavoriteClicked(coin: FavoriteCoin)
+        fun onFavoriteClicked(coinFavoriteItem: CoinFavoriteItem)
     }
 
 
@@ -29,7 +30,6 @@ class CoinListAdapter(context: Context, val listener: CoinListListener) : Recycl
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinListViewHolder {
-        //return CoinListViewHolder(View.inflate(context, R.layout.coin_list_item, parent))
         val view = inflater.inflate(R.layout.coin_list_item, parent, false)
         return CoinListViewHolder(view)
 

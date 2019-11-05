@@ -1,5 +1,6 @@
 package com.example.kyleamyx.luckycoins.list
 
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -8,13 +9,14 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.bluelinelabs.conductor.Router
-import com.bluelinelabs.conductor.support.RouterPagerAdapter
+import com.bluelinelabs.conductor.RouterTransaction
+import com.example.kyleamyx.luckycoins.CoinListActivity
 import com.example.kyleamyx.luckycoins.R
 import com.example.kyleamyx.luckycoins.base.BaseMvvmController
 import com.example.kyleamyx.luckycoins.base.Mvvm
 import com.example.kyleamyx.luckycoins.detail.CoinDetailActivity
-import com.example.kyleamyx.luckycoins.favorites.FavoriteCoin
+import com.example.kyleamyx.luckycoins.detail.CoinDetailController
+import com.example.kyleamyx.luckycoins.models.CoinFavoriteItem
 import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteRepository
 import com.example.kyleamyx.luckycoins.list.adapter.CoinListAdapter
 import com.example.kyleamyx.luckycoins.models.CoinListItem
@@ -25,7 +27,7 @@ import kotlinx.android.synthetic.main.coin_list_controller.view.*
 import org.koin.core.context.GlobalContext.get
 
 /**
- * Created by kyleamyx on 6/23/18.
+ * Created by kyleamyx on 6/23/18.1
  */
 
 //todo- add shimmer by facebook for loading of views
@@ -34,20 +36,17 @@ class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContrac
 
 
     var list: List<CoinListItem> = emptyList()
-    var compositeDisposable: CompositeDisposable? = null
     var recyclerView: RecyclerView? = null
-    var searchDisposable: Disposable? = null
-    lateinit var swipeLayout: SwipeRefreshLayout
-    lateinit var repository: CoinFavoriteRepository
 
     private val adapter by lazy(LazyThreadSafetyMode.NONE) {
         CoinListAdapter(applicationContext!!, this)
     }
 
+    lateinit var listener: CoinListAdapter.CoinListListener
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val view = inflater.inflate(R.layout.coin_list_controller, container, false)
-        swipeLayout = view.findViewById(R.id.swipeContainer)
         recyclerView = view.findViewById(R.id.listRecycler)
         recyclerView!!.layoutManager = LinearLayoutManager(activity)
         recyclerView!!.addItemDecoration(DividerItemDecoration(activity,
@@ -63,13 +62,25 @@ class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContrac
         return view
     }
 
+
     override fun onAttach(view: View) {
         super.onAttach(view)
         with(viewModel) {
-            getCoinList()
-            setSearchListener(view)
+            if (list.isEmpty()) {
+                getCoinList()
+                setSearchListener(view)
+            } else {
+                view.listRecycler.adapter = adapter
+                adapter.notifyDataSetChanged()
+            }
         }
+        listener = activity as CoinListActivity
+    }
 
+    override fun onDetach(view: View) {
+        super.onDetach(view)
+        view.listRecycler.adapter = null
+        println("Detached")
     }
 
 
@@ -77,8 +88,9 @@ class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContrac
         viewModel.onCoinClicked(coin)
     }
 
-    override fun onFavoriteClicked(coin: FavoriteCoin) {
-        viewModel.onFavoriteClicked()
+    override fun onFavoriteClicked(coinFavoriteItem: CoinFavoriteItem) {
+        viewModel.onFavoriteClicked(coinFavoriteItem)
+        adapter.notifyDataSetChanged()
     }
 
     override val viewModel: CoinListViewModel = get().koin.get()
@@ -86,14 +98,23 @@ class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContrac
     override fun onStateChange(state: Mvvm.State) {
         when (state) {
             is CoinListContract.State.CoinListReceived -> {
-                adapter.addItems(state.coins)
+                list = state.coins
+                adapter.addItems(list)
             }
             is CoinListContract.State.CoinItemClicked -> {
                 Snackbar.make(view!!, "Coin Item Clicked", Snackbar.LENGTH_SHORT)
-                startActivity(CoinDetailActivity.getLaunchIntent(activity!!, state.coin))
+                //router.onActivityStarted()
+//                router?.pushController(RouterTransaction.with(CoinDetailController.newInstance
+//                (Bundle().apply {
+//                    putParcelable("coinFavoriteItemItem", state.coin)
+
+//                })))
+                //startActivity(CoinDetailActivity.getLaunchIntent(activity!!, state.coin))
+                listener.onCoinClicked(state.coin)
             }
             is CoinListContract.State.FavoriteClicked -> {
-                Snackbar.make(view!!, "Favorite Button Clicked", Snackbar.LENGTH_SHORT)
+                Snackbar.make(view!!, "Favorite Button Clicked", Snackbar.LENGTH_SHORT).show()
+                adapter.notifyDataSetChanged()
             }
             is CoinListContract.State.QueryRan -> {
                 adapter.addItems(state.searchList)
@@ -104,19 +125,9 @@ class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContrac
         }
     }
 
-    inner class TabAdapter : RouterPagerAdapter(this){
-        override fun configureRouter(router: Router, position: Int) {
-            println("Router: ${router.containerId}, Position: $position")
-        }
-
-        override fun getCount(): Int {
-           return 2
-        }
-    }
-
     //
-//    override fun onFavoriteClicked(coin: FavoriteCoin) {
-//        repositoryImpl.saveCoin(coin)
+//    override fun onFavoriteClicked(coinFavoriteItem: CoinFavoriteItem) {
+//        repositoryImpl.saveCoin(coinFavoriteItem)
 //    }
 //
 //    var listener: OnCoinClicked? = null
@@ -131,7 +142,7 @@ class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContrac
 //        setViewVisibility(view.progressBar, true, View.GONE)
 //
 //
-//        //Make network call to receive coin items...this call doesn't contain link to Currency symbol
+//        //Make network call to receive coinFavoriteItem items...this call doesn't contain link to Currency symbol
 //        getCoinList()
 //
 //
@@ -230,8 +241,8 @@ class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContrac
 //
 //    fun searchItems(query: String): Observable<List<CoinListItem>> {
 //        return Observable.just(list).map { list ->
-//            list.filter { coin ->
-//                coin.name!!.toLowerCase().contains(query.toLowerCase())
+//            list.filter { coinFavoriteItem ->
+//                coinFavoriteItem.name!!.toLowerCase().contains(query.toLowerCase())
 //            }
 //        }
 //    }

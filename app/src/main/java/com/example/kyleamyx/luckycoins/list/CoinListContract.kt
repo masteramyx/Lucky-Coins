@@ -2,7 +2,7 @@ package com.example.kyleamyx.luckycoins.list
 
 import android.os.Parcelable
 import com.example.kyleamyx.luckycoins.base.Mvvm
-import com.example.kyleamyx.luckycoins.favorites.FavoriteCoin
+import com.example.kyleamyx.luckycoins.models.CoinFavoriteItem
 import com.example.kyleamyx.luckycoins.models.CoinListItem
 import kotlinx.android.parcel.Parcelize
 
@@ -21,7 +21,7 @@ interface CoinListContract {
         data class CoinItemClicked(val coin: CoinListItem) : State()
 
         @Parcelize
-        data class FavoriteClicked(val coin: FavoriteCoin) : State()
+        data class FavoriteClicked(val coinFavoriteItem: CoinFavoriteItem) : State()
 
         @Parcelize
         data class QueryRan(val searchList: List<CoinListItem>): State()

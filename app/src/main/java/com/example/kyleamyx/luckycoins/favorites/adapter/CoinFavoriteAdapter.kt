@@ -5,16 +5,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kyleamyx.luckycoins.R
-import com.example.kyleamyx.luckycoins.favorites.FavoriteCoin
+import com.example.kyleamyx.luckycoins.models.CoinFavoriteItem
 
 class CoinFavoriteAdapter(context: Context) : RecyclerView.Adapter<CoinFavoriteViewHolder>() {
 
-    private var coinList: List<FavoriteCoin> = emptyList()
+    private var coinFavoriteItemList: List<CoinFavoriteItem> = emptyList()
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
 
     override fun getItemCount(): Int {
-        return coinList.size
+        return coinFavoriteItemList.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinFavoriteViewHolder {
@@ -25,17 +25,17 @@ class CoinFavoriteAdapter(context: Context) : RecyclerView.Adapter<CoinFavoriteV
     }
 
     override fun onBindViewHolder(holder: CoinFavoriteViewHolder, position: Int) {
-        holder.bindView(coinList[position])
+        holder.bindView(coinFavoriteItemList[position])
     }
 
-    fun addItems(list: List<FavoriteCoin>) {
-        coinList = list
-        if (coinList.isNotEmpty()) {
+    fun addItems(list: List<CoinFavoriteItem>) {
+        coinFavoriteItemList = list
+        if (coinFavoriteItemList.isNotEmpty()) {
             notifyDataSetChanged()
         }
     }
 
-    fun getItem(position: Int): FavoriteCoin {
-        return coinList[position]
+    fun getItem(position: Int): CoinFavoriteItem {
+        return coinFavoriteItemList[position]
     }
 }

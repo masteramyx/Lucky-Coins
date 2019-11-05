@@ -1,4 +1,4 @@
-package com.example.kyleamyx.luckycoins.favorites
+package com.example.kyleamyx.luckycoins.models
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
@@ -8,7 +8,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Entity(tableName = "favorites")
 @Parcelize
-data class FavoriteCoin(
+data class CoinFavoriteItem(
         @PrimaryKey
         val id: Int,
         @ColumnInfo(name = "logo")

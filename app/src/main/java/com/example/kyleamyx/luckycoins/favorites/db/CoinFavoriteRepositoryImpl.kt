@@ -2,7 +2,8 @@ package com.example.kyleamyx.luckycoins.favorites.db
 
 import android.util.Log
 import com.example.kyleamyx.RoomSingleton
-import com.example.kyleamyx.luckycoins.favorites.FavoriteCoin
+import com.example.kyleamyx.luckycoins.models.CoinFavoriteItem
+import io.reactivex.Single
 
 class CoinFavoriteRepositoryImpl : CoinFavoriteRepository {
 
@@ -12,14 +13,14 @@ class CoinFavoriteRepositoryImpl : CoinFavoriteRepository {
         favoritesDao = RoomSingleton.getInstance().getRoomDb().favoritesDao()
     }
 
-    override fun saveCoin(coin: FavoriteCoin) {
+    override fun saveCoin(coinFavoriteItem: CoinFavoriteItem) {
         Log.d("FAVORITES REPOSITORY", "COIN SAVED!!")
-        return favoritesDao.saveCoin(coin)
+        return favoritesDao.saveCoin(coinFavoriteItem)
     }
 
-    override fun getFavorites(): List<FavoriteCoin> {
+    override fun getFavorites(): Single<List<CoinFavoriteItem>> {
         Log.d("FAVORITES REPOSITORY", "RETRIEVING FAVORITES LIST")
-        return favoritesDao.getFavorites()
+        return Single.just(favoritesDao.getFavorites())
     }
 
 }

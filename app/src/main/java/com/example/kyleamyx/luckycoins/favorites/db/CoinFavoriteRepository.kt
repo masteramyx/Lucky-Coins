@@ -1,10 +1,11 @@
 package com.example.kyleamyx.luckycoins.favorites.db
 
-import com.example.kyleamyx.luckycoins.favorites.FavoriteCoin
+import com.example.kyleamyx.luckycoins.models.CoinFavoriteItem
+import io.reactivex.Single
 
 interface CoinFavoriteRepository {
 
-    fun saveCoin(coin: FavoriteCoin)
+    fun saveCoin(coinFavoriteItem: CoinFavoriteItem)
 
-    fun getFavorites(): List<FavoriteCoin>
+    fun getFavorites(): Single<List<CoinFavoriteItem>>
 }

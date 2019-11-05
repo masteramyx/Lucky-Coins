@@ -32,7 +32,7 @@ val listDi = module {
     //Inject View Model which communicates the repositoryImpl above and uses the injected scheduler(Application Level) to
     // schedule where it will observe and subscribe to the streams
     viewModel {
-        CoinListViewModel(remoteRepository = get(), scheduler = get())
+        CoinListViewModel(remoteRepository = get(),favoriteRepository = get(), scheduler = get())
     }
 
 

@@ -1,17 +1,20 @@
 package com.example.kyleamyx.luckycoins.favorites
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bluelinelabs.conductor.Controller
 import com.example.kyleamyx.luckycoins.R
+import com.example.kyleamyx.luckycoins.base.BaseMvvmController
+import com.example.kyleamyx.luckycoins.base.Mvvm
 import com.example.kyleamyx.luckycoins.favorites.adapter.CoinFavoriteAdapter
 import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteRepositoryImpl
 import kotlinx.android.synthetic.main.coin_favorite_controller.view.*
+import org.koin.core.context.GlobalContext.get
 
-class CoinFavoriteController : Controller() {
+class CoinFavoriteController : BaseMvvmController<CoinFavoriteViewModel, CoinFavoriteContract.State>() {
 
     lateinit var repositoryImpl: CoinFavoriteRepositoryImpl
 
@@ -20,21 +23,47 @@ class CoinFavoriteController : Controller() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
-        return inflater.inflate(R.layout.coin_favorite_controller, container, false).apply {
+        val view = inflater.inflate(R.layout.coin_favorite_controller, container, false).apply {
             favoritesRecycler.layoutManager = LinearLayoutManager(activity)
             favoritesRecycler.adapter = adapter
             favoritesRecycler.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
+            }
+        view.favoritesSwipeContainer.apply {
+            this.setOnRefreshListener {
+                viewModel.getFavorites()
+                this.isRefreshing = false
+            }
         }
+        return view
     }
 
     override fun onAttach(view: View) {
         super.onAttach(view)
 
-        repositoryImpl = CoinFavoriteRepositoryImpl()
+//        repositoryImpl = CoinFavoriteRepositoryImpl()
+//
+//        val favoriteList = repositoryImpl.getFavorites()
+//        adapter.addItems(favoriteList)
+        viewModel.getFavorites()
 
-        val favoriteList = repositoryImpl.getFavorites()
-        adapter.addItems(favoriteList)
+    }
 
+    override val viewModel: CoinFavoriteViewModel = get().koin.get()
+
+    override fun onStateChange(state: Mvvm.State) {
+        when (state) {
+            is CoinFavoriteContract.State.FavoritesReceived -> {
+                adapter.addItems(state.favoriteCoins)
+            }
+            is CoinFavoriteContract.State.Error -> {
+                Log.d("Favorite Error", state.throwable.localizedMessage!!)
+            }
+        }
+    }
+
+    override fun onDetach(view: View) {
+        super.onDetach(view)
+        println("Favorite Controller Detached")
     }
 
 

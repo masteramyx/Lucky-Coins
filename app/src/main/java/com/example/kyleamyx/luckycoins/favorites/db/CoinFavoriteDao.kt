@@ -4,18 +4,18 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.example.kyleamyx.luckycoins.favorites.FavoriteCoin
+import com.example.kyleamyx.luckycoins.models.CoinFavoriteItem
 
 @Dao
 interface CoinFavoriteDao {
     @Query("SELECT * FROM favorites")
-    fun getFavorites(): List<FavoriteCoin>
+    fun getFavorites(): List<CoinFavoriteItem>
 
 
     @Insert
-    fun saveCoin(coin: FavoriteCoin)
+    fun saveCoin(coinFavoriteItem: CoinFavoriteItem)
 
 
     @Delete
-    fun delete(coin: FavoriteCoin)
+    fun delete(coinFavoriteItem: CoinFavoriteItem)
 }

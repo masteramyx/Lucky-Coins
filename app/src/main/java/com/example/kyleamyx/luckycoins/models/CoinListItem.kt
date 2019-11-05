@@ -31,6 +31,14 @@ data class CoinListItem(
 ) : Parcelable {
 
 
+    fun toFavoriteItem(): CoinFavoriteItem {
+        return CoinFavoriteItem(this.id.toInt(),
+                this.slug,
+                this.name,
+                this.symbol)
+    }
+
+
     companion object {
         val EMPTY get() = CoinListItem("", "", "", "", CoinListQuoteItem(CoinListQuoteItem.QuoteUSD(0.0)), emptyList())
     }

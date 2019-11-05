@@ -1,7 +1,6 @@
 package com.example.kyleamyx.luckycoins
 
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -10,16 +9,16 @@ import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
-import com.bluelinelabs.conductor.support.RouterPagerAdapter
 import com.example.kyleamyx.RoomSingleton
-import com.example.kyleamyx.luckycoins.favorites.CoinFavoriteController
-import com.example.kyleamyx.luckycoins.list.CoinListController
-import com.google.android.material.tabs.TabLayout
+import com.example.kyleamyx.luckycoins.detail.CoinDetailController
+import com.example.kyleamyx.luckycoins.list.adapter.CoinListAdapter
+import com.example.kyleamyx.luckycoins.models.CoinFavoriteItem
+import com.example.kyleamyx.luckycoins.models.CoinListItem
 import kotlinx.android.synthetic.main.activity_coin_list.*
 
-class CoinListActivity : AppCompatActivity() {
+class CoinListActivity : AppCompatActivity(), CoinListAdapter.CoinListListener {
 
-    private lateinit var router: Router
+    lateinit var router: Router
 
     /**
      * Current implementation uses BlueLineLabs Router to navigate between views and handle animations
@@ -28,38 +27,38 @@ class CoinListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coin_list)
 
-        val tabs: TabLayout = tabs
-
-        //todo - How to Set up with ViewPager
-        tabs.addTab(tabs.newTab().setText("List"))
-        tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                if (tab?.text == "List") {
-                    router.popCurrentController()
-                } else {
-                    router.pushController(RouterTransaction.with(CoinFavoriteController())
-                            .pushChangeHandler(HorizontalChangeHandler())
-                            .popChangeHandler(HorizontalChangeHandler()))
-                }
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-                //refresh list
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-                // no op?
-            }
-        })
-        tabs.addTab(tabs.newTab().setText("Favorites"))
+//        val tabs: TabLayout = tabs
+//
+//        //todo - How to Set up with ViewPager
+//        tabs.addTab(tabs.newTab().setText("List"))
+//        tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+//            override fun onTabSelected(tab: TabLayout.Tab?) {
+//                if (tab?.text == "List") {
+//                    router.popCurrentController()
+//                } else {
+//                    router.pushController(RouterTransaction.with(CoinFavoriteController())
+//                            .pushChangeHandler(HorizontalChangeHandler())
+//                            .popChangeHandler(HorizontalChangeHandler()))
+//                }
+//            }
+//
+//            override fun onTabReselected(tab: TabLayout.Tab?) {
+//                //refresh list
+//            }
+//
+//            override fun onTabUnselected(tab: TabLayout.Tab?) {
+//                // no op?
+//            }
+//        })
+//        tabs.addTab(tabs.newTab().setText("Favorites"))
 
         router = Conductor.attachRouter(this, container, savedInstanceState)
 
-        //todo - fix this, should ask every 30 seconds or something
+        //todo - fix this; no alert if network shuts off mid use, should ask every 30 seconds or something
         if (!SettingUtils().checkNetworkConnectivityStatus(this))
             SettingUtils().launchPanel(this)
         else
-            router.setRoot(RouterTransaction.with(CoinListController.newInstance()))
+            router.setRoot(RouterTransaction.with(CoinBaseController()))
 
         RoomSingleton.initDB(this)
 
@@ -73,18 +72,30 @@ class CoinListActivity : AppCompatActivity() {
 
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        router.setRoot(RouterTransaction.with(CoinListController.newInstance()))
+
+    override fun onCoinClicked(coin: CoinListItem) {
+        router.pushController(RouterTransaction.with(CoinDetailController.newInstance(Bundle().apply {
+            putParcelable("coinFavoriteItemItem", coin)
+        })).pushChangeHandler(HorizontalChangeHandler())
+                .popChangeHandler(HorizontalChangeHandler()))
     }
 
+    override fun onFavoriteClicked(coinFavoriteItem: CoinFavoriteItem) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     override fun onBackPressed() {
-        if (!router.handleBack()) {
-            super.onBackPressed()
-        } else {
-            title = "Crypto Price List"
+        if (router.backstackSize == 1) {
+            finish()
+        }else{
+            router.popCurrentController()
         }
+//        if (!router.handleBack()) {
+//            finish()
+//            super.onBackPressed()
+//        } else {
+//            title = "Crypto Price List"
+//        }
     }
 
     override fun onResume() {
@@ -107,23 +118,4 @@ class CoinListActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-
-    inner class TabAdapter : RouterPagerAdapter(CoinListController.newInstance()) {
-        override fun configureRouter(router: Router, position: Int) {
-            when (position) {
-                0 -> this@CoinListActivity.router.pushController(RouterTransaction.with(CoinListController.newInstance()))
-                1 -> this@CoinListActivity.router.pushController(RouterTransaction.with(CoinFavoriteController()))
-            }
-        }
-
-        override fun getCount(): Int = 2
-
-        override fun getPageTitle(position: Int): CharSequence? {
-            return if (position == 0)
-                "List"
-            else
-                "Favorites"
-        }
-    }
-
 }
