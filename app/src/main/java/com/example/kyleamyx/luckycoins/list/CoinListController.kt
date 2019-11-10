@@ -1,6 +1,5 @@
 package com.example.kyleamyx.luckycoins.list
 
-import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -8,29 +7,23 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.bluelinelabs.conductor.RouterTransaction
 import com.example.kyleamyx.luckycoins.CoinListActivity
 import com.example.kyleamyx.luckycoins.R
 import com.example.kyleamyx.luckycoins.base.BaseMvvmController
 import com.example.kyleamyx.luckycoins.base.Mvvm
-import com.example.kyleamyx.luckycoins.detail.CoinDetailActivity
-import com.example.kyleamyx.luckycoins.detail.CoinDetailController
-import com.example.kyleamyx.luckycoins.models.CoinFavoriteItem
-import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteRepository
 import com.example.kyleamyx.luckycoins.list.adapter.CoinListAdapter
+import com.example.kyleamyx.luckycoins.models.CoinFavoriteItem
 import com.example.kyleamyx.luckycoins.models.CoinListItem
 import com.google.android.material.snackbar.Snackbar
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.coin_list_controller.view.*
 import org.koin.core.context.GlobalContext.get
 
 /**
- * Created by kyleamyx on 6/23/18.1
+ * Created by kyleamyx on 6/23/18
  */
 
 //todo- add shimmer by facebook for loading of views
+//todo- load all list images and store them and cache them for life of application or maybe longer??
 class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContract.State>(), CoinListAdapter
 .CoinListListener {
 
@@ -67,6 +60,8 @@ class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContrac
         super.onAttach(view)
         with(viewModel) {
             if (list.isEmpty()) {
+                buildCacheList()
+                Thread.sleep(3000)
                 getCoinList()
                 setSearchListener(view)
             } else {
@@ -103,13 +98,6 @@ class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContrac
             }
             is CoinListContract.State.CoinItemClicked -> {
                 Snackbar.make(view!!, "Coin Item Clicked", Snackbar.LENGTH_SHORT)
-                //router.onActivityStarted()
-//                router?.pushController(RouterTransaction.with(CoinDetailController.newInstance
-//                (Bundle().apply {
-//                    putParcelable("coinFavoriteItemItem", state.coin)
-
-//                })))
-                //startActivity(CoinDetailActivity.getLaunchIntent(activity!!, state.coin))
                 listener.onCoinClicked(state.coin)
             }
             is CoinListContract.State.FavoriteClicked -> {
@@ -164,24 +152,24 @@ class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContrac
 //
 //    }
 //
-////    fun getWhole(): Observable<List<CoinListItem>> {
-////        val wholeList = mutableListOf<CoinListItem>()
-////        return Observable.zip(LuckyCoinApiClient().getCoins().map { it.subList(0, 10) }, getImages(list),
-////                BiFunction<List<CoinListItem>, List<CoinListItem>, List<CoinListItem>> { list, imageList ->
-////                    list.forEach { listItem ->
-////                        val matched = imageList.find {
-////                            it.id == listItem.id
-////                        }
-////                        wholeList.add(CoinListItem(id = listItem.id,
-////                                name = listItem.name,
-////                                symbol = listItem.symbol,
-////                                slug = listItem.slug,
-////                                quoteItem = listItem.quoteItem,
-////                                imageUrl = matched?.imageUrl))
-////                    }
-////                    wholeList
-////                })
-////    }
+//    fun getWhole(): Observable<List<CoinListItem>> {
+//        val wholeList = mutableListOf<CoinListItem>()
+//        return Observable.zip(LuckyCoinApiClient().getCoins().map { it.subList(0, 10) }, getImages(list),
+//                BiFunction<List<CoinListItem>, List<CoinListItem>, List<CoinListItem>> { list, imageList ->
+//                    list.forEach { listItem ->
+//                        val matched = imageList.find {
+//                            it.id == listItem.id
+//                        }
+//                        wholeList.add(CoinListItem(id = listItem.id,
+//                                name = listItem.name,
+//                                symbol = listItem.symbol,
+//                                slug = listItem.slug,
+//                                quoteItem = listItem.quoteItem,
+//                                imageUrl = matched?.imageUrl))
+//                    }
+//                    wholeList
+//                })
+//    }
 //
 //    private fun getCoinList() {
 //        addDisposable(LuckyCoinApiClient()

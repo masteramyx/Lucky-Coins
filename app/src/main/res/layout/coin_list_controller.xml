@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
@@ -19,53 +20,28 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
-    <LinearLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/lc_default_padding">
+        android:hint="Search Here"
+        android:padding="@dimen/lc_default_padding"
+        app:boxBackgroundColor="#ba68c8">
 
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/searchView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:inputType="text"
+            android:padding="@dimen/lc_default_padding" />
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/searchView"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_gravity="start|center_vertical"
-                android:layout_margin="@dimen/lc_default_margin"
-                android:layout_weight="1"
-                android:background="@drawable/list_edit_text"
-                android:drawablePadding="@dimen/lc_default_padding"
-                android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="end|center_vertical"
-                    android:src="@android:drawable/ic_menu_search" />
-
-            </FrameLayout>
-
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorPrimaryDark" />
-
-    </LinearLayout>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimaryDark" />
 
     <FrameLayout
         android:layout_width="match_parent"

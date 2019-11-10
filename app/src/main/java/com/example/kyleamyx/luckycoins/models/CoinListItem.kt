@@ -27,7 +27,8 @@ data class CoinListItem(
         val quoteItem: CoinListQuoteItem? = null,
         @Expose
         @SerializedName("tags")
-        val tags: List<String>? = null
+        val tags: List<String>? = null,
+        var logo: String
 ) : Parcelable {
 
 
@@ -40,6 +41,8 @@ data class CoinListItem(
 
 
     companion object {
-        val EMPTY get() = CoinListItem("", "", "", "", CoinListQuoteItem(CoinListQuoteItem.QuoteUSD(0.0)), emptyList())
+        val EMPTY
+            get() =
+                CoinListItem("", "", "", "", CoinListQuoteItem(CoinListQuoteItem.QuoteUSD(0.0)), emptyList(), "")
     }
 }

@@ -19,11 +19,20 @@ interface LuckyCoinApiService {
                        key: String = "7b08fc3a-c443-4d59-932d-04bfd6074005"):
             Observable<CoinListResponse>
 
-    @Headers(
-            "X-CMC_PRO_API_KEY: 7b08fc3a-c443-4d59-932d-04bfd6074005"
-    )
+    //    @Headers(
+//            "X-CMC_PRO_API_KEY: 7b08fc3a-c443-4d59-932d-04bfd6074005"
+//    )
     @GET("/v1/cryptocurrency/info")
-    fun getCoinDetail(@Query("id")
+    fun getCoinDetail(@Query("CMC_PRO_API_KEY")
+                      key: String = "7b08fc3a-c443-4d59-932d-04bfd6074005",
+                      @Query("id")
                       coinId: String): Observable<CoinDetailResponse>
+
+
+    @GET("/v1/cryptocurrency/info")
+    fun getCoinListImages(@Query("CMC_PRO_API_KEY")
+                          key: String = "7b08fc3a-c443-4d59-932d-04bfd6074005",
+                          @Query("id")
+                          coinIdList: String): Observable<CoinDetailResponse>
 
 }

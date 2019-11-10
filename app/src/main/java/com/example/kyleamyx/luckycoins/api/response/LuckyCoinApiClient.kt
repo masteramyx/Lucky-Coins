@@ -29,7 +29,7 @@ class LuckyCoinApiClient {
      * the json value into the object
      */
     fun getCoinDetail(id: String): Observable<CoinDetailItem> =
-            coinService.getCoinDetail(id).map { response ->
+            coinService.getCoinDetail(coinId = id).map { response ->
                 GSON.fromJson((response.data as JsonObject).get(id), CoinDetailItem::class.java)
             }
 }

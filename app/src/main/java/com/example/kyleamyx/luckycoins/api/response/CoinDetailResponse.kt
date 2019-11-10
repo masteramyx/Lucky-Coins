@@ -7,13 +7,4 @@ import com.google.gson.annotations.SerializedName
 
 data class CoinDetailResponse(@Expose
                               @SerializedName("data")
-                              val data: JsonElement) {
-
-
-
-
-    companion object {
-
-    }
-
-}
+                              val data: JsonElement)

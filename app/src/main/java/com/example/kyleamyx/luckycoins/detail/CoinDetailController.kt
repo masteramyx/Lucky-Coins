@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.bluelinelabs.conductor.Controller
 import com.example.kyleamyx.luckycoins.R
 import com.example.kyleamyx.luckycoins.api.response.LuckyCoinApiClient
@@ -18,7 +17,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_coin_list.view.*
 import kotlinx.android.synthetic.main.coin_detail_controller.view.*
 
 /**
@@ -52,8 +50,6 @@ class CoinDetailController(private val arg: Bundle) : Controller() {
                 }
                 .subscribe({ detailItem ->
                     setDetailItems(detailItem)
-//                    Toast.makeText(applicationContext, "Detail: ${detailItem.description}", Toast
-//                            .LENGTH_LONG).show()
 
                 }, {
                     Log.e("CoinDetailController", "Error retrieving coinFavoriteItem detail")
@@ -68,7 +64,7 @@ class CoinDetailController(private val arg: Bundle) : Controller() {
     }
 
 
-    fun addDisposable(disposable: Disposable) {
+    private fun addDisposable(disposable: Disposable) {
         if (compositeDisposable == null) {
             compositeDisposable = CompositeDisposable(disposable)
         } else {
@@ -76,7 +72,7 @@ class CoinDetailController(private val arg: Bundle) : Controller() {
         }
     }
 
-    fun setDetailItems(coinDetailItem: CoinDetailItem) {
+    private fun setDetailItems(coinDetailItem: CoinDetailItem) {
         CoinDetailViewHolder(detailView, coinDetailItem).bindView()
     }
 

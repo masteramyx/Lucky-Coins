@@ -1,5 +1,6 @@
 package com.example.kyleamyx.luckycoins.list
 
+import android.util.Log
 import android.view.View
 import com.example.kyleamyx.luckycoins.base.BaseViewModel
 import com.example.kyleamyx.luckycoins.base.scheduler
@@ -7,11 +8,13 @@ import com.example.kyleamyx.luckycoins.base.subscribeBy
 import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteRepository
 import com.example.kyleamyx.luckycoins.models.CoinFavoriteItem
 import com.example.kyleamyx.luckycoins.models.CoinListItem
+import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding2.widget.RxTextView
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function
 import kotlinx.android.synthetic.main.coin_list_controller.view.*
-import me.ameriod.lib.mvp.presenter.rx2.IObservableSchedulerRx2
 import java.util.concurrent.TimeUnit
 
 data class CoinListViewModel internal constructor(
@@ -22,17 +25,34 @@ data class CoinListViewModel internal constructor(
 
     private var coinList: List<CoinListItem> = emptyList()
     private var searchList: List<CoinListItem> = emptyList()
+    private var coinIdList = emptyList<String>()
+
+
+    fun buildCacheList() {
+        addToDisposables(remoteRepository.buildCacheList()
+                .compose(scheduler.scheduleSingle())
+                .subscribeBy(
+                        onSuccess = {
+                            coinIdList = it
+                        },
+                        onError = {
+                            stateSubject.onNext(CoinListContract.State.Error(it))
+                        }
+                ))
+    }
+
 
     fun getCoinList() {
         addToDisposables(remoteRepository.getCoinList()
                 .compose(scheduler.scheduleSingle())
+                .doOnError { Log.d("LISTVIEWMODEL", "COIN LIST ERROR") }
                 .subscribeBy(
                         onSuccess = {
                             coinList = it
-                            stateSubject.onNext(CoinListContract.State.CoinListReceived(it))
+                            stateSubject.onNext(CoinListContract.State.CoinListReceived(coinList))
                         },
                         onError = {
-                            stateSubject.onNext(CoinListContract.State.Error(it))
+//                            stateSubject.onNext(CoinListContract.State.Error(it))
                         }
                 ))
     }

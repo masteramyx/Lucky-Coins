@@ -6,6 +6,7 @@ import com.example.kyleamyx.luckycoins.R
 import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteRepository
 import com.example.kyleamyx.luckycoins.models.CoinFavoriteItem
 import com.example.kyleamyx.luckycoins.models.CoinListItem
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.coin_list_item.view.*
 import org.koin.core.context.GlobalContext.get
 
@@ -30,11 +31,14 @@ class CoinListViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnCli
                 coin.quoteItem?.quoteUSD?.priceUSD)
         itemView.setOnClickListener(this)
 
-        if (coin.tags!!.contains(itemView.getStringFromResource(R.string.list_item_mineable))) {
-            itemView.listItemLogo.setImageResource(R.mipmap.bitcoin_mine)
-        } else {
-            itemView.listItemLogo.setImageResource(R.mipmap.no_bitcoin_mine)
-        }
+//        if (coin.tags!!.contains(itemView.getStringFromResource(R.string.list_item_mineable))) {
+//            itemView.listItemLogo.setImageResource(R.mipmap.bitcoin_mine)
+//        } else {
+//            itemView.listItemLogo.setImageResource(R.mipmap.no_bitcoin_mine)
+//        }
+
+        if (!coin.logo.isNullOrEmpty())
+            Picasso.with(itemView.context).load(coin.logo).into(itemView.listItemLogo)
 
         if (favoritesList.contains(coin.toFavoriteItem())) {
             itemView.favoritesBtn.visibility = View.INVISIBLE
