@@ -1,6 +1,7 @@
 package com.example.kyleamyx.luckycoins.models
 
 import android.os.Parcelable
+import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteItem
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize

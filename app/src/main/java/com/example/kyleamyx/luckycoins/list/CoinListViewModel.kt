@@ -5,8 +5,8 @@ import android.view.View
 import com.example.kyleamyx.luckycoins.base.BaseViewModel
 import com.example.kyleamyx.luckycoins.base.scheduler
 import com.example.kyleamyx.luckycoins.base.subscribeBy
-import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteRepository
-import com.example.kyleamyx.luckycoins.models.CoinFavoriteItem
+import com.example.kyleamyx.luckycoins.favorites.CoinFavoriteRepository
+import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteItem
 import com.example.kyleamyx.luckycoins.models.CoinListItem
 import com.jakewharton.rxbinding2.widget.RxTextView
 import io.reactivex.android.schedulers.AndroidSchedulers

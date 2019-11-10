@@ -2,13 +2,13 @@ package com.example.kyleamyx
 
 import android.content.Context
 import androidx.room.Room
-import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteDb
+import com.example.kyleamyx.luckycoins.CoinDb
 
 class RoomSingleton {
-    lateinit var db: CoinFavoriteDb
+    lateinit var db: CoinDb
 
     @Synchronized
-    fun getRoomDb(): CoinFavoriteDb {
+    fun getRoomDb(): CoinDb {
         return db
     }
 
@@ -26,7 +26,7 @@ class RoomSingleton {
             with(sOurInstance) {
                 this.db = Room.databaseBuilder(
                         context,
-                        CoinFavoriteDb::class.java,
+                        CoinDb::class.java,
                         "favorites").allowMainThreadQueries().build()
             }
         }

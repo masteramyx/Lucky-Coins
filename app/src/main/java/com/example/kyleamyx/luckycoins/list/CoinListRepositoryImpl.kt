@@ -1,6 +1,9 @@
 package com.example.kyleamyx.luckycoins.list
 
+import com.example.kyleamyx.RoomSingleton
 import com.example.kyleamyx.luckycoins.api.LuckyCoinApiService
+import com.example.kyleamyx.luckycoins.list.db.CoinListDao
+import com.example.kyleamyx.luckycoins.list.db.CoinListDbImageItem
 import com.example.kyleamyx.luckycoins.models.CoinDetailItem
 import com.example.kyleamyx.luckycoins.models.CoinListItem
 import com.google.gson.GsonBuilder
@@ -15,6 +18,9 @@ class CoinListRepositoryImpl(
 ) : CoinListRepository {
 
     private var tempList = mutableListOf<String>()
+    private val coinListDao: CoinListDao = RoomSingleton.getInstance().getRoomDb().listDao()
+
+    private val imagePairList = coinListDao.getImagePairs()
 
     override fun buildCacheList(): Single<List<String>> {
         return coinListService.getCoinListing()
@@ -39,16 +45,35 @@ class CoinListRepositoryImpl(
                 }.flatMap {
                     getListNoImages()
                 }.flatMap { listToAddImage ->
-                    getCoinListImages(listToAddImage.map { it.id })
-                            .map { listKeyPair ->
-                                listKeyPair.forEach { pair ->
-                                    val match = listToAddImage.find { item ->
-                                        pair.first == item.id
+                    if (imagePairList.isNullOrEmpty()) {
+                        getCoinListImages(listToAddImage.map { it.id })
+                                .map { listKeyPair ->
+
+                                    // Save the Image Key Pair list to local db
+                                    coinListDao.saveImagePairs(listKeyPair.map {
+                                        CoinListDbImageItem(it.first.toInt(), it.second)
+
+                                    })
+
+                                    listKeyPair.forEach { pair ->
+                                        val match = listToAddImage.find { item ->
+                                            pair.first == item.id
+                                        }
+                                        match?.logo = pair.second
                                     }
-                                    match?.logo = pair.second
+                                    listToAddImage
                                 }
-                                listToAddImage
+                    }
+                    else {
+                        imagePairList.forEach { pair ->
+                            val match = listToAddImage.find { item ->
+                                pair.id.toString() == item.id
                             }
+                            match?.logo = pair.logo
+                        }
+                        Single.just(listToAddImage)
+                    }
+
                 }
     }
 
@@ -64,8 +89,8 @@ class CoinListRepositoryImpl(
 
     override fun getCoinListImages(coinIdList: List<String>): Single<List<Pair<String, String>>> {
         val keyPairList = mutableListOf<Pair<String, String>>()
-        val listToString = coinIdList.joinToString(separator = ",")
         // TRANSFORM IT TO "1,2,3,4,5....."
+        val listToString = coinIdList.joinToString(separator = ",")
         return coinListService.getCoinListImages(coinIdList = listToString)
                 .singleOrError()
                 .map { detailResponse ->
@@ -81,7 +106,6 @@ class CoinListRepositoryImpl(
 
 
     companion object {
-
         val detailType = object : TypeToken<List<CoinDetailItem>>() {}.type
 
         private val GSON = GsonBuilder()

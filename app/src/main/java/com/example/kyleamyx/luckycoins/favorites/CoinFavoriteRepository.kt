@@ -1,6 +1,6 @@
-package com.example.kyleamyx.luckycoins.favorites.db
+package com.example.kyleamyx.luckycoins.favorites
 
-import com.example.kyleamyx.luckycoins.models.CoinFavoriteItem
+import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteItem
 import io.reactivex.Single
 
 interface CoinFavoriteRepository {

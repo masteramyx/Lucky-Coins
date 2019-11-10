@@ -12,7 +12,7 @@ import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import com.example.kyleamyx.RoomSingleton
 import com.example.kyleamyx.luckycoins.detail.CoinDetailController
 import com.example.kyleamyx.luckycoins.list.adapter.CoinListAdapter
-import com.example.kyleamyx.luckycoins.models.CoinFavoriteItem
+import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteItem
 import com.example.kyleamyx.luckycoins.models.CoinListItem
 import kotlinx.android.synthetic.main.activity_coin_main.*
 
@@ -34,9 +34,6 @@ class CoinMainActivity : AppCompatActivity(), CoinListAdapter.CoinListListener {
             SettingUtils().launchPanel(this)
         else
             router.setRoot(RouterTransaction.with(CoinBaseController()))
-
-        RoomSingleton.initDB(this)
-        
     }
 
 

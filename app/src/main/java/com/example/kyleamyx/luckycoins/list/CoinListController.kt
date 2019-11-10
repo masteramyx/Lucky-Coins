@@ -12,7 +12,7 @@ import com.example.kyleamyx.luckycoins.R
 import com.example.kyleamyx.luckycoins.base.BaseMvvmController
 import com.example.kyleamyx.luckycoins.base.Mvvm
 import com.example.kyleamyx.luckycoins.list.adapter.CoinListAdapter
-import com.example.kyleamyx.luckycoins.models.CoinFavoriteItem
+import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteItem
 import com.example.kyleamyx.luckycoins.models.CoinListItem
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.coin_list_controller.view.*
@@ -49,10 +49,8 @@ class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContrac
         }
         view.swipeContainer.apply {
             this.setOnRefreshListener {
-                if (list.isEmpty()) {
-                    viewModel.getCoinList()
-                    this.isRefreshing = false
-                }
+                viewModel.getCoinList()
+                this.isRefreshing = false
             }
         }
 

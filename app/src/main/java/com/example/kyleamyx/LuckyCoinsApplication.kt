@@ -22,6 +22,7 @@ class LuckyCoinsApplication : Application() {
             modules(listOf(appDi, listDi, favoriteDi))
         }
 
+        RoomSingleton.initDB(this)
     }
 
 

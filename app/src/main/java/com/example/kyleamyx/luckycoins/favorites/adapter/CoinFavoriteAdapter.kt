@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kyleamyx.luckycoins.R
-import com.example.kyleamyx.luckycoins.models.CoinFavoriteItem
+import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteItem
 
 class CoinFavoriteAdapter(context: Context) : RecyclerView.Adapter<CoinFavoriteViewHolder>() {
 

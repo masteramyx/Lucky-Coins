@@ -3,7 +3,6 @@ package com.example.kyleamyx.luckycoins.favorites
 import com.example.kyleamyx.luckycoins.base.BaseViewModel
 import com.example.kyleamyx.luckycoins.base.scheduler
 import com.example.kyleamyx.luckycoins.base.subscribeBy
-import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteRepository
 
 class CoinFavoriteViewModel(
         val repository: CoinFavoriteRepository,

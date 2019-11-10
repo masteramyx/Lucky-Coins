@@ -1,4 +1,4 @@
-package com.example.kyleamyx.luckycoins.models
+package com.example.kyleamyx.luckycoins.favorites.db
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo

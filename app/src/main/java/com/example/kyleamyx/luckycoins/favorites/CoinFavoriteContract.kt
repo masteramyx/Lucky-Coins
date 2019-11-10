@@ -2,7 +2,7 @@ package com.example.kyleamyx.luckycoins.favorites
 
 import android.os.Parcelable
 import com.example.kyleamyx.luckycoins.base.Mvvm
-import com.example.kyleamyx.luckycoins.models.CoinFavoriteItem
+import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteItem
 import kotlinx.android.parcel.Parcelize
 
 interface CoinFavoriteContract {

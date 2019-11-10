@@ -3,9 +3,9 @@ package com.example.kyleamyx.luckycoins.list.adapter
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kyleamyx.luckycoins.R
-import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteRepository
+import com.example.kyleamyx.luckycoins.favorites.CoinFavoriteRepository
 import com.example.kyleamyx.luckycoins.getStringFromResource
-import com.example.kyleamyx.luckycoins.models.CoinFavoriteItem
+import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteItem
 import com.example.kyleamyx.luckycoins.models.CoinListItem
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.coin_list_item.view.*
@@ -35,18 +35,22 @@ class CoinListViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnCli
             if (!coin.logo.isNullOrEmpty())
                 Picasso.with(context).load(coin.logo).into(listItemLogo)
 
+            // Hide favorites btn if it is in Favorites DB
             if (favoritesList.contains(coin.toFavoriteItem())) {
                 favoritesBtn.visibility = View.INVISIBLE
             } else {
                 //Without setting to visible, the viewholder is getting confused and randomly removing the button.
                 favoritesBtn.visibility = View.VISIBLE
-                favoritesBtn.setOnClickListener {
-                    //call dao here
-                    listener?.onFavoriteClicked(CoinFavoriteItem(coin.id.toInt(),
-                            coin.slug,
-                            coin.name,
-                            coin.symbol))
-                }
+            }
+
+            // OnClick, save to DB and hide the button
+            favoritesBtn.setOnClickListener {
+                visibility = View.INVISIBLE
+                //call dao here
+                listener?.onFavoriteClicked(CoinFavoriteItem(coin.id.toInt(),
+                        coin.slug,
+                        coin.name,
+                        coin.symbol))
             }
 
             setOnClickListener(this@CoinListViewHolder)

@@ -1,8 +1,9 @@
-package com.example.kyleamyx.luckycoins.favorites.db
+package com.example.kyleamyx.luckycoins.favorites
 
 import android.util.Log
 import com.example.kyleamyx.RoomSingleton
-import com.example.kyleamyx.luckycoins.models.CoinFavoriteItem
+import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteDao
+import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteItem
 import io.reactivex.Single
 
 class CoinFavoriteRepositoryImpl : CoinFavoriteRepository {
