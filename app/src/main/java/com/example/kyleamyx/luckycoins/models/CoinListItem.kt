@@ -28,7 +28,7 @@ data class CoinListItem(
         @Expose
         @SerializedName("tags")
         val tags: List<String>? = null,
-        var logo: String
+        var logo: String? = null
 ) : Parcelable {
 
 

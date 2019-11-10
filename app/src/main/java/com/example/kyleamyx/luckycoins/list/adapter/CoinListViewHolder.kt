@@ -4,6 +4,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kyleamyx.luckycoins.R
 import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteRepository
+import com.example.kyleamyx.luckycoins.getStringFromResource
 import com.example.kyleamyx.luckycoins.models.CoinFavoriteItem
 import com.example.kyleamyx.luckycoins.models.CoinListItem
 import com.squareup.picasso.Picasso
@@ -17,41 +18,38 @@ class CoinListViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnCli
 
     var listener: CoinListAdapter.CoinListListener? = null
 
-    val favoritesRepository: CoinFavoriteRepository = get().koin.get()
+    private val favoritesRepository: CoinFavoriteRepository = get().koin.get()
+    //todo - don't do blocking, find a better way to get favorites list here...maybe pass it in or inject?
+    private val favoritesList = favoritesRepository.getFavorites().blockingGet()
 
-    val favoritesList = favoritesRepository.getFavorites().blockingGet()
-
-    lateinit var coinItem: CoinListItem
+    private lateinit var coinItem: CoinListItem
 
     fun bindView(coin: CoinListItem) {
         coinItem = coin
-        itemView.coinName.text = coin.name
-        itemView.coinSymbol.text = coin.symbol
-        itemView.coinListPrice.text = String.format(itemView.context.getString(R.string.list_item_price),
-                coin.quoteItem?.quoteUSD?.priceUSD)
-        itemView.setOnClickListener(this)
+        itemView.apply {
+            coinName.text = coin.name
+            coinSymbol.text = coin.symbol
+            coinListPrice.text = String.format(itemView.getStringFromResource(R.string.list_item_price),
+                    coin.quoteItem?.quoteUSD?.priceUSD)
 
-//        if (coin.tags!!.contains(itemView.getStringFromResource(R.string.list_item_mineable))) {
-//            itemView.listItemLogo.setImageResource(R.mipmap.bitcoin_mine)
-//        } else {
-//            itemView.listItemLogo.setImageResource(R.mipmap.no_bitcoin_mine)
-//        }
+            if (!coin.logo.isNullOrEmpty())
+                Picasso.with(context).load(coin.logo).into(listItemLogo)
 
-        if (!coin.logo.isNullOrEmpty())
-            Picasso.with(itemView.context).load(coin.logo).into(itemView.listItemLogo)
-
-        if (favoritesList.contains(coin.toFavoriteItem())) {
-            itemView.favoritesBtn.visibility = View.INVISIBLE
-        } else {
-            //Without setting to visible, the viewholder is getting confused and randomly removing the button.
-            itemView.favoritesBtn.visibility = View.VISIBLE
-            itemView.favoritesBtn.setOnClickListener {
-                //call dao here
-                listener?.onFavoriteClicked(CoinFavoriteItem(coin.id.toInt(),
-                        coin.slug,
-                        coin.name,
-                        coin.symbol))
+            if (favoritesList.contains(coin.toFavoriteItem())) {
+                favoritesBtn.visibility = View.INVISIBLE
+            } else {
+                //Without setting to visible, the viewholder is getting confused and randomly removing the button.
+                favoritesBtn.visibility = View.VISIBLE
+                favoritesBtn.setOnClickListener {
+                    //call dao here
+                    listener?.onFavoriteClicked(CoinFavoriteItem(coin.id.toInt(),
+                            coin.slug,
+                            coin.name,
+                            coin.symbol))
+                }
             }
+
+            setOnClickListener(this@CoinListViewHolder)
         }
     }
 
@@ -59,9 +57,4 @@ class CoinListViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnCli
     override fun onClick(v: View?) {
         listener?.onCoinClicked(coinItem)
     }
-
-
-    // String Resource Ext. Function
-    fun View.getStringFromResource(resourceId: Int): String = this.context.getString(resourceId)
-
 }

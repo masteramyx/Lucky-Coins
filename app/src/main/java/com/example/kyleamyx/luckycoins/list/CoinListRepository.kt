@@ -5,13 +5,12 @@ import io.reactivex.Single
 
 interface CoinListRepository {
 
-    fun getCoinList(): Single<List<CoinListItem>>
-
-    // A list of the URL's for each coin in the List Controller
+    // Returns a list of the URL's for each coin in the List Controller and their corresponding ID's
     fun getCoinListImages(coinIdList: List<String>): Single<List<Pair<String, String>>>
 
     fun buildCacheList(): Single<List<String>>
 
-    fun getList(): Single<List<CoinListItem>>
+    fun getListNoImages(): Single<List<CoinListItem>>
 
+    fun buildListWithImages(): Single<List<CoinListItem>>
 }

@@ -18,7 +18,6 @@ class CoinFavoriteAdapter(context: Context) : RecyclerView.Adapter<CoinFavoriteV
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinFavoriteViewHolder {
-        //return CoinListViewHolder(View.inflate(context, R.layout.coin_list_item, parent))
         val view = inflater.inflate(R.layout.coin_favorite_item, parent, false)
         return CoinFavoriteViewHolder(view)
 

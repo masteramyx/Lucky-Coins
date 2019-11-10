@@ -13,7 +13,7 @@ import com.bluelinelabs.conductor.RouterTransaction
 import com.example.kyleamyx.luckycoins.R
 import com.example.kyleamyx.luckycoins.models.CoinListItem
 import kotlinx.android.synthetic.main.activity_coin_detail.*
-import kotlinx.android.synthetic.main.activity_coin_list.*
+import kotlinx.android.synthetic.main.activity_coin_main.*
 
 class CoinDetailActivity : AppCompatActivity() {
 

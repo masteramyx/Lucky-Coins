@@ -23,5 +23,5 @@ val appDi = module {
         IObservableSchedulerRx2.SUBSCRIBE_IO_OBSERVE_ANDROID_MAIN
     }
 
-    //todo - inject room DB
+    //todo - inject room DB, how to do this?
 }

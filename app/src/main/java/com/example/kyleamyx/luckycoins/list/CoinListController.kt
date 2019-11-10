@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kyleamyx.luckycoins.CoinListActivity
+import com.example.kyleamyx.luckycoins.CoinMainActivity
 import com.example.kyleamyx.luckycoins.R
 import com.example.kyleamyx.luckycoins.base.BaseMvvmController
 import com.example.kyleamyx.luckycoins.base.Mvvm
@@ -29,29 +29,33 @@ class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContrac
 
 
     var list: List<CoinListItem> = emptyList()
-    var recyclerView: RecyclerView? = null
+    private lateinit var recyclerView: RecyclerView
 
     private val adapter by lazy(LazyThreadSafetyMode.NONE) {
         CoinListAdapter(applicationContext!!, this)
     }
 
-    lateinit var listener: CoinListAdapter.CoinListListener
+    private lateinit var listener: CoinListAdapter.CoinListListener
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val view = inflater.inflate(R.layout.coin_list_controller, container, false)
         recyclerView = view.findViewById(R.id.listRecycler)
-        recyclerView!!.layoutManager = LinearLayoutManager(activity)
-        recyclerView!!.addItemDecoration(DividerItemDecoration(activity,
-                DividerItemDecoration.VERTICAL))
-        recyclerView!!.adapter = adapter
-        recyclerView!!.isNestedScrollingEnabled = false
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(activity)
+            addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
+            adapter = this@CoinListController.adapter
+            isNestedScrollingEnabled = false
+        }
         view.swipeContainer.apply {
             this.setOnRefreshListener {
-                viewModel.getCoinList()
-                this.isRefreshing = false
+                if (list.isEmpty()) {
+                    viewModel.getCoinList()
+                    this.isRefreshing = false
+                }
             }
         }
+
         return view
     }
 
@@ -60,22 +64,21 @@ class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContrac
         super.onAttach(view)
         with(viewModel) {
             if (list.isEmpty()) {
-                buildCacheList()
-                Thread.sleep(3000)
                 getCoinList()
                 setSearchListener(view)
             } else {
+                //Reset adapter in case controller was detached(adapter set to null)
                 view.listRecycler.adapter = adapter
                 adapter.notifyDataSetChanged()
             }
         }
-        listener = activity as CoinListActivity
+        listener = activity as CoinMainActivity
     }
 
     override fun onDetach(view: View) {
         super.onDetach(view)
         view.listRecycler.adapter = null
-        println("Detached")
+        Log.d("LIST_CONTROLLER", "Detached")
     }
 
 
@@ -113,126 +116,10 @@ class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContrac
         }
     }
 
-    //
-//    override fun onFavoriteClicked(coinFavoriteItem: CoinFavoriteItem) {
-//        repositoryImpl.saveCoin(coinFavoriteItem)
-//    }
-//
-//    var listener: OnCoinClicked? = null
-//
-//
-//
-//    override fun onAttach(view: View) {
-//        super.onAttach(view)
-//        listener = activity as OnCoinClicked
-//
-//
-//        setViewVisibility(view.progressBar, true, View.GONE)
-//
-//
-//        //Make network call to receive coinFavoriteItem items...this call doesn't contain link to Currency symbol
-//        getCoinList()
-//
-//
-//        searchDisposable = RxTextView.afterTextChangeEvents(view.searchView)
-//                .map(Function<com.jakewharton.rxbinding2.widget.TextViewAfterTextChangeEvent, String>() {
-//                    it.editable()
-//                            .toString()
-//                            .trim()
-//                })
-//                .debounce(500.toLong(), TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe({ query ->
-//                    searchList = searchItems(query).blockingFirst()
-//                    adapter.addItems(searchList)
-//                }, { throwable ->
-//                    Log.e("CoinListController", "Error search crypto list")
-//                })
-//        repositoryImpl = CoinFavoriteRepositoryImpl()
-//
-//    }
-//
-//    fun getWhole(): Observable<List<CoinListItem>> {
-//        val wholeList = mutableListOf<CoinListItem>()
-//        return Observable.zip(LuckyCoinApiClient().getCoins().map { it.subList(0, 10) }, getImages(list),
-//                BiFunction<List<CoinListItem>, List<CoinListItem>, List<CoinListItem>> { list, imageList ->
-//                    list.forEach { listItem ->
-//                        val matched = imageList.find {
-//                            it.id == listItem.id
-//                        }
-//                        wholeList.add(CoinListItem(id = listItem.id,
-//                                name = listItem.name,
-//                                symbol = listItem.symbol,
-//                                slug = listItem.slug,
-//                                quoteItem = listItem.quoteItem,
-//                                imageUrl = matched?.imageUrl))
-//                    }
-//                    wholeList
-//                })
-//    }
-//
-//    private fun getCoinList() {
-//        addDisposable(LuckyCoinApiClient()
-//                .getCoins()
-//                .compose { upstream: Observable<List<CoinListItem>> ->
-//                    upstream
-//                            .subscribeOn(Schedulers.io())
-//                            .observeOn(AndroidSchedulers.mainThread())
-//                }
-//                .subscribe({ response ->
-//                    // make call here to fill the list with the images?
-//                    list = response
-//                    adapter.addItems(list)
-//                    setViewVisibility(view?.progressBar, false, View.GONE)
-//                },
-//                        { _ ->
-//                            Log.e("CoinListController", "Error retrieving list!!")
-//                        }))
-//
-//
-//    }
-//
-//
-//    override fun onDetach(view: View) {
-//        super.onDetach(view)
-//        listener = null
-//
-//        //Get rid of any living disposables
-//        compositeDisposable = null
-//    }
-//
-//
     companion object {
         @JvmStatic
         fun newInstance(): CoinListController = CoinListController()
     }
-//
-//
-//    fun addDisposable(disposable: Disposable) {
-//        if (compositeDisposable == null) {
-//            compositeDisposable = CompositeDisposable(disposable)
-//        } else {
-//            compositeDisposable!!.add(disposable)
-//        }
-//    }
-//
-//    fun setViewVisibility(view: View?, show: Boolean, goneType: Int) {
-//        if (view == null) {
-//            return
-//        }
-//        if (!show) {
-//            view.visibility = View.GONE
-//        } else {
-//            view.visibility = View.VISIBLE
-//        }
-//    }
-//
-//    fun searchItems(query: String): Observable<List<CoinListItem>> {
-//        return Observable.just(list).map { list ->
-//            list.filter { coinFavoriteItem ->
-//                coinFavoriteItem.name!!.toLowerCase().contains(query.toLowerCase())
-//            }
-//        }
-//    }
+
 }
 

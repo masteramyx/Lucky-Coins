@@ -9,7 +9,7 @@ import kotlinx.android.parcel.Parcelize
 
 /**
  * This Contracts dictates that the CoinListView can be in at most 1 state at a time(via `Sealed class`).
- * These states should represent whenever the screen changes for any reason
+ * These states should represent whenever content on the screen changes for any reason
  */
 interface CoinListContract {
     sealed class State : Parcelable, Mvvm.State {

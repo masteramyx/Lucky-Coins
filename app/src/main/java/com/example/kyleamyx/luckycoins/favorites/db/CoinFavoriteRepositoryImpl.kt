@@ -7,11 +7,7 @@ import io.reactivex.Single
 
 class CoinFavoriteRepositoryImpl : CoinFavoriteRepository {
 
-    private val favoritesDao: CoinFavoriteDao
-
-    init {
-        favoritesDao = RoomSingleton.getInstance().getRoomDb().favoritesDao()
-    }
+    private val favoritesDao: CoinFavoriteDao = RoomSingleton.getInstance().getRoomDb().favoritesDao()
 
     override fun saveCoin(coinFavoriteItem: CoinFavoriteItem) {
         Log.d("FAVORITES REPOSITORY", "COIN SAVED!!")

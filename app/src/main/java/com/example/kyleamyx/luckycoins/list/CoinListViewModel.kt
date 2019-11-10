@@ -8,13 +8,11 @@ import com.example.kyleamyx.luckycoins.base.subscribeBy
 import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteRepository
 import com.example.kyleamyx.luckycoins.models.CoinFavoriteItem
 import com.example.kyleamyx.luckycoins.models.CoinListItem
-import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding2.widget.RxTextView
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function
 import kotlinx.android.synthetic.main.coin_list_controller.view.*
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 data class CoinListViewModel internal constructor(
@@ -25,25 +23,10 @@ data class CoinListViewModel internal constructor(
 
     private var coinList: List<CoinListItem> = emptyList()
     private var searchList: List<CoinListItem> = emptyList()
-    private var coinIdList = emptyList<String>()
-
-
-    fun buildCacheList() {
-        addToDisposables(remoteRepository.buildCacheList()
-                .compose(scheduler.scheduleSingle())
-                .subscribeBy(
-                        onSuccess = {
-                            coinIdList = it
-                        },
-                        onError = {
-                            stateSubject.onNext(CoinListContract.State.Error(it))
-                        }
-                ))
-    }
 
 
     fun getCoinList() {
-        addToDisposables(remoteRepository.getCoinList()
+        addToDisposables(remoteRepository.buildListWithImages()
                 .compose(scheduler.scheduleSingle())
                 .doOnError { Log.d("LISTVIEWMODEL", "COIN LIST ERROR") }
                 .subscribeBy(
@@ -52,7 +35,7 @@ data class CoinListViewModel internal constructor(
                             stateSubject.onNext(CoinListContract.State.CoinListReceived(coinList))
                         },
                         onError = {
-//                            stateSubject.onNext(CoinListContract.State.Error(it))
+                            stateSubject.onNext(CoinListContract.State.Error(it))
                         }
                 ))
     }
@@ -83,9 +66,9 @@ data class CoinListViewModel internal constructor(
                 }))
     }
 
-    fun searchItems(query: String): List<CoinListItem> {
+    private fun searchItems(query: String): List<CoinListItem> {
         return coinList.filter { coin ->
-            coin.name?.toLowerCase()!!.contains(query.toLowerCase())
+            coin.name?.toLowerCase(Locale.getDefault())!!.contains(query.toLowerCase(Locale.getDefault()))
         }
     }
 }

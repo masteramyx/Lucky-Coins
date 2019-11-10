@@ -14,9 +14,9 @@ import com.example.kyleamyx.luckycoins.detail.CoinDetailController
 import com.example.kyleamyx.luckycoins.list.adapter.CoinListAdapter
 import com.example.kyleamyx.luckycoins.models.CoinFavoriteItem
 import com.example.kyleamyx.luckycoins.models.CoinListItem
-import kotlinx.android.synthetic.main.activity_coin_list.*
+import kotlinx.android.synthetic.main.activity_coin_main.*
 
-class CoinListActivity : AppCompatActivity(), CoinListAdapter.CoinListListener {
+class CoinMainActivity : AppCompatActivity(), CoinListAdapter.CoinListListener {
 
     lateinit var router: Router
 
@@ -25,32 +25,7 @@ class CoinListActivity : AppCompatActivity(), CoinListAdapter.CoinListListener {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_coin_list)
-
-//        val tabs: TabLayout = tabs
-//
-//        //todo - How to Set up with ViewPager
-//        tabs.addTab(tabs.newTab().setText("List"))
-//        tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-//            override fun onTabSelected(tab: TabLayout.Tab?) {
-//                if (tab?.text == "List") {
-//                    router.popCurrentController()
-//                } else {
-//                    router.pushController(RouterTransaction.with(CoinFavoriteController())
-//                            .pushChangeHandler(HorizontalChangeHandler())
-//                            .popChangeHandler(HorizontalChangeHandler()))
-//                }
-//            }
-//
-//            override fun onTabReselected(tab: TabLayout.Tab?) {
-//                //refresh list
-//            }
-//
-//            override fun onTabUnselected(tab: TabLayout.Tab?) {
-//                // no op?
-//            }
-//        })
-//        tabs.addTab(tabs.newTab().setText("Favorites"))
+        setContentView(R.layout.activity_coin_main)
 
         router = Conductor.attachRouter(this, container, savedInstanceState)
 
@@ -61,15 +36,7 @@ class CoinListActivity : AppCompatActivity(), CoinListAdapter.CoinListListener {
             router.setRoot(RouterTransaction.with(CoinBaseController()))
 
         RoomSingleton.initDB(this)
-
-        println("Router: ${router.containerId}")
-        //todo - remove this shit if it doesn't work
-//        val adapter = TabAdapter()
-//        adapter.configureRouter(router, 0)
-//        viewPager.adapter = adapter
-//
-//        tabs.setupWithViewPager(viewPager)
-
+        
     }
 
 

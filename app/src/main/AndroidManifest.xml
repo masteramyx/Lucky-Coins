@@ -15,9 +15,8 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".CoinListActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme">
+            android:name=".CoinMainActivity"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -26,8 +25,7 @@
         </activity>
         <activity
             android:name=".detail.CoinDetailActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme"/>
+            android:label="@string/app_name" />
     </application>
 
 </manifest>

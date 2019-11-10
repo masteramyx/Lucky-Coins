@@ -2,8 +2,6 @@ package com.example.kyleamyx.luckycoins.list
 
 import androidx.annotation.VisibleForTesting
 import com.example.kyleamyx.luckycoins.api.LuckyCoinApiService
-import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteRepository
-import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteRepositoryImpl
 import okhttp3.OkHttpClient
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -13,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 val listDi = module {
 
-    //Inject Web Service for Repository; Client comes from Application DI Class
+    //Inject Web Service for Repository; OkHttpClient comes from Application DI Class
     single<LuckyCoinApiService> {
         buildLuckyCoinsListApiService(okHttpClient = get())
     }
@@ -23,16 +21,10 @@ val listDi = module {
         CoinListRepositoryImpl(coinListService = get())
     }
 
-
-//    // Inject Favorites Repository which communicates with the local DB
-//    single<CoinFavoriteRepository> {
-//        CoinFavoriteRepositoryImpl()
-//    }
-
     //Inject View Model which communicates the repositoryImpl above and uses the injected scheduler(Application Level) to
     // schedule where it will observe and subscribe to the streams
     viewModel {
-        CoinListViewModel(remoteRepository = get(),favoriteRepository = get(), scheduler = get())
+        CoinListViewModel(remoteRepository = get(), favoriteRepository = get(), scheduler = get())
     }
 
 
@@ -40,11 +32,13 @@ val listDi = module {
 
 
 @VisibleForTesting
-fun buildLuckyCoinsListApiService(okHttpClient: OkHttpClient) =
+private fun buildLuckyCoinsListApiService(okHttpClient: OkHttpClient) =
         Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
-                .baseUrl("https://pro-api.coinmarketcap.com/")
+                .baseUrl(BASE_URL)
                 .build()
                 .create(LuckyCoinApiService::class.java)
+
+private const val BASE_URL = "https://pro-api.coinmarketcap.com/"
