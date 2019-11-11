@@ -1,7 +1,7 @@
 package me.ameriod.lib.mvp.view
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.View
 
 import me.ameriod.lib.mvp.Mvp

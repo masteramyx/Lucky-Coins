@@ -1,26 +1,54 @@
 package com.example.kyleamyx.luckycoins.list.adapter
 
-import android.support.v7.widget.RecyclerView
+import android.content.Context
+import androidx.recyclerview.widget.RecyclerView
+import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.example.kyleamyx.luckycoins.R
+import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteItem
 import com.example.kyleamyx.luckycoins.models.CoinListItem
 
 /**
  * Created by kyleamyx on 6/23/18.
  */
 
-class CoinListAdapter(val coin: CoinListItem) : RecyclerView.Adapter<CoinListViewHolder>() {
+class CoinListAdapter(context: Context, private val listener: CoinListListener) : RecyclerView
+.Adapter<CoinListViewHolder>() {
+
+    private var coinList: List<CoinListItem> = emptyList()
+    private val inflater: LayoutInflater = LayoutInflater.from(context)
+
+
+    interface CoinListListener {
+        fun onCoinClicked(coin: CoinListItem)
+        fun onFavoriteClicked(coinFavoriteItem: CoinFavoriteItem)
+    }
 
 
     override fun getItemCount(): Int {
-        return 1
+        return coinList.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinListViewHolder {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val view = inflater.inflate(R.layout.coin_list_item, parent, false)
+        return CoinListViewHolder(view)
+
     }
 
     override fun onBindViewHolder(holder: CoinListViewHolder, position: Int) {
-        holder.bindView(coin)
+        holder.bindView(coinList[position])
+        holder.listener = this.listener
     }
 
+    fun addItems(list: List<CoinListItem>) {
+        coinList = list
+        if (coinList.isNotEmpty()) {
+            notifyDataSetChanged()
+        }
+    }
+
+    fun getItem(position: Int): CoinListItem {
+        return coinList[position]
+    }
 }
+

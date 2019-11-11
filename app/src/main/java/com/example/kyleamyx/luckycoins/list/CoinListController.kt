@@ -1,55 +1,123 @@
 package com.example.kyleamyx.luckycoins.list
 
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.bluelinelabs.conductor.Controller
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.kyleamyx.luckycoins.CoinMainActivity
 import com.example.kyleamyx.luckycoins.R
+import com.example.kyleamyx.luckycoins.base.BaseMvvmController
+import com.example.kyleamyx.luckycoins.base.Mvvm
+import com.example.kyleamyx.luckycoins.list.adapter.CoinListAdapter
+import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteItem
 import com.example.kyleamyx.luckycoins.models.CoinListItem
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.coin_list_controller.view.*
+import org.koin.core.context.GlobalContext.get
 
 /**
- * Created by kyleamyx on 6/23/18.
+ * Created by kyleamyx on 6/23/18
  */
-class CoinListController : Controller(), View.OnClickListener {
+
+//todo- add shimmer by facebook for loading of views
+//todo- load all list images and store them and cache them for life of application or maybe longer??
+class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContract.State>(), CoinListAdapter
+.CoinListListener {
 
 
-    interface onCoinClicked {
-        fun onItemClicked(coin: CoinListItem)
+    var list: List<CoinListItem> = emptyList()
+    private lateinit var recyclerView: RecyclerView
+
+    private val adapter by lazy(LazyThreadSafetyMode.NONE) {
+        CoinListAdapter(applicationContext!!, this)
     }
 
-    override fun onClick(v: View?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    private lateinit var listener: CoinListAdapter.CoinListListener
 
-
-     var listener: onCoinClicked? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val view = inflater.inflate(R.layout.coin_list_controller, container, false)
-        val recycler : RecyclerView = view.findViewById(R.id.listRecycler)
-        recycler.layoutManager = LinearLayoutManager(activity)
+        recyclerView = view.findViewById(R.id.listRecycler)
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(activity)
+            addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
+            adapter = this@CoinListController.adapter
+            isNestedScrollingEnabled = false
+        }
+        view.swipeContainer.apply {
+            this.setOnRefreshListener {
+                viewModel.getCoinList()
+                this.isRefreshing = false
+            }
+        }
 
         return view
     }
 
+
     override fun onAttach(view: View) {
         super.onAttach(view)
-        listener = activity as onCoinClicked
-        //getListings
+        with(viewModel) {
+            if (list.isEmpty()) {
+                getCoinList()
+                setSearchListener(view)
+            } else {
+                //Reset adapter in case controller was detached(adapter set to null)
+                view.listRecycler.adapter = adapter
+                adapter.notifyDataSetChanged()
+            }
+        }
+        listener = activity as CoinMainActivity
     }
 
     override fun onDetach(view: View) {
         super.onDetach(view)
-        listener = null
+        view.listRecycler.adapter = null
+        Log.d("LIST_CONTROLLER", "Detached")
     }
 
+
+    override fun onCoinClicked(coin: CoinListItem) {
+        viewModel.onCoinClicked(coin)
+    }
+
+    override fun onFavoriteClicked(coinFavoriteItem: CoinFavoriteItem) {
+        viewModel.onFavoriteClicked(coinFavoriteItem)
+        adapter.notifyDataSetChanged()
+    }
+
+    override val viewModel: CoinListViewModel = get().koin.get()
+
+    override fun onStateChange(state: Mvvm.State) {
+        when (state) {
+            is CoinListContract.State.CoinListReceived -> {
+                list = state.coins
+                adapter.addItems(list)
+            }
+            is CoinListContract.State.CoinItemClicked -> {
+                Snackbar.make(view!!, "Coin Item Clicked", Snackbar.LENGTH_SHORT)
+                listener.onCoinClicked(state.coin)
+            }
+            is CoinListContract.State.FavoriteClicked -> {
+                Snackbar.make(view!!, "Favorite Button Clicked", Snackbar.LENGTH_SHORT).show()
+                adapter.notifyDataSetChanged()
+            }
+            is CoinListContract.State.QueryRan -> {
+                adapter.addItems(state.searchList)
+            }
+            is CoinListContract.State.Error -> {
+                Log.d("OnStateChange", state.throwable.localizedMessage!!)
+            }
+        }
+    }
 
     companion object {
         @JvmStatic
         fun newInstance(): CoinListController = CoinListController()
     }
 
-
 }
+

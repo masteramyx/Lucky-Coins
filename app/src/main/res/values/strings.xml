@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">LuckyCoins</string>
     <string name="action_settings">Settings</string>
+    <string name="list_item_price">$ %.2f</string>
+    <string name="list_item_mineable">mineable</string>
+    <string name="tab_list">List</string>
+    <string name="tab_favorite">Favorites</string>
 </resources>
