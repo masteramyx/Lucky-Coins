@@ -15,8 +15,10 @@
 
         <ImageView
             android:id="@+id/listItemLogo"
-            android:layout_width="48dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_width="64dp"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
             android:paddingRight="@dimen/lc_default_padding"
             tools:src="@mipmap/mining" />
 

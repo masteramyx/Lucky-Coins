@@ -8,4 +8,6 @@ interface CoinFavoriteRepository {
     fun saveCoin(coinFavoriteItem: CoinFavoriteItem)
 
     fun getFavorites(): Single<List<CoinFavoriteItem>>
+
+    fun deleteCoin(coinFavoriteItem: CoinFavoriteItem): Single<List<CoinFavoriteItem>>
 }

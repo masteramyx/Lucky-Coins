@@ -20,4 +20,10 @@ class CoinFavoriteRepositoryImpl : CoinFavoriteRepository {
         return Single.just(favoritesDao.getFavorites())
     }
 
+    override fun deleteCoin(coinFavoriteItem: CoinFavoriteItem): Single<List<CoinFavoriteItem>> {
+        Log.d("FAVORITES REPOSITORY", "REMOVING COIN FROM FAVORITES")
+        favoritesDao.delete(coinFavoriteItem)
+        return getFavorites()
+    }
+
 }

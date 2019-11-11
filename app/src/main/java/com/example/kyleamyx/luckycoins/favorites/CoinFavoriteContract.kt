@@ -13,6 +13,9 @@ interface CoinFavoriteContract {
         data class FavoritesReceived(val favoriteCoins: List<CoinFavoriteItem>) : State()
 
         @Parcelize
+        data class FavoriteDeleted(val favoriteCoins: List<CoinFavoriteItem>) : State()
+
+        @Parcelize
         data class Error(val throwable: Throwable) : State()
     }
 }
