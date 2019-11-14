@@ -40,6 +40,7 @@ class CoinFavoriteController : BaseMvvmController<CoinFavoriteViewModel, CoinFav
 
     override fun onAttach(view: View) {
         super.onAttach(view)
+        Log.d("FAVORITE_CONTROLLER", "Attached")
         viewModel.getFavorites()
 
     }

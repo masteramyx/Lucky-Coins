@@ -10,7 +10,12 @@ import kotlinx.android.synthetic.main.coin_detail_controller.view.*
 /**
  * Created by kyleamyx on 8/31/18.
  */
-class CoinDetailViewHolder(val itemView: View, val detailItem: CoinDetailItem) : View.OnClickListener {
+
+/**
+ * This Screen will not have a RecyclerView, no need for an adapter(?) Using [CoinDetailViewHolder] move binding
+ * logic outside the view itself [CoinDetailController]
+ */
+class CoinDetailViewHolder(private val itemView: View, private val detailItem: CoinDetailItem) : View.OnClickListener {
 
     fun bindView(coin: CoinDetailItem = detailItem) {
         Picasso.with(itemView.context).load(coin.logo)

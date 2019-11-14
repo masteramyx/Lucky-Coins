@@ -60,6 +60,7 @@ class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContrac
 
     override fun onAttach(view: View) {
         super.onAttach(view)
+        Log.d("LIST_CONTROLLER", "Attached")
         with(viewModel) {
             if (list.isEmpty()) {
                 getCoinList()
@@ -67,7 +68,7 @@ class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContrac
             } else {
                 //Reset adapter in case controller was detached(adapter set to null)
                 view.listRecycler.adapter = adapter
-                adapter.notifyDataSetChanged()
+                adapter.addItems(list)
             }
         }
         listener = activity as CoinMainActivity

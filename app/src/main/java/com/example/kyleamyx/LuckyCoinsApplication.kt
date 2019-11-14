@@ -3,6 +3,7 @@ package com.example.kyleamyx
 import android.app.Application
 import android.util.Log
 import com.example.kyleamyx.luckycoins.appDi
+import com.example.kyleamyx.luckycoins.detail.detailDi
 import com.example.kyleamyx.luckycoins.favorites.favoriteDi
 import com.example.kyleamyx.luckycoins.list.listDi
 import org.koin.android.ext.koin.androidContext
@@ -19,7 +20,7 @@ class LuckyCoinsApplication : Application() {
         startKoin {
             logger(KoinLogger(Level.DEBUG))
             androidContext(this@LuckyCoinsApplication)
-            modules(listOf(appDi, listDi, favoriteDi))
+            modules(listOf(appDi, listDi, favoriteDi, detailDi))
         }
 
         RoomSingleton.initDB(this)

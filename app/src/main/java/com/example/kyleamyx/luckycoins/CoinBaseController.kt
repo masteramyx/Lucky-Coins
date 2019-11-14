@@ -27,7 +27,6 @@ class CoinBaseController : Controller() {
      */
     private inner class TabAdapter(val tabLayoutView: View) : RouterPagerAdapter(this) {
         override fun configureRouter(router: Router, position: Int) {
-            router.setPopsLastView(true)
             when (position) {
                 0 -> router.pushController(RouterTransaction.with(CoinListController.newInstance()))
                 1 -> router.pushController(RouterTransaction.with(CoinFavoriteController.newInstance()))
