@@ -5,8 +5,8 @@ import org.koin.dsl.module
 
 val detailDi = module {
 
-    single<CoinDetailRepository>{
-        CoinDetailRepositoryImpl(luckyCoinApiService = get())
+    single<CoinDetailRepository> {
+        CoinDetailRepositoryImpl(luckyCoinApiService = get(), GSON = get())
     }
 
     viewModel {

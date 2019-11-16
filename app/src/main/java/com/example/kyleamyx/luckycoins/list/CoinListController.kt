@@ -23,7 +23,6 @@ import org.koin.core.context.GlobalContext.get
  */
 
 //todo- add shimmer by facebook for loading of views
-//todo- load all list images and store them and cache them for life of application or maybe longer??
 class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContract.State>(), CoinListAdapter
 .CoinListListener {
 

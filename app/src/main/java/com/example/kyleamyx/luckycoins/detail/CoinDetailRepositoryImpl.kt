@@ -8,10 +8,9 @@ import io.reactivex.Single
 import org.koin.core.context.GlobalContext.get
 
 class CoinDetailRepositoryImpl(
-        val luckyCoinApiService: LuckyCoinApiService = get().koin.get()
+        val luckyCoinApiService: LuckyCoinApiService = get().koin.get(),
+        val GSON: Gson = get().koin.get()
 ) : CoinDetailRepository {
-
-    private val GSON: Gson = get().koin.get()
 
     override fun getCoinDetail(coinId: String): Single<CoinDetailItem> {
         return luckyCoinApiService.getCoinDetail(coinId = coinId)

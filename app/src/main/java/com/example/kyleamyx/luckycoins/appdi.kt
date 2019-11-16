@@ -1,6 +1,7 @@
 package com.example.kyleamyx.luckycoins
 
 import androidx.annotation.VisibleForTesting
+import com.example.kyleamyx.CoinBaseUrlProvider
 import com.example.kyleamyx.luckycoins.api.LuckyCoinApiService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -18,7 +19,7 @@ val appDi = module {
 
     //Inject Web Service for Repository; OkHttpClient comes from this DI Class
     single<LuckyCoinApiService> {
-        buildLuckyCoinsListApiService(okHttpClient = get())
+        buildLuckyCoinsListApiService(okHttpClient = get(), coinBaseUrlProvider = get())
     }
 
     // Inject Client for entire application
@@ -42,17 +43,27 @@ val appDi = module {
                 .create()
     }
 
+    //Need to provide URL via provider in order to mock the response, or else when mocking the repository out, the
+    // service in the repository constructor will point to the actual endpoint and not local resource folder
+    single<CoinBaseUrlProvider> {
+        object : CoinBaseUrlProvider {
+            override fun getBaseUrl(): String {
+                return BASE_URL
+            }
+        }
+    }
+
     //todo - inject room DB, how to do this?
 }
 
 
 @VisibleForTesting
-private fun buildLuckyCoinsListApiService(okHttpClient: OkHttpClient) =
+fun buildLuckyCoinsListApiService(okHttpClient: OkHttpClient, coinBaseUrlProvider: CoinBaseUrlProvider) =
         Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
-                .baseUrl(BASE_URL)
+                .baseUrl(coinBaseUrlProvider.getBaseUrl())
                 .build()
                 .create(LuckyCoinApiService::class.java)
 
