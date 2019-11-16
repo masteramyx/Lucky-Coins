@@ -23,7 +23,6 @@ import org.koin.core.context.GlobalContext.get
  */
 
 //todo- add shimmer by facebook for loading of views
-//todo- load all list images and store them and cache them for life of application or maybe longer??
 class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContract.State>(), CoinListAdapter
 .CoinListListener {
 
@@ -60,6 +59,7 @@ class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContrac
 
     override fun onAttach(view: View) {
         super.onAttach(view)
+        Log.d("LIST_CONTROLLER", "Attached")
         with(viewModel) {
             if (list.isEmpty()) {
                 getCoinList()
@@ -67,7 +67,7 @@ class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContrac
             } else {
                 //Reset adapter in case controller was detached(adapter set to null)
                 view.listRecycler.adapter = adapter
-                adapter.notifyDataSetChanged()
+                adapter.addItems(list)
             }
         }
         listener = activity as CoinMainActivity

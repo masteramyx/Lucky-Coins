@@ -78,7 +78,7 @@ abstract class BaseMvvmController<VM : BaseViewModel<S>, S : Mvvm.State> : Contr
     abstract fun onStateChange(state: Mvvm.State)
 
     open fun onStateError(throwable: Throwable) {
-        Log.d("An Error Occured", throwable.localizedMessage!!)
+        Log.d("An Error Occurred", throwable.localizedMessage!!)
     }
 
     fun setViewVisibility(view: View?, show: Boolean) {
@@ -108,4 +108,5 @@ abstract class BaseMvvmController<VM : BaseViewModel<S>, S : Mvvm.State> : Contr
     }
 }
 
+//Rx-Scheduler
 typealias scheduler = IObservableSchedulerRx2
