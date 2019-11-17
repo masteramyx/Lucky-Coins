@@ -27,6 +27,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug{
+            minifyEnabled true
+        }
     }
     buildTypes.each {
         it.buildConfigField 'String', 'LUCKY_COINS_API_KEY', LUCKY_COINS_API_KEY
