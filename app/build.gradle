@@ -46,9 +46,9 @@ androidExtensions {
 
 def apiKey() {
     if (project.hasProperty("LUCKY_COINS_API_KEY")) {
-        return project.properties["LUCKY_COINS_API_KEY"] as String
+        return project.properties["LUCKY_COINS_API_KEY"]
     } else if (System.getenv("LUCKY_COINS_API_KEY") != null) {
-        return System.getenv("LUCKY_COINS_API_KEY") as String
+        return System.getenv("LUCKY_COINS_API_KEY")
     } else {
         throw Exceptions("Set API Key")
     }
