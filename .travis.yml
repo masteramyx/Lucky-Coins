@@ -4,9 +4,6 @@ android:
     - android-29
     - build-tools-28.0.3
 
-before_install:
-  - ./envSetup.sh
-
 env:
   global:
     # install timeout in minutes (2 minutes by default)

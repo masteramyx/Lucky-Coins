@@ -44,6 +44,16 @@ androidExtensions {
     experimental = true
 }
 
+def apiKey(){
+    if(project.hasProperty("LUCKY_COINS_API_KEY")){
+     project.properties["LUCKY_COINS_API_KEY"] as String
+    }else if(System.getenv("LUCKY_COINS_API_KEY") != null){
+        System.getenv("LUCKY_COINS_API_KEY") as String
+    }else{
+        throw Exceptions("Set API Key")
+    }
+}
+
 dependencies {
     def room_version = "2.2.0"
     def koin_version = "2.0.1"
