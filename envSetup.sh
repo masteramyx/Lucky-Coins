@@ -1,3 +1,4 @@
+# NOT WORKING FOR THIS PROJECT BUT KEEP THIS!! COOL AND WILL COME IN HANDY
 #
 #           Circle CI & gradle.properties live in harmony
 #
