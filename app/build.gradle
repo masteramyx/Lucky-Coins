@@ -26,11 +26,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField 'String', 'LUCKY_COINS_API_KEY', LUCKY_COINS_API_KEY
+            buildConfigField 'String', 'LUCKY_COINS_API_KEY', apiKey()
         }
-        debug{
+        debug {
             minifyEnabled true
-            buildConfigField 'String', 'LUCKY_COINS_API_KEY', LUCKY_COINS_API_KEY
+            buildConfigField 'String', 'LUCKY_COINS_API_KEY', apiKey()
         }
     }
 
@@ -44,12 +44,12 @@ androidExtensions {
     experimental = true
 }
 
-def apiKey(){
-    if(project.hasProperty("LUCKY_COINS_API_KEY")){
-     project.properties["LUCKY_COINS_API_KEY"] as String
-    }else if(System.getenv("LUCKY_COINS_API_KEY") != null){
-        System.getenv("LUCKY_COINS_API_KEY") as String
-    }else{
+def apiKey() {
+    if (project.hasProperty("LUCKY_COINS_API_KEY")) {
+        return project.properties["LUCKY_COINS_API_KEY"] as String
+    } else if (System.getenv("LUCKY_COINS_API_KEY") != null) {
+        return System.getenv("LUCKY_COINS_API_KEY") as String
+    } else {
         throw Exceptions("Set API Key")
     }
 }
