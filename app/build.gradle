@@ -85,7 +85,7 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:3.12.1"
     //This is the magical Network Request Logger
     implementation "com.squareup.okhttp3:logging-interceptor:3.11.0"
-    implementation project(':presenterRx2')
+//    implementation project(':presenterRx2')
 
     // Dependency Injection
     // Koin for Kotlin

@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
 import com.bluelinelabs.conductor.Controller
+import com.example.kyleamyx.IObservableSchedulerRx2
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import me.ameriod.lib.mvp.presenter.rx2.IObservableSchedulerRx2
 import java.lang.IllegalStateException
 
 /**

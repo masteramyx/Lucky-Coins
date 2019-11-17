@@ -1,1 +1,1 @@
-include ':app', ':presenterRx2', ':lib'
+include ':app'
