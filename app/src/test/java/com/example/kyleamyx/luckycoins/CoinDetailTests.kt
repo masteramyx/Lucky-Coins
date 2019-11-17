@@ -30,7 +30,7 @@ class CoinDetailTests : CoinBaseTest() {
                 .assertValue(CoinDetailItem("1", "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png",
                         "Bitcoin",
                         "BTC",
-                        "abcd"))
+                        "abc"))
                 .dispose()
     }
 }
