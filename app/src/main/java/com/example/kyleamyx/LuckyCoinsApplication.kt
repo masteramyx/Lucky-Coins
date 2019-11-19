@@ -6,6 +6,7 @@ import com.example.kyleamyx.luckycoins.appDi
 import com.example.kyleamyx.luckycoins.detail.detailDi
 import com.example.kyleamyx.luckycoins.favorites.favoriteDi
 import com.example.kyleamyx.luckycoins.list.listDi
+import com.example.kyleamyx.luckycoins.roomDi
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
@@ -20,10 +21,8 @@ class LuckyCoinsApplication : Application() {
         startKoin {
             logger(KoinLogger(Level.DEBUG))
             androidContext(this@LuckyCoinsApplication)
-            modules(listOf(appDi, listDi, favoriteDi, detailDi))
+            modules(listOf(appDi, listDi, favoriteDi, detailDi, roomDi))
         }
-
-        RoomSingleton.initDB(this)
     }
 
 

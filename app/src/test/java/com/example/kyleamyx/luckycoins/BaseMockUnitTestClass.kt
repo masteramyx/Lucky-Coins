@@ -24,6 +24,7 @@ abstract class BaseMockUnitTestClass {
         //Instantiate and start the MockWebServer
         mockWebServer = MockWebServer()
         mockWebServer.start()
+        mockWebServer.url("/")
     }
 
     @After

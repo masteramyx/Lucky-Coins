@@ -1,14 +1,14 @@
 package com.example.kyleamyx.luckycoins.favorites
 
 import android.util.Log
-import com.example.kyleamyx.RoomSingleton
 import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteDao
 import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteItem
 import io.reactivex.Single
+import org.koin.core.context.GlobalContext.get
 
 class CoinFavoriteRepositoryImpl : CoinFavoriteRepository {
 
-    private val favoritesDao: CoinFavoriteDao = RoomSingleton.getInstance().getRoomDb().favoritesDao()
+    private val favoritesDao: CoinFavoriteDao = get().koin.get()
 
     override fun saveCoin(coinFavoriteItem: CoinFavoriteItem) {
         Log.d("FAVORITES REPOSITORY", "COIN SAVED!!")
