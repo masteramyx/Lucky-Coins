@@ -3,7 +3,6 @@ package com.example.kyleamyx.luckycoins
 import com.example.kyleamyx.luckycoins.list.CoinListRepository
 import com.example.kyleamyx.luckycoins.list.CoinListRepositoryImpl
 import com.example.kyleamyx.luckycoins.list.db.CoinListDao
-import org.junit.Test
 import org.koin.core.context.GlobalContext.get
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
@@ -24,17 +23,17 @@ class CoinListTests : CoinBaseTest() {
     }
 
 
-    @Test
-    fun `confirm fetching of list no images`() {
-        mockWebServer.enqueue(response("listResponse.json"))
-        listRepository.getListNoImages()
-                .test()
-                .assertOf {
-                    it.assertValueCount(3)
-                }
-                .dispose()
-
-    }
+//    @Test
+//    fun `confirm fetching of list no images`() {
+//        mockWebServer.enqueue(response("listResponse.json"))
+//        listRepository.getListNoImages()
+//                .test()
+//                .assertOf {
+//                    it.assertValueCount(3)
+//                }
+//                .dispose()
+//
+//    }
 
 
 }
