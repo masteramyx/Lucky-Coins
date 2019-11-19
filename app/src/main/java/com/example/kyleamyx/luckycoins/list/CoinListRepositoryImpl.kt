@@ -1,6 +1,5 @@
 package com.example.kyleamyx.luckycoins.list
 
-import com.example.kyleamyx.RoomSingleton
 import com.example.kyleamyx.luckycoins.api.LuckyCoinApiService
 import com.example.kyleamyx.luckycoins.list.db.CoinListDao
 import com.example.kyleamyx.luckycoins.list.db.CoinListDbImageItem
@@ -10,15 +9,14 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import io.reactivex.Single
-import org.koin.core.context.GlobalContext.get
 
 
 class CoinListRepositoryImpl(
-        val coinListService: LuckyCoinApiService = get().koin.get()
+        val coinListService: LuckyCoinApiService,
+        private val coinListDao: CoinListDao
 ) : CoinListRepository {
 
     private var tempList = mutableListOf<String>()
-    private val coinListDao: CoinListDao = RoomSingleton.getInstance().getRoomDb().listDao()
 
     private val imagePairList = coinListDao.getImagePairs()
 
@@ -63,8 +61,7 @@ class CoinListRepositoryImpl(
                                     }
                                     listToAddImage
                                 }
-                    }
-                    else {
+                    } else {
                         imagePairList.forEach { pair ->
                             val match = listToAddImage.find { item ->
                                 pair.id.toString() == item.id

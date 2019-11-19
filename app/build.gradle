@@ -26,11 +26,14 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', 'LUCKY_COINS_API_KEY', apiKey()
+        }
+        debug {
+            minifyEnabled true
+            buildConfigField 'String', 'LUCKY_COINS_API_KEY', apiKey()
         }
     }
-    buildTypes.each {
-        it.buildConfigField 'String', 'LUCKY_COINS_API_KEY', LUCKY_COINS_API_KEY
-    }
+
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
     }
@@ -39,6 +42,16 @@ android {
 
 androidExtensions {
     experimental = true
+}
+
+def apiKey() {
+    if (project.hasProperty("LUCKY_COINS_API_KEY")) {
+        return project.properties["LUCKY_COINS_API_KEY"]
+    } else if (System.getenv("LUCKY_COINS_API_KEY") != null) {
+        return System.getenv("LUCKY_COINS_API_KEY")
+    } else {
+        throw Exceptions("Set API Key")
+    }
 }
 
 dependencies {
@@ -72,7 +85,7 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:3.12.1"
     //This is the magical Network Request Logger
     implementation "com.squareup.okhttp3:logging-interceptor:3.11.0"
-    implementation project(':presenterRx2')
+//    implementation project(':presenterRx2')
 
     // Dependency Injection
     // Koin for Kotlin

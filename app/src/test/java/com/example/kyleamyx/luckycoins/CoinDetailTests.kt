@@ -17,7 +17,6 @@ class CoinDetailTests : CoinBaseTest() {
     override fun setUp() {
         super.setUp()
         MockitoAnnotations.initMocks(this)
-        mockWebServer.url("/")
         detailRepository = CoinDetailRepositoryImpl(luckyCoinApiService, GSON)
     }
 

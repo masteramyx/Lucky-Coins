@@ -1,7 +1,7 @@
 package com.example.kyleamyx.luckycoins
 
 import androidx.annotation.CallSuper
-import me.ameriod.lib.mvp.presenter.rx2.IObservableSchedulerRx2
+import com.example.kyleamyx.IObservableSchedulerRx2
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
@@ -24,6 +24,7 @@ abstract class BaseMockUnitTestClass {
         //Instantiate and start the MockWebServer
         mockWebServer = MockWebServer()
         mockWebServer.start()
+        mockWebServer.url("/")
     }
 
     @After

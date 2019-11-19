@@ -22,6 +22,7 @@ class ViewSavedState : View.BaseSavedState {
 
     companion object {
 
+        @JvmField
         val CREATOR: Parcelable.Creator<ViewSavedState> = object : Parcelable.Creator<ViewSavedState> {
             override fun createFromParcel(`in`: Parcel): ViewSavedState {
                 return ViewSavedState(`in`)
