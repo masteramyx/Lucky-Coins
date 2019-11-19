@@ -6,7 +6,7 @@ import org.koin.dsl.module
 val favoriteDi = module {
 
     single<CoinFavoriteRepository> {
-        CoinFavoriteRepositoryImpl()
+        CoinFavoriteRepositoryImpl(favoritesDao = get())
     }
 
     viewModel {
