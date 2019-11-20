@@ -18,7 +18,8 @@
             android:layout_width="64dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:paddingRight="@dimen/lc_default_padding"
+            android:paddingEnd="@dimen/lc_default_padding"
+            android:paddingStart="@dimen/lc_default_padding"
             android:scaleType="fitCenter"
             tools:src="@mipmap/mining" />
 
@@ -35,21 +36,22 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="Name"
+                tools:text="Name"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/coinSymbol"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Symbol" />
+                tools:text="Symbol" />
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/favoritesBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+Favorites"
+            android:textSize="12sp"
+            android:text="@string/favorites_btn_add"
             android:theme="@style/AppTheme" />
 
         <TextView

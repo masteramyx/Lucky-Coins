@@ -7,11 +7,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kyleamyx.luckycoins.R
 import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteItem
 
-class CoinFavoriteAdapter(context: Context, private val listener: OnFavoriteRemoved) :
+class CoinFavoriteAdapter(context: Context,
+                          private val listener: OnFavoriteRemoved,
+                          private val clickListener: OnFavoriteClicked) :
         RecyclerView.Adapter<CoinFavoriteViewHolder>() {
 
     interface OnFavoriteRemoved {
         fun onFavoriteRemoved(coinFavoriteItem: CoinFavoriteItem)
+    }
+
+    interface OnFavoriteClicked {
+        fun onFavoriteClicked(coinFavoriteItem: CoinFavoriteItem)
     }
 
     private var coinFavoriteItemList: List<CoinFavoriteItem> = emptyList()
@@ -24,7 +30,7 @@ class CoinFavoriteAdapter(context: Context, private val listener: OnFavoriteRemo
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinFavoriteViewHolder {
         val view = inflater.inflate(R.layout.coin_favorite_item, parent, false)
-        return CoinFavoriteViewHolder(view, listener)
+        return CoinFavoriteViewHolder(view, listener, clickListener)
 
     }
 

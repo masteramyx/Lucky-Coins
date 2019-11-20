@@ -10,12 +10,13 @@ import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import com.example.kyleamyx.luckycoins.detail.CoinDetailController
+import com.example.kyleamyx.luckycoins.favorites.adapter.CoinFavoriteAdapter
 import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteItem
 import com.example.kyleamyx.luckycoins.list.adapter.CoinListAdapter
 import com.example.kyleamyx.luckycoins.models.CoinListItem
 import kotlinx.android.synthetic.main.activity_coin_main.*
 
-class CoinMainActivity : AppCompatActivity(), CoinListAdapter.CoinListListener {
+class CoinMainActivity : AppCompatActivity(), CoinListAdapter.CoinListListener, CoinFavoriteAdapter.OnFavoriteClicked {
 
     private lateinit var router: Router
 
@@ -39,14 +40,19 @@ class CoinMainActivity : AppCompatActivity(), CoinListAdapter.CoinListListener {
     override fun onCoinClicked(coin: CoinListItem) {
         //Push Coin Detail Controller onto the view
         router.pushController(RouterTransaction.with(CoinDetailController.newInstance(Bundle().apply {
-            putParcelable("coinFavoriteItemItem", coin)
+            putString("coinFavoriteItemItem", coin.id)
         })).pushChangeHandler(HorizontalChangeHandler())
                 .popChangeHandler(HorizontalChangeHandler()))
     }
 
     override fun onFavoriteClicked(coinFavoriteItem: CoinFavoriteItem) {
-        //no op
+        //Push Coin Detail Controller onto the view
+        router.pushController(RouterTransaction.with(CoinDetailController.newInstance(Bundle().apply {
+            putString("coinFavoriteItemItem", coinFavoriteItem.id.toString())
+        })).pushChangeHandler(HorizontalChangeHandler())
+                .popChangeHandler(HorizontalChangeHandler()))
     }
+
 
     override fun onBackPressed() {
         if (router.backstackSize == 1) {

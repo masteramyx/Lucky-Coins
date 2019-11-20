@@ -6,21 +6,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.kyleamyx.luckycoins.CoinMainActivity
 import com.example.kyleamyx.luckycoins.R
 import com.example.kyleamyx.luckycoins.base.BaseMvvmController
 import com.example.kyleamyx.luckycoins.base.Mvvm
 import com.example.kyleamyx.luckycoins.favorites.adapter.CoinFavoriteAdapter
 import com.example.kyleamyx.luckycoins.favorites.db.CoinFavoriteItem
+import com.example.kyleamyx.luckycoins.list.adapter.CoinListAdapter
 import kotlinx.android.synthetic.main.coin_favorite_controller.view.*
 import kotlinx.android.synthetic.main.coin_list_item.view.*
 import org.koin.core.context.GlobalContext.get
 
 class CoinFavoriteController : BaseMvvmController<CoinFavoriteViewModel, CoinFavoriteContract.State>(),
-        CoinFavoriteAdapter.OnFavoriteRemoved {
+        CoinFavoriteAdapter.OnFavoriteRemoved, CoinFavoriteAdapter.OnFavoriteClicked {
 
     private val adapter by lazy(LazyThreadSafetyMode.NONE) {
-        CoinFavoriteAdapter(applicationContext!!, this)
+        CoinFavoriteAdapter(applicationContext!!, this, this)
     }
+
+    private lateinit var listener: CoinFavoriteAdapter.OnFavoriteClicked
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val view = inflater.inflate(R.layout.coin_favorite_controller, container, false).apply {
@@ -42,11 +46,18 @@ class CoinFavoriteController : BaseMvvmController<CoinFavoriteViewModel, CoinFav
         super.onAttach(view)
         Log.d("FAVORITE_CONTROLLER", "Attached")
         viewModel.getFavorites()
-
+        listener = activity as CoinMainActivity
     }
 
+    /**
+     * Keep this in viewModel since it has to call down to roomDB.
+     */
     override fun onFavoriteRemoved(coinFavoriteItem: CoinFavoriteItem) {
         viewModel.removeFavorite(coinFavoriteItem)
+    }
+
+    override fun onFavoriteClicked(coinFavoriteItem: CoinFavoriteItem) {
+        listener.onFavoriteClicked(coinFavoriteItem)
     }
 
     override val viewModel: CoinFavoriteViewModel = get().koin.get()
