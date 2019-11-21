@@ -22,7 +22,7 @@ class CoinDetailController :
 
     override val viewModel: CoinDetailViewModel = get().koin.get()
 
-    private var coin: CoinListItem? = null
+    private var coinId: String? = null
     private lateinit var detailView: View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
@@ -34,7 +34,7 @@ class CoinDetailController :
     override fun onAttach(view: View) {
         super.onAttach(view)
         //todo- fix this null shit
-        viewModel.getCoinDetail(coin?.id!!)
+        viewModel.getCoinDetail(coinId!!)
     }
 
     override fun onDetach(view: View) {
@@ -62,7 +62,7 @@ class CoinDetailController :
     companion object {
         @JvmStatic
         fun newInstance(args: Bundle): CoinDetailController = CoinDetailController().apply {
-            coin = args.getParcelable("coinFavoriteItemItem")
+            coinId = args.getString("coinFavoriteItemItem")
         }
     }
 

@@ -5,4 +5,6 @@
     <string name="list_item_mineable">mineable</string>
     <string name="tab_list">List</string>
     <string name="tab_favorite">Favorites</string>
+    <string name="favorites_btn_add">+Favorites</string>
+    <string name="favorites_btn_remove">-Remove</string>
 </resources>
