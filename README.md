@@ -17,4 +17,4 @@ must generate your own API Key at
 
 
 # Base-Classes
-TODO - Break these out into own repo and add that repo as dependency to this project!
+ Using `Karakum` library which contains base lifecycle components
