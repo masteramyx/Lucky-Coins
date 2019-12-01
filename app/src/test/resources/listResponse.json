@@ -1,0 +1,86 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Bitcoin",
+      "symbol": "BTC",
+      "slug": "bitcoin",
+      "num_market_pairs": 7776,
+      "date_added": "2013-04-28T00:00:00.000Z",
+      "tags": [
+        "mineable"
+      ],
+      "max_supply": 21000000,
+      "circulating_supply": 18056125,
+      "total_supply": 18056125,
+      "platform": null,
+      "cmc_rank": 1,
+      "last_updated": "2019-11-19T13:55:39.000Z",
+      "quote": {
+        "USD": {
+          "price": 8122.201402,
+          "volume_24h": 23501565400.1299,
+          "percent_change_1h": 0.0297799,
+          "percent_change_24h": -4.8862,
+          "percent_change_7d": -7.35042,
+          "market_cap": 146655483789.68726,
+          "last_updated": "2019-11-19T13:55:39.000Z"
+        }
+      }
+    },
+    {
+      "id": 1027,
+      "name": "Ethereum",
+      "symbol": "ETH",
+      "slug": "ethereum",
+      "num_market_pairs": 5366,
+      "date_added": "2015-08-07T00:00:00.000Z",
+      "tags": [
+        "mineable"
+      ],
+      "max_supply": null,
+      "circulating_supply": 108612841.999,
+      "total_supply": 108612841.999,
+      "platform": null,
+      "cmc_rank": 2,
+      "last_updated": "2019-11-19T13:56:26.000Z",
+      "quote": {
+        "USD": {
+          "price": 175.504484265,
+          "volume_24h": 8195733716.43583,
+          "percent_change_1h": -0.167572,
+          "percent_change_24h": -4.81302,
+          "percent_change_7d": -5.6239,
+          "market_cap": 19062040819.590427,
+          "last_updated": "2019-11-19T13:56:26.000Z"
+        }
+      }
+    },
+    {
+      "id": 52,
+      "name": "XRP",
+      "symbol": "XRP",
+      "slug": "ripple",
+      "num_market_pairs": 507,
+      "date_added": "2013-08-04T00:00:00.000Z",
+      "tags": [],
+      "max_supply": 100000000000,
+      "circulating_supply": 43299885509,
+      "total_supply": 99991280558,
+      "platform": null,
+      "cmc_rank": 3,
+      "last_updated": "2019-11-19T13:56:04.000Z",
+      "quote": {
+        "USD": {
+          "price": 0.248410209736,
+          "volume_24h": 1477091417.63472,
+          "percent_change_1h": 0.303322,
+          "percent_change_24h": -5.00886,
+          "percent_change_7d": -9.06617,
+          "market_cap": 10756133640.835478,
+          "last_updated": "2019-11-19T13:56:04.000Z"
+        }
+      }
+    }
+  ]
+}

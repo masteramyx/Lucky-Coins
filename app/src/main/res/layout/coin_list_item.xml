@@ -15,11 +15,12 @@
 
         <ImageView
             android:id="@+id/listItemLogo"
-            android:layout_height="match_parent"
             android:layout_width="64dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:paddingEnd="@dimen/lc_default_padding"
+            android:paddingStart="@dimen/lc_default_padding"
             android:scaleType="fitCenter"
-            android:paddingRight="@dimen/lc_default_padding"
             tools:src="@mipmap/mining" />
 
         <LinearLayout
@@ -33,29 +34,32 @@
                 android:id="@+id/coinName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Name"
+                android:ellipsize="end"
+                android:maxLines="1"
+                tools:text="Name"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/coinSymbol"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Symbol" />
+                tools:text="Symbol" />
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/favoritesBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:theme="@style/AppTheme"
-            android:text="+Favorites" />
+            android:textSize="12sp"
+            android:text="@string/favorites_btn_add"
+            android:theme="@style/AppTheme" />
 
         <TextView
             android:id="@+id/coinListPrice"
             android:layout_width="98dp"
             android:layout_height="match_parent"
-            android:gravity="center"
             android:layout_gravity="end"
+            android:gravity="center"
             tools:text="Current Price" />
 
     </LinearLayout>

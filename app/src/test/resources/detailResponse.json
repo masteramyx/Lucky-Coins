@@ -1,0 +1,43 @@
+{
+  "data": {
+    "1": {
+      "urls": {
+        "website": [
+          "https://bitcoin.org/"
+        ],
+        "technical_doc": [
+          "https://bitcoin.org/bitcoin.pdf"
+        ],
+        "twitter": [ ],
+        "reddit": [
+          "https://reddit.com/r/bitcoin"
+        ],
+        "message_board": [
+          "https://bitcointalk.org"
+        ],
+        "announcement": [ ],
+        "chat": [ ],
+        "explorer": [
+          "https://blockchain.coinmarketcap.com/chain/bitcoin",
+          "https://blockchain.info/",
+          "https://live.blockcypher.com/btc/"
+        ],
+        "source_code": [
+          "https://github.com/bitcoin/"
+        ]
+      },
+      "logo": "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png",
+      "id": 1,
+      "name": "Bitcoin",
+      "symbol": "BTC",
+      "slug": "bitcoin",
+      "description": "abc",
+      "date_added": "2013-04-28T00:00:00.000Z",
+      "tags": [
+        "mineable"
+      ],
+      "platform": null,
+      "category": "coin"
+    }
+  }
+}
