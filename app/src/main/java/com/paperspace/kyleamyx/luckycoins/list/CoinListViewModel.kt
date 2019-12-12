@@ -2,13 +2,13 @@ package com.paperspace.kyleamyx.luckycoins.list
 
 import android.util.Log
 import android.view.View
-import com.paperspace.kyleamyx.luckycoins.base.BaseViewModel
-import com.paperspace.kyleamyx.luckycoins.base.scheduler
-import com.paperspace.kyleamyx.luckycoins.base.subscribeBy
 import com.paperspace.kyleamyx.luckycoins.favorites.CoinFavoriteRepository
 import com.paperspace.kyleamyx.luckycoins.favorites.db.CoinFavoriteItem
 import com.paperspace.kyleamyx.luckycoins.models.CoinListItem
 import com.jakewharton.rxbinding2.widget.RxTextView
+import com.karakum.base.BaseViewModel
+import com.karakum.base.scheduler
+import com.karakum.base.subscribeBy
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Function
 import kotlinx.android.synthetic.main.coin_list_controller.view.*

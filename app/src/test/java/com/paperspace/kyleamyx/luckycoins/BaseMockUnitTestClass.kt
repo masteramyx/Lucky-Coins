@@ -1,7 +1,6 @@
 package com.paperspace.kyleamyx.luckycoins
 
 import androidx.annotation.CallSuper
-import com.paperspace.kyleamyx.IObservableSchedulerRx2
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
