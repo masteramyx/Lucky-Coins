@@ -1,7 +1,7 @@
 package com.paperspace.kyleamyx.luckycoins.favorites
 
 import android.os.Parcelable
-import com.paperspace.kyleamyx.luckycoins.base.Mvvm
+import com.karakum.base.Mvvm
 import com.paperspace.kyleamyx.luckycoins.favorites.db.CoinFavoriteItem
 import kotlinx.android.parcel.Parcelize
 

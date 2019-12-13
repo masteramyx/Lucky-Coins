@@ -9,7 +9,7 @@ val detailDi = module {
         CoinDetailRepositoryImpl(luckyCoinApiService = get(), GSON = get())
     }
 
-    viewModel {
+    viewModel{
         CoinDetailViewModel(detailRepository = get(), scheduler = get())
     }
 

@@ -2,10 +2,10 @@ package com.paperspace.kyleamyx.luckycoins
 
 import androidx.annotation.VisibleForTesting
 import com.paperspace.kyleamyx.CoinBaseUrlProvider
-import com.paperspace.kyleamyx.IObservableSchedulerRx2
 import com.paperspace.kyleamyx.luckycoins.api.LuckyCoinApiService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.karakum.IObservableSchedulerRx2
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module

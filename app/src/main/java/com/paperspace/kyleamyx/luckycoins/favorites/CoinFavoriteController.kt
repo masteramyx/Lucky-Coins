@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.karakum.base.BaseMvvmController
+import com.karakum.base.Mvvm
 import com.paperspace.kyleamyx.luckycoins.CoinMainActivity
 import com.paperspace.kyleamyx.luckycoins.R
-import com.paperspace.kyleamyx.luckycoins.base.BaseMvvmController
-import com.paperspace.kyleamyx.luckycoins.base.Mvvm
 import com.paperspace.kyleamyx.luckycoins.favorites.adapter.CoinFavoriteAdapter
 import com.paperspace.kyleamyx.luckycoins.favorites.db.CoinFavoriteItem
 import kotlinx.android.synthetic.main.coin_favorite_controller.view.*
