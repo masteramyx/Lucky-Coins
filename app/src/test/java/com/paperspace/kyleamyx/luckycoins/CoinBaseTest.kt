@@ -1,15 +1,10 @@
 package com.paperspace.kyleamyx.luckycoins
 
-import com.paperspace.kyleamyx.CoinBaseUrlProvider
 import com.google.gson.GsonBuilder
-import okhttp3.OkHttpClient
+import com.karakum.coretest.BaseMockUnitTestClass
+import com.paperspace.kyleamyx.CoinBaseUrlProvider
 
 open class CoinBaseTest : BaseMockUnitTestClass() {
-
-
-    private val okHttpClient by lazy(LazyThreadSafetyMode.NONE) {
-        OkHttpClient()
-    }
 
     private val coinBaseUrlProvider by lazy(LazyThreadSafetyMode.NONE) {
         object : CoinBaseUrlProvider {
