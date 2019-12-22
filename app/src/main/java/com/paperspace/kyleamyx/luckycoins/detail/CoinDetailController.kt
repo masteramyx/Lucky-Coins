@@ -5,9 +5,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.karakum.base.BaseMvvmController
+import com.karakum.base.Mvvm
 import com.paperspace.kyleamyx.luckycoins.R
-import com.paperspace.kyleamyx.luckycoins.base.BaseMvvmController
-import com.paperspace.kyleamyx.luckycoins.base.Mvvm
 import com.paperspace.kyleamyx.luckycoins.detail.adapter.CoinDetailViewHolder
 import com.paperspace.kyleamyx.luckycoins.models.CoinDetailItem
 import org.koin.core.context.GlobalContext.get

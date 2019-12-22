@@ -1,9 +1,9 @@
 package com.paperspace.kyleamyx.luckycoins.favorites
 
 import android.util.Log
-import com.paperspace.kyleamyx.luckycoins.base.BaseViewModel
-import com.paperspace.kyleamyx.luckycoins.base.scheduler
-import com.paperspace.kyleamyx.luckycoins.base.subscribeBy
+import com.karakum.base.BaseViewModel
+import com.karakum.base.scheduler
+import com.karakum.base.subscribeBy
 import com.paperspace.kyleamyx.luckycoins.favorites.db.CoinFavoriteItem
 
 class CoinFavoriteViewModel(

@@ -9,12 +9,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.paperspace.kyleamyx.luckycoins.CoinMainActivity
 import com.paperspace.kyleamyx.luckycoins.R
-import com.paperspace.kyleamyx.luckycoins.base.BaseMvvmController
-import com.paperspace.kyleamyx.luckycoins.base.Mvvm
 import com.paperspace.kyleamyx.luckycoins.list.adapter.CoinListAdapter
 import com.paperspace.kyleamyx.luckycoins.favorites.db.CoinFavoriteItem
 import com.paperspace.kyleamyx.luckycoins.models.CoinListItem
 import com.google.android.material.snackbar.Snackbar
+import com.karakum.base.BaseMvvmController
+import com.karakum.base.Mvvm
 import kotlinx.android.synthetic.main.coin_list_controller.view.*
 import org.koin.core.context.GlobalContext.get
 
