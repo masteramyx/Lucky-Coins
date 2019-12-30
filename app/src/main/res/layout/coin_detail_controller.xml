@@ -1,34 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_vertical"
-    android:orientation="vertical"
     android:padding="@dimen/lc_default_padding">
 
-
-    <ImageView
-        android:id="@+id/coinHeroIv"
-        android:layout_width="64dp"
-        android:layout_height="71dp"
-        android:layout_gravity="center"
-        android:padding="@dimen/lc_default_padding"
-        tools:src="@drawable/ic_launcher_background" />
-
-    <TextView
-        android:id="@+id/detailTv"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        tools:text="Description here" />
+        android:orientation="vertical"
+        android:padding="@dimen/lc_default_padding">
 
 
-    <com.google.android.material.button.MaterialButton
-        android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/coinHeroIv"
+            android:layout_width="64dp"
+            android:layout_height="71dp"
+            android:layout_gravity="center"
+            android:padding="@dimen/lc_default_padding"
+            tools:src="@drawable/ic_launcher_background" />
+
+        <TextView
+            android:id="@+id/detailTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            tools:text="Description here" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/detailUrlBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/detail_urls" />
+
+    </LinearLayout>
+
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/detailBottomSheet"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/detail_urls" />
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/darker_gray"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/detailUrlRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!--            <TextView-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:padding="@dimen/lc_default_padding"-->
+            <!--                android:text="Hello Bottom Sheet!" />-->
+
+            <!--            <TextView-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:padding="@dimen/lc_default_padding"-->
+            <!--                android:text="Hello Bottom Sheet Number 2!" />-->
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
