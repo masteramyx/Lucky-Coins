@@ -32,7 +32,9 @@ class CoinDetailBottomSheetAdapter(context: Context) : RecyclerView.Adapter<Coin
 
     }
 
+
     override fun onBindViewHolder(holder: CoinDetailBottomSheetViewHolder, position: Int) {
+        TODO("crash happening here - INDEX OUT OF BOUNDS")
         val t = urlList.getOrPut(list[position], { listOf("not here") })
         if (t.isNotEmpty() && !t.contains("not here"))
             holder.bindView(list[position], t)

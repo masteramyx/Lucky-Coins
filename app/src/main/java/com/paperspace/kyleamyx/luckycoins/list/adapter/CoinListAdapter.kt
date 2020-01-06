@@ -12,8 +12,8 @@ import com.paperspace.kyleamyx.luckycoins.models.CoinListItem
  * Created by kyleamyx on 6/23/18.
  */
 
-class CoinListAdapter(context: Context, private val listener: CoinListListener) : RecyclerView
-.Adapter<CoinListViewHolder>() {
+class CoinListAdapter(context: Context, private val listener: CoinListListener) :
+        RecyclerView.Adapter<CoinListViewHolder>() {
 
     private var coinList: List<CoinListItem> = emptyList()
     private val inflater: LayoutInflater = LayoutInflater.from(context)
