@@ -43,4 +43,18 @@ data class CoinDetailUrlItem(@Expose
         map.put("explorer", explorer)
         return map
     }
+
+
+    companion object {
+        val EMPTY
+            get() = CoinDetailUrlItem(emptyList(),
+                    emptyList(),
+                    emptyList(),
+                    emptyList(),
+                    emptyList(),
+                    emptyList(),
+                    emptyList(),
+                    emptyList(),
+                    emptyList())
+    }
 }
