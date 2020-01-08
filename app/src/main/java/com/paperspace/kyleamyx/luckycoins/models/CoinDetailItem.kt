@@ -20,4 +20,7 @@ data class CoinDetailItem(@Expose
                           val symbol: String? = null,
                           @Expose
                           @SerializedName("description")
-                          val description: String? = null) : Parcelable
+                          val description: String? = null,
+                          @Expose
+                          @SerializedName("urls")
+                          val detailUrlItem: CoinDetailUrlItem) : Parcelable
