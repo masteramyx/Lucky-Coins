@@ -31,7 +31,19 @@ class CoinDetailTests : CoinBaseTest() {
                         "Bitcoin",
                         "BTC",
                         "abc",
-                        CoinDetailUrlItem.EMPTY))
+                        CoinDetailUrlItem(
+                                listOf("https://bitcoin.org/"),
+                                listOf("https://bitcoin.org/bitcoin.pdf"),
+                                emptyList(),
+                                listOf("https://reddit.com/r/bitcoin"),
+                                listOf("https://bitcointalk.org"),
+                                emptyList(),
+                                emptyList(),
+                                listOf("https://blockchain.coinmarketcap.com/chain/bitcoin",
+                                        "https://blockchain.info/",
+                                        "https://live.blockcypher.com/btc/"),
+                                listOf("https://github.com/bitcoin/")
+                        )))
                 .dispose()
     }
 }
