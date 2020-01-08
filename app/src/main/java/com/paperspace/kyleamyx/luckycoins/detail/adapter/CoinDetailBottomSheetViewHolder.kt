@@ -16,6 +16,7 @@ class CoinDetailBottomSheetViewHolder(bottomSheetView: View)
             if (urls.isNotEmpty()) {
             detailUrlTitle.text = title
                 if (urls.size > 1) {
+                    // Create a vertical list of URL's within the TextView
                     detailUrlAddress.text = urls.reduce { acc, s -> acc + "\n" + s }
                 } else {
                     detailUrlAddress.text = urls[0]

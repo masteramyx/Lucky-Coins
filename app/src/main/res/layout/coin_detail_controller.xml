@@ -34,9 +34,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_margin="@dimen/lc_large_padding"
             android:text="@string/detail_urls" />
 
     </LinearLayout>
+
+    <View
+        android:id="@+id/bottom_sheet_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        app:layout_anchor="@id/detailBottomSheet"
+        android:background="@drawable/bottom_sheet_shadow"/>
 
 
     <androidx.core.widget.NestedScrollView
@@ -44,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#ffffff"
-        android:backgroundTint="@android:color/darker_gray"
+        android:backgroundTint="#FFFAFA"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <LinearLayout

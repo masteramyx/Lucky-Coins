@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,7 +14,6 @@ import com.karakum.base.Mvvm
 import com.paperspace.kyleamyx.luckycoins.R
 import com.paperspace.kyleamyx.luckycoins.detail.adapter.CoinDetailBottomSheetAdapter
 import com.paperspace.kyleamyx.luckycoins.detail.adapter.CoinDetailViewHolder
-import com.paperspace.kyleamyx.luckycoins.list.adapter.CoinListAdapter
 import com.paperspace.kyleamyx.luckycoins.models.CoinDetailItem
 import com.paperspace.kyleamyx.luckycoins.models.CoinDetailUrlItem
 import kotlinx.android.synthetic.main.coin_detail_controller.view.*
@@ -35,7 +33,7 @@ class CoinDetailController :
     private lateinit var bottomSheet: BottomSheetBehavior<NestedScrollView>
 
     private val adapter by lazy(LazyThreadSafetyMode.NONE) {
-        CoinDetailBottomSheetAdapter(applicationContext!!)
+        CoinDetailBottomSheetAdapter(requireNotNull(activity))
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
