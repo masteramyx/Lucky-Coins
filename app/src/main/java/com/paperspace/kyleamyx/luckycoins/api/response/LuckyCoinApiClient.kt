@@ -21,7 +21,7 @@ class LuckyCoinApiClient {
 
     fun getCoins(): Observable<List<CoinListItem>> =
             coinService.getCoinListing().map { response ->
-                response.cryptoList
+                response.data
             }
 
     /**

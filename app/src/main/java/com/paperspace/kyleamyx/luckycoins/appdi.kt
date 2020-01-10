@@ -5,7 +5,10 @@ import com.paperspace.kyleamyx.CoinBaseUrlProvider
 import com.paperspace.kyleamyx.luckycoins.api.LuckyCoinApiService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.karakum.IObservableSchedulerRx2
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
@@ -62,6 +65,7 @@ fun buildLuckyCoinsListApiService(okHttpClient: OkHttpClient, coinBaseUrlProvide
         Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(Json.asConverterFactory(MediaType.get("application/json")))
                 .client(okHttpClient)
                 .baseUrl(coinBaseUrlProvider.getBaseUrl())
                 .build()

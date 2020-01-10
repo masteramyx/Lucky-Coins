@@ -24,7 +24,7 @@ class CoinListRepositoryImpl(
         return coinListService.getCoinListing()
                 .singleOrError()
                 .map { response ->
-                    response.cryptoList.forEach {
+                    response.data.forEach {
                         tempList.add(it.id)
                     }
                     tempList
@@ -36,12 +36,12 @@ class CoinListRepositoryImpl(
         return coinListService.getCoinListing()
                 .singleOrError()
                 .map { response ->
-                    response.cryptoList.forEach {
+                    response.data.forEach {
                         tempList.add(it.id)
                     }
-                    tempList
-                }.flatMap {
-                    getListNoImages()
+                    response.data
+                }.flatMap { list ->
+                    Single.just(list)
                 }.flatMap { listToAddImage ->
                     if (imagePairList.isNullOrEmpty()) {
                         getCoinListImages(listToAddImage.map { it.id })
@@ -79,7 +79,7 @@ class CoinListRepositoryImpl(
         return coinListService.getCoinListing()
                 .singleOrError()
                 .map { response ->
-                    response.cryptoList
+                    response.data
                 }
     }
 

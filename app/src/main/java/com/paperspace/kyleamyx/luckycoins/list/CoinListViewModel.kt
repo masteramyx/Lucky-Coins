@@ -68,7 +68,7 @@ data class CoinListViewModel internal constructor(
 
     private fun searchItems(query: String): List<CoinListItem> {
         return coinList.filter { coin ->
-            coin.name?.toLowerCase(Locale.getDefault())!!.contains(query.toLowerCase(Locale.getDefault()))
+            coin.name.toLowerCase(Locale.getDefault()).contains(query.toLowerCase(Locale.getDefault()))
         }
     }
 }
