@@ -6,9 +6,4 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CoinDetailResponse(
-        val data: Map<String, CoinDetailItem>) {
-
-//    data class Item(@Expose
-//                    @SerializedName("id")
-//                    val item: CoinDetailItem)
-}
+        val data: Map<String, CoinDetailItem>)
