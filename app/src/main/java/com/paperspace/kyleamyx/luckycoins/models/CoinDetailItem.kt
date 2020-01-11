@@ -12,7 +12,8 @@ data class CoinDetailItem(
         val logo: String? = null,
         val name: String,
         val symbol: String,
-        val description: String? = null) : Parcelable {
+        val description: String? = null,
+        val urls: CoinDetailUrlItem? = null) : Parcelable {
 
     companion object {
         val EMPTY

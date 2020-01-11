@@ -15,6 +15,9 @@ import com.paperspace.kyleamyx.luckycoins.models.CoinListItem
 import com.google.android.material.snackbar.Snackbar
 import com.karakum.base.BaseMvvmController
 import com.karakum.base.Mvvm
+import com.paperspace.kyleamyx.RxBus
+import com.paperspace.kyleamyx.RxEvent
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.coin_list_controller.view.*
 import org.koin.core.context.GlobalContext.get
 
@@ -29,6 +32,7 @@ class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContrac
 
     var list: List<CoinListItem> = emptyList()
     private lateinit var recyclerView: RecyclerView
+    private lateinit var favoriteDisposable: Disposable
 
     private val adapter by lazy(LazyThreadSafetyMode.NONE) {
         CoinListAdapter(applicationContext!!, this)
@@ -71,13 +75,19 @@ class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContrac
             }
         }
         listener = activity as CoinMainActivity
+        favoriteDisposable = RxBus.listen(RxEvent.RemoveFavorite::class.java).subscribe {
+            viewModel.getCoinList()
+            adapter.notifyDataSetChanged()
+        }
     }
 
     override fun onDetach(view: View) {
         super.onDetach(view)
         view.listRecycler.adapter = null
+        if (!favoriteDisposable.isDisposed) favoriteDisposable.dispose()
         Log.d("LIST_CONTROLLER", "Detached")
     }
+
 
 
     override fun onCoinClicked(coin: CoinListItem) {
@@ -87,6 +97,8 @@ class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContrac
     override fun onFavoriteClicked(coinFavoriteItem: CoinFavoriteItem) {
         viewModel.onFavoriteClicked(coinFavoriteItem)
         adapter.notifyDataSetChanged()
+        //update favorite controller
+        RxBus.publish(RxEvent.AddFavorite(true))
     }
 
     override val viewModel: CoinListViewModel = get().koin.get()

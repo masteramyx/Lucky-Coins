@@ -8,10 +8,13 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.karakum.base.BaseMvvmController
 import com.karakum.base.Mvvm
+import com.paperspace.kyleamyx.RxBus
+import com.paperspace.kyleamyx.RxEvent
 import com.paperspace.kyleamyx.luckycoins.CoinMainActivity
 import com.paperspace.kyleamyx.luckycoins.R
 import com.paperspace.kyleamyx.luckycoins.favorites.adapter.CoinFavoriteAdapter
 import com.paperspace.kyleamyx.luckycoins.favorites.db.CoinFavoriteItem
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.coin_favorite_controller.view.*
 import org.koin.core.context.GlobalContext.get
 
@@ -23,6 +26,7 @@ class CoinFavoriteController : BaseMvvmController<CoinFavoriteViewModel, CoinFav
     }
 
     private lateinit var listener: CoinFavoriteAdapter.OnFavoriteClicked
+    private lateinit var favoriteDisposable: Disposable
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val view = inflater.inflate(R.layout.coin_favorite_controller, container, false).apply {
@@ -45,6 +49,10 @@ class CoinFavoriteController : BaseMvvmController<CoinFavoriteViewModel, CoinFav
         Log.d("FAVORITE_CONTROLLER", "Attached")
         viewModel.getFavorites()
         listener = activity as CoinMainActivity
+        favoriteDisposable = RxBus.listen(RxEvent.AddFavorite::class.java).subscribe {
+            viewModel.getFavorites()
+            adapter.notifyDataSetChanged()
+        }
     }
 
     /**
@@ -52,6 +60,7 @@ class CoinFavoriteController : BaseMvvmController<CoinFavoriteViewModel, CoinFav
      */
     override fun onFavoriteRemoved(coinFavoriteItem: CoinFavoriteItem) {
         viewModel.removeFavorite(coinFavoriteItem)
+        RxBus.publish(RxEvent.RemoveFavorite(true))
     }
 
     override fun onFavoriteClicked(coinFavoriteItem: CoinFavoriteItem) {
@@ -67,6 +76,7 @@ class CoinFavoriteController : BaseMvvmController<CoinFavoriteViewModel, CoinFav
             }
             is CoinFavoriteContract.State.FavoriteDeleted -> {
                 adapter.addItems(state.favoriteCoins)
+                adapter.notifyDataSetChanged()
             }
             is CoinFavoriteContract.State.Error -> {
                 Log.d("Favorite Error", state.throwable.localizedMessage!!)
@@ -76,6 +86,7 @@ class CoinFavoriteController : BaseMvvmController<CoinFavoriteViewModel, CoinFav
 
     override fun onDetach(view: View) {
         super.onDetach(view)
+        if (!favoriteDisposable.isDisposed) favoriteDisposable.dispose()
         Log.d("FAVORITE_CONTROLLER", "Favorite Controller Detached")
     }
 
