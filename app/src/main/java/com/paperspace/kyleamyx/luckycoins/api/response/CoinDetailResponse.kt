@@ -2,15 +2,13 @@ package com.paperspace.kyleamyx.luckycoins.api.response
 
 
 import com.paperspace.kyleamyx.luckycoins.models.CoinDetailItem
-import com.google.gson.JsonElement
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
 
-data class CoinDetailResponse(@Expose
-                              @SerializedName("data")
-                              val data: JsonElement) {
+@Serializable
+data class CoinDetailResponse(
+        val data: Map<String, CoinDetailItem>) {
 
-    data class Item(@Expose
-                    @SerializedName("id")
-                    val item: CoinDetailItem)
+//    data class Item(@Expose
+//                    @SerializedName("id")
+//                    val item: CoinDetailItem)
 }
