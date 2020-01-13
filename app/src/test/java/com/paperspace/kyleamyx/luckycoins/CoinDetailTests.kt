@@ -18,7 +18,7 @@ class CoinDetailTests : CoinBaseTest() {
     override fun setUp() {
         super.setUp()
         MockitoAnnotations.initMocks(this)
-        detailRepository = CoinDetailRepositoryImpl(luckyCoinApiService, GSON)
+        detailRepository = CoinDetailRepositoryImpl(luckyCoinApiService)
     }
 
 

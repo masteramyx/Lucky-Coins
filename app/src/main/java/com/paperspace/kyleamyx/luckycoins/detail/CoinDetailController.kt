@@ -25,7 +25,6 @@ import org.koin.core.context.GlobalContext.get
 class CoinDetailController :
         BaseMvvmController<CoinDetailViewModel, CoinDetailContract.State>(), View.OnClickListener {
 
-
     override val viewModel: CoinDetailViewModel = get().koin.get()
 
     private var coinId: String? = null
@@ -69,7 +68,7 @@ class CoinDetailController :
             is CoinDetailContract.State.Data -> {
                 Log.d("DETAIL-STATE", "state changed-data received")
                 setDetailItems(state.coinDetail)
-                setBottomSheetItems(state.coinDetail.detailUrlItem)
+                setBottomSheetItems(state.coinDetail.urls ?: CoinDetailUrlItem.EMPTY)
             }
             is CoinDetailContract.State.Error -> {
                 Log.d("OnStateChange", state.error.localizedMessage!!)

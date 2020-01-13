@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'kotlinx-serialization'
+
 android {
     compileOptions {
         sourceCompatibility kotlin_version
@@ -55,7 +57,7 @@ def apiKey() {
 }
 
 dependencies {
-    def room_version = "2.2.0"
+    def room_version = "2.2.3"
     def koin_version = "2.0.1"
 
     implementation "androidx.room:room-runtime:$room_version"
@@ -76,13 +78,15 @@ dependencies {
     implementation 'com.bluelinelabs:conductor-autodispose:2.1.4'
     implementation 'com.bluelinelabs:conductor-archlifecycle:3.0.0-rc1'
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
-    implementation 'com.google.code.gson:gson:2.8.5'
-    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'
-    //File Storage
-    implementation 'com.uber.simplestore:simplestore:0.0.5'
+
+
+    //Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.14.0"
+    implementation 'com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.4.0'
 
     //For OkHttp
     implementation "com.squareup.okhttp3:okhttp:3.12.1"

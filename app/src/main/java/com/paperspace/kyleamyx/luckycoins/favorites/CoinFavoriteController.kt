@@ -41,10 +41,6 @@ class CoinFavoriteController : BaseMvvmController<CoinFavoriteViewModel, CoinFav
                 this.isRefreshing = false
             }
         }
-        favoriteDisposable = RxBus.listen(RxEvent.AddFavorite::class.java).subscribe {
-            viewModel.getFavorites()
-            adapter.notifyDataSetChanged()
-        }
         return view
     }
 
@@ -53,6 +49,10 @@ class CoinFavoriteController : BaseMvvmController<CoinFavoriteViewModel, CoinFav
         Log.d("FAVORITE_CONTROLLER", "Attached")
         viewModel.getFavorites()
         listener = activity as CoinMainActivity
+        favoriteDisposable = RxBus.listen(RxEvent.AddFavorite::class.java).subscribe {
+            viewModel.getFavorites()
+            adapter.notifyDataSetChanged()
+        }
     }
 
     /**
@@ -86,12 +86,8 @@ class CoinFavoriteController : BaseMvvmController<CoinFavoriteViewModel, CoinFav
 
     override fun onDetach(view: View) {
         super.onDetach(view)
-        Log.d("FAVORITE_CONTROLLER", "Favorite Controller Detached")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
         if (!favoriteDisposable.isDisposed) favoriteDisposable.dispose()
+        Log.d("FAVORITE_CONTROLLER", "Favorite Controller Detached")
     }
 
 

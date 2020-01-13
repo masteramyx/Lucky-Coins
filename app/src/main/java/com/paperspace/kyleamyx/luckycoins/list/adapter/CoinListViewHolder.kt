@@ -29,8 +29,8 @@ class CoinListViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnCli
         itemView.apply {
             coinName.text = coin.name
             coinSymbol.text = coin.symbol
-            coinListPrice.text = String.format(itemView.getStringFromResource(R.string.list_item_price),
-                    coin.quoteItem?.quoteUSD?.priceUSD)
+            coinListPrice.text =
+                    String.format(itemView.getStringFromResource(R.string.list_item_price), coin.quote.USD.price)
 
             if (!coin.logo.isNullOrEmpty())
                 Picasso.with(context).load(coin.logo).into(listItemLogo)

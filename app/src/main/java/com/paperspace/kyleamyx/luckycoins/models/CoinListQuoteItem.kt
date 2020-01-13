@@ -1,17 +1,15 @@
 package com.paperspace.kyleamyx.luckycoins.models
 
 import android.os.Parcelable
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
+import kotlinx.serialization.Required
+import kotlinx.serialization.Serializable
 
 @Parcelize
-data class CoinListQuoteItem(@Expose
-                             @SerializedName("USD")
-                             val quoteUSD: QuoteUSD) : Parcelable {
+@Serializable
+data class CoinListQuoteItem(val USD: QuoteUSD) : Parcelable {
 
     @Parcelize
-    data class QuoteUSD(@Expose
-                        @SerializedName("price")
-                        val priceUSD: Double = 0.0) : Parcelable
+    @Serializable
+    data class QuoteUSD(@Required val price: Double = 0.0) : Parcelable
 }

@@ -84,13 +84,10 @@ class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContrac
     override fun onDetach(view: View) {
         super.onDetach(view)
         view.listRecycler.adapter = null
+        if (!favoriteDisposable.isDisposed) favoriteDisposable.dispose()
         Log.d("LIST_CONTROLLER", "Detached")
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        if (!favoriteDisposable.isDisposed) favoriteDisposable.dispose()
-    }
 
 
     override fun onCoinClicked(coin: CoinListItem) {

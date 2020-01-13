@@ -1,43 +1,26 @@
 package com.paperspace.kyleamyx.luckycoins.models
 
 import android.os.Parcelable
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
+import kotlinx.serialization.Serializable
 
 @Parcelize
-data class CoinDetailUrlItem(@Expose
-                             @SerializedName("website")
-                             val website: List<String>,
-                             @Expose
-                             @SerializedName("technical_doc")
-                             val technicalDoc: List<String>,
-                             @Expose
-                             @SerializedName("twitter")
-                             val twitter: List<String>,
-                             @Expose
-                             @SerializedName("reddit")
-                             val reddit: List<String>,
-                             @Expose
-                             @SerializedName("message_board")
-                             val messageBoard: List<String>,
-                             @Expose
-                             @SerializedName("announcement")
-                             val announcement: List<String>,
-                             @Expose
-                             @SerializedName("chat")
-                             val chat: List<String>,
-                             @Expose
-                             @SerializedName("explorer")
-                             val explorer: List<String>,
-                             @Expose
-                             @SerializedName("source_code")
-                             val sourceCode: List<String>) : Parcelable {
+@Serializable
+data class CoinDetailUrlItem(
+        val website: List<String>,
+        val technical_doc: List<String>,
+        val twitter: List<String>,
+        val reddit: List<String>,
+        val message_board: List<String>,
+        val announcement: List<String>,
+        val chat: List<String>,
+        val explorer: List<String>,
+        val source_code: List<String>) : Parcelable {
 
     fun buildUrlMap(): MutableMap<String, List<String>> {
         val map = mutableMapOf<String, List<String>>()
         map.put("website", website)
-        map.put("technicalDoc", technicalDoc)
+        map.put("technicalDoc", technical_doc)
         map.put("twitter", twitter)
         map.put("reddit", reddit)
         map.put("explorer", explorer)

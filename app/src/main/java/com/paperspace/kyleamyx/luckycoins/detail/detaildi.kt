@@ -6,10 +6,10 @@ import org.koin.dsl.module
 val detailDi = module {
 
     single<CoinDetailRepository> {
-        CoinDetailRepositoryImpl(luckyCoinApiService = get(), GSON = get())
+        CoinDetailRepositoryImpl(luckyCoinApiService = get())
     }
 
-    viewModel{
+    viewModel {
         CoinDetailViewModel(detailRepository = get(), scheduler = get())
     }
 

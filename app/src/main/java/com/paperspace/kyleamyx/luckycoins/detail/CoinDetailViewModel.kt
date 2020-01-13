@@ -3,6 +3,7 @@ package com.paperspace.kyleamyx.luckycoins.detail
 import com.karakum.base.BaseViewModel
 import com.karakum.base.scheduler
 import com.karakum.base.subscribeBy
+import com.paperspace.kyleamyx.luckycoins.models.CoinDetailItem
 
 data class CoinDetailViewModel internal constructor(
         val detailRepository: CoinDetailRepository,
@@ -14,7 +15,7 @@ data class CoinDetailViewModel internal constructor(
                 .compose(scheduler.scheduleSingle())
                 .subscribeBy(
                         onSuccess = {
-                            stateSubject.onNext(CoinDetailContract.State.Data(it))
+                            stateSubject.onNext(CoinDetailContract.State.Data(it ?: CoinDetailItem.EMPTY))
                         },
                         onError = {
                             stateSubject.onError(it)
