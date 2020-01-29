@@ -1,5 +1,6 @@
 package com.paperspace.kyleamyx.luckycoins.detail
 
+import android.view.View
 import com.karakum.base.BaseViewModel
 import com.karakum.base.scheduler
 import com.karakum.base.subscribeBy
@@ -10,14 +11,17 @@ data class CoinDetailViewModel internal constructor(
         val scheduler: scheduler
 ) : BaseViewModel<CoinDetailContract.State>() {
 
-    fun getCoinDetail(coinId: String) {
+    fun getCoinDetail(coinId: String, loading: View) {
+        loading.visibility = View.VISIBLE
         detailRepository.getCoinDetail(coinId)
                 .compose(scheduler.scheduleSingle())
                 .subscribeBy(
                         onSuccess = {
+                            loading.visibility = View.GONE
                             stateSubject.onNext(CoinDetailContract.State.Data(it ?: CoinDetailItem.EMPTY))
                         },
                         onError = {
+                            loading.visibility = View.GONE
                             stateSubject.onError(it)
                         }
                 )

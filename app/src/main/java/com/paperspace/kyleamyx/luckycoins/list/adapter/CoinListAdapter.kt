@@ -1,6 +1,7 @@
 package com.paperspace.kyleamyx.luckycoins.list.adapter
 
 import android.content.Context
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -38,6 +39,7 @@ class CoinListAdapter(context: Context, private val listener: CoinListListener) 
     override fun onBindViewHolder(holder: CoinListViewHolder, position: Int) {
         holder.bindView(coinList[position])
         holder.listener = this.listener
+        Log.d("CoinListAdapter", "Listener set at position: $position")
     }
 
     fun addItems(list: List<CoinListItem>) {

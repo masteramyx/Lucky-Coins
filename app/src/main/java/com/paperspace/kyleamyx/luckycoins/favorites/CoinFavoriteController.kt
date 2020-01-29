@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.karakum.base.BaseMvvmController
 import com.karakum.base.Mvvm
 import com.paperspace.kyleamyx.RxBus
-import com.paperspace.kyleamyx.RxEvent
+import com.paperspace.kyleamyx.RxFavoriteEvent
 import com.paperspace.kyleamyx.luckycoins.CoinMainActivity
 import com.paperspace.kyleamyx.luckycoins.R
 import com.paperspace.kyleamyx.luckycoins.favorites.adapter.CoinFavoriteAdapter
@@ -49,7 +49,7 @@ class CoinFavoriteController : BaseMvvmController<CoinFavoriteViewModel, CoinFav
         Log.d("FAVORITE_CONTROLLER", "Attached")
         viewModel.getFavorites()
         listener = activity as CoinMainActivity
-        favoriteDisposable = RxBus.listen(RxEvent.AddFavorite::class.java).subscribe {
+        favoriteDisposable = RxBus.listen(RxFavoriteEvent.AddFavorite::class.java).subscribe {
             viewModel.getFavorites()
             adapter.notifyDataSetChanged()
         }
@@ -60,7 +60,7 @@ class CoinFavoriteController : BaseMvvmController<CoinFavoriteViewModel, CoinFav
      */
     override fun onFavoriteRemoved(coinFavoriteItem: CoinFavoriteItem) {
         viewModel.removeFavorite(coinFavoriteItem)
-        RxBus.publish(RxEvent.RemoveFavorite(true))
+        RxBus.publish(RxFavoriteEvent.RemoveFavorite(true))
     }
 
     override fun onFavoriteClicked(coinFavoriteItem: CoinFavoriteItem) {

@@ -25,16 +25,19 @@ data class CoinListViewModel internal constructor(
     private var searchList: List<CoinListItem> = emptyList()
 
 
-    fun getCoinList() {
+    fun getCoinList(loadingView: View) {
+        loadingView.visibility = View.VISIBLE
         addToDisposables(remoteRepository.buildListWithImages()
                 .compose(scheduler.scheduleSingle())
                 .doOnError { Log.d("LISTVIEWMODEL", "COIN LIST ERROR") }
                 .subscribeBy(
                         onSuccess = {
+                            loadingView.visibility = View.GONE
                             coinList = it
                             stateSubject.onNext(CoinListContract.State.CoinListReceived(coinList))
                         },
                         onError = {
+                            loadingView.visibility = View.GONE
                             stateSubject.onNext(CoinListContract.State.Error(it))
                         }
                 ))

@@ -32,6 +32,7 @@ data class CoinListItem(
     companion object {
         val EMPTY
             get() =
-                CoinListItem("", "", "", "", CoinListQuoteItem(CoinListQuoteItem.QuoteUSD(0.0)), emptyList(), "")
+                CoinListItem("", "", "", "", CoinListQuoteItem(CoinListQuoteItem.QuoteUSD(0.0, 0.0,
+                        0.0, 0.0)), emptyList(), "")
     }
 }

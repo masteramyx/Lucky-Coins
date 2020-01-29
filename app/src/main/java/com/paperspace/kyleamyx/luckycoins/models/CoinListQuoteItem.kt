@@ -11,5 +11,9 @@ data class CoinListQuoteItem(val USD: QuoteUSD) : Parcelable {
 
     @Parcelize
     @Serializable
-    data class QuoteUSD(@Required val price: Double = 0.0) : Parcelable
+    data class QuoteUSD(@Required
+                        val price: Double = 0.0,
+                        val percent_change_1h: Double,
+                        val percent_change_24h: Double,
+                        val percent_change_7d: Double) : Parcelable
 }

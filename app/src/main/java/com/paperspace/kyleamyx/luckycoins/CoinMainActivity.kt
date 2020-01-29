@@ -1,7 +1,9 @@
 package com.paperspace.kyleamyx.luckycoins
 
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -55,10 +57,8 @@ class CoinMainActivity : AppCompatActivity(), CoinListAdapter.CoinListListener, 
 
 
     override fun onBackPressed() {
-        if (router.backstackSize == 1) {
-            finish()
-        } else {
-            router.popCurrentController()
+        if (!router.handleBack()) {
+            super.onBackPressed()
         }
     }
 
@@ -66,6 +66,7 @@ class CoinMainActivity : AppCompatActivity(), CoinListAdapter.CoinListListener, 
         super.onResume()
         title = "Crypto Price List"
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -78,7 +79,11 @@ class CoinMainActivity : AppCompatActivity(), CoinListAdapter.CoinListListener, 
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_settings -> {
+                // launch settings activity and use RxBus for UI callbacks
+                startActivity(Intent(applicationContext, CoinSettingsActivity::class.java))
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

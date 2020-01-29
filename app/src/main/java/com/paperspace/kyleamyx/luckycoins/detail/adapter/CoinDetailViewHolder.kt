@@ -23,6 +23,8 @@ class CoinDetailViewHolder(private val itemView: View, private val detailItem: C
                 .into(itemView.findViewById<ImageView>(R.id.coinHeroIv))
 
         itemView.detailTv.text = detailItem.description
+
+        itemView.detailUrlBtn.visibility = View.VISIBLE
     }
 
     override fun onClick(v: View?) {
