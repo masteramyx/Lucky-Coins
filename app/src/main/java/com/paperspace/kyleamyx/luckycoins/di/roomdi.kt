@@ -1,6 +1,7 @@
-package com.paperspace.kyleamyx.luckycoins
+package com.paperspace.kyleamyx.luckycoins.di
 
 import androidx.room.Room
+import com.paperspace.kyleamyx.luckycoins.CoinDb
 import com.paperspace.kyleamyx.luckycoins.favorites.db.CoinFavoriteDao
 import com.paperspace.kyleamyx.luckycoins.list.db.CoinListDao
 import org.koin.android.ext.koin.androidContext

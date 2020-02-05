@@ -2,6 +2,7 @@ package com.paperspace.kyleamyx.luckycoins
 
 import com.karakum.coretest.BaseMockUnitTestClass
 import com.paperspace.kyleamyx.CoinBaseUrlProvider
+import com.paperspace.kyleamyx.luckycoins.di.buildLuckyCoinsListApiService
 
 open class CoinBaseTest : BaseMockUnitTestClass() {
 
@@ -14,6 +15,7 @@ open class CoinBaseTest : BaseMockUnitTestClass() {
     }
 
     val luckyCoinApiService by lazy(LazyThreadSafetyMode.NONE) {
-        buildLuckyCoinsListApiService(okHttpClient, coinBaseUrlProvider)
+        buildLuckyCoinsListApiService(okHttpClient,
+                coinBaseUrlProvider)
     }
 }

@@ -1,4 +1,4 @@
-package com.paperspace.kyleamyx.luckycoins
+package com.paperspace.kyleamyx.luckycoins.di
 
 import androidx.annotation.VisibleForTesting
 import com.paperspace.kyleamyx.CoinBaseUrlProvider
@@ -20,7 +20,8 @@ val appDi = module {
 
     //Inject Web Service for Repository; OkHttpClient comes from this DI Class
     single<LuckyCoinApiService> {
-        buildLuckyCoinsListApiService(okHttpClient = get(), coinBaseUrlProvider = get())
+        buildLuckyCoinsListApiService(okHttpClient = get(),
+                coinBaseUrlProvider = get())
     }
 
     // Inject Client for entire application
@@ -48,7 +49,6 @@ val appDi = module {
         }
     }
 
-    //TODO(inject room DB, how to do this?)
 }
 
 

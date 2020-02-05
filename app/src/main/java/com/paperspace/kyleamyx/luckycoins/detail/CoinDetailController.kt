@@ -27,7 +27,7 @@ class CoinDetailController :
 
     override val viewModel: CoinDetailViewModel = get().koin.get()
 
-    private var coinId: String? = null
+    private lateinit var coinId: String
     private lateinit var detailView: View
     private lateinit var bottomSheet: BottomSheetBehavior<NestedScrollView>
 
@@ -54,8 +54,7 @@ class CoinDetailController :
 
     override fun onAttach(view: View) {
         super.onAttach(view)
-        //todo- fix this null shit
-        viewModel.getCoinDetail(coinId!!)
+        viewModel.getCoinDetail(coinId, view.detailLoadingView)
     }
 
     override fun onDetach(view: View) {
@@ -95,7 +94,7 @@ class CoinDetailController :
     companion object {
         @JvmStatic
         fun newInstance(args: Bundle): CoinDetailController = CoinDetailController().apply {
-            coinId = args.getString("coinFavoriteItemItem")
+            coinId = requireNotNull(args.getString("coinFavoriteItemItem"))
         }
     }
 

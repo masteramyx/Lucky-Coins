@@ -21,8 +21,12 @@ object RxBus {
 }
 
 
-class RxEvent{
+class RxFavoriteEvent{
     data class AddFavorite(val add: Boolean)
     data class RemoveFavorite(val remove: Boolean)
+}
+
+class RxSettingsEvent{
+    data class TimeSettingChange(val time: String)
 }
 
