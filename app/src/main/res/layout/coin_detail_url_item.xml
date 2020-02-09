@@ -15,12 +15,12 @@
 
 
     <TextView
+        android:background="?attr/selectableItemBackground"
         android:id="@+id/detailUrlAddress"
         android:layout_width="0dp"
         android:layout_weight=".8"
         android:layout_height="wrap_content"
         android:padding="@dimen/lc_default_padding"
-        android:autoLink="web"
         android:ellipsize="end"
         tools:text="Url" />
 
