@@ -2,33 +2,21 @@ package com.paperspace.kyleamyx.luckycoins.models
 
 import android.os.Parcelable
 import com.paperspace.kyleamyx.luckycoins.favorites.db.CoinFavoriteItem
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
+import kotlinx.serialization.Serializable
 
 /**
  * Created by kyleamyx on 6/22/18.
  */
 @Parcelize
+@Serializable
 data class CoinListItem(
-        @Expose
-        @SerializedName("id")
         var id: String,
-        @Expose
-        @SerializedName("name")
-        var name: String? = null,
-        @Expose
-        @SerializedName("symbol")
-        val symbol: String? = null,
-        @Expose
-        @SerializedName("slug")
-        val slug: String? = null,
-        @Expose
-        @SerializedName("quote")
-        val quoteItem: CoinListQuoteItem? = null,
-        @Expose
-        @SerializedName("tags")
-        val tags: List<String>? = null,
+        var name: String,
+        val symbol: String,
+        val slug: String,
+        val quote: CoinListQuoteItem,
+        val tags: List<String>,
         var logo: String? = null
 ) : Parcelable {
 
@@ -44,6 +32,7 @@ data class CoinListItem(
     companion object {
         val EMPTY
             get() =
-                CoinListItem("", "", "", "", CoinListQuoteItem(CoinListQuoteItem.QuoteUSD(0.0)), emptyList(), "")
+                CoinListItem("", "", "", "", CoinListQuoteItem(CoinListQuoteItem.QuoteUSD(0.0, 0.0,
+                        0.0, 0.0)), emptyList(), "")
     }
 }

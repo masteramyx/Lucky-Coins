@@ -23,11 +23,12 @@
             android:scaleType="fitCenter"
             tools:src="@mipmap/mining" />
 
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1"
+            android:layout_weight=".5"
             android:orientation="vertical">
 
             <TextView
@@ -46,6 +47,7 @@
                 tools:text="Symbol" />
         </LinearLayout>
 
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/favoritesBtn"
             android:layout_width="wrap_content"
@@ -54,9 +56,18 @@
             android:text="@string/favorites_btn_add"
             android:theme="@style/AppTheme" />
 
+
+        <ImageView
+            android:id="@+id/coinArrow"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/lc_default_padding"
+            tools:src="@drawable/green_up" />
+
         <TextView
             android:id="@+id/coinListPrice"
-            android:layout_width="98dp"
+            android:layout_width="88dp"
             android:layout_height="match_parent"
             android:layout_gravity="end"
             android:gravity="center"

@@ -3,6 +3,7 @@ package com.paperspace.kyleamyx.luckycoins
 import com.paperspace.kyleamyx.luckycoins.detail.CoinDetailRepository
 import com.paperspace.kyleamyx.luckycoins.detail.CoinDetailRepositoryImpl
 import com.paperspace.kyleamyx.luckycoins.models.CoinDetailItem
+import com.paperspace.kyleamyx.luckycoins.models.CoinDetailUrlItem
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
@@ -17,7 +18,7 @@ class CoinDetailTests : CoinBaseTest() {
     override fun setUp() {
         super.setUp()
         MockitoAnnotations.initMocks(this)
-        detailRepository = CoinDetailRepositoryImpl(luckyCoinApiService, GSON)
+        detailRepository = CoinDetailRepositoryImpl(luckyCoinApiService)
     }
 
 
@@ -29,7 +30,20 @@ class CoinDetailTests : CoinBaseTest() {
                 .assertValue(CoinDetailItem("1", "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png",
                         "Bitcoin",
                         "BTC",
-                        "abc"))
+                        "abc",
+                        CoinDetailUrlItem(
+                                listOf("https://bitcoin.org/"),
+                                listOf("https://bitcoin.org/bitcoin.pdf"),
+                                emptyList(),
+                                listOf("https://reddit.com/r/bitcoin"),
+                                listOf("https://bitcointalk.org"),
+                                emptyList(),
+                                emptyList(),
+                                listOf("https://blockchain.coinmarketcap.com/chain/bitcoin",
+                                        "https://blockchain.info/",
+                                        "https://live.blockcypher.com/btc/"),
+                                listOf("https://github.com/bitcoin/")
+                        )))
                 .dispose()
     }
 }

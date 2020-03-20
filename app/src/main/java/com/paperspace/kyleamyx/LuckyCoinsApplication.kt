@@ -2,11 +2,12 @@ package com.paperspace.kyleamyx
 
 import android.app.Application
 import android.util.Log
-import com.paperspace.kyleamyx.luckycoins.appDi
+import com.paperspace.kyleamyx.SharedPrefHelper.sharedPrefdi
+import com.paperspace.kyleamyx.luckycoins.di.appDi
 import com.paperspace.kyleamyx.luckycoins.detail.detailDi
 import com.paperspace.kyleamyx.luckycoins.favorites.favoriteDi
 import com.paperspace.kyleamyx.luckycoins.list.listDi
-import com.paperspace.kyleamyx.luckycoins.roomDi
+import com.paperspace.kyleamyx.luckycoins.di.roomDi
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
@@ -21,7 +22,12 @@ class LuckyCoinsApplication : Application() {
         startKoin {
             logger(KoinLogger(Level.DEBUG))
             androidContext(this@LuckyCoinsApplication)
-            modules(listOf(appDi, listDi, favoriteDi, detailDi, roomDi))
+            modules(listOf(appDi,
+                    listDi,
+                    favoriteDi,
+                    detailDi,
+                    roomDi,
+                    sharedPrefdi))
         }
     }
 

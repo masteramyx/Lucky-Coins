@@ -5,5 +5,5 @@ import io.reactivex.Single
 
 interface CoinDetailRepository {
 
-    fun getCoinDetail(coinId: String): Single<CoinDetailItem>
+    fun getCoinDetail(coinId: String): Single<CoinDetailItem?>
 }

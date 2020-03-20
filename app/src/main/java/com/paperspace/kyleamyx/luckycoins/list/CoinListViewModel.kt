@@ -2,13 +2,13 @@ package com.paperspace.kyleamyx.luckycoins.list
 
 import android.util.Log
 import android.view.View
-import com.paperspace.kyleamyx.luckycoins.base.BaseViewModel
-import com.paperspace.kyleamyx.luckycoins.base.scheduler
-import com.paperspace.kyleamyx.luckycoins.base.subscribeBy
 import com.paperspace.kyleamyx.luckycoins.favorites.CoinFavoriteRepository
 import com.paperspace.kyleamyx.luckycoins.favorites.db.CoinFavoriteItem
 import com.paperspace.kyleamyx.luckycoins.models.CoinListItem
 import com.jakewharton.rxbinding2.widget.RxTextView
+import com.karakum.base.BaseViewModel
+import com.karakum.base.scheduler
+import com.karakum.base.subscribeBy
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Function
 import kotlinx.android.synthetic.main.coin_list_controller.view.*
@@ -25,16 +25,19 @@ data class CoinListViewModel internal constructor(
     private var searchList: List<CoinListItem> = emptyList()
 
 
-    fun getCoinList() {
+    fun getCoinList(loadingView: View) {
+        loadingView.visibility = View.VISIBLE
         addToDisposables(remoteRepository.buildListWithImages()
                 .compose(scheduler.scheduleSingle())
                 .doOnError { Log.d("LISTVIEWMODEL", "COIN LIST ERROR") }
                 .subscribeBy(
                         onSuccess = {
+                            loadingView.visibility = View.GONE
                             coinList = it
                             stateSubject.onNext(CoinListContract.State.CoinListReceived(coinList))
                         },
                         onError = {
+                            loadingView.visibility = View.GONE
                             stateSubject.onNext(CoinListContract.State.Error(it))
                         }
                 ))
@@ -68,7 +71,7 @@ data class CoinListViewModel internal constructor(
 
     private fun searchItems(query: String): List<CoinListItem> {
         return coinList.filter { coin ->
-            coin.name?.toLowerCase(Locale.getDefault())!!.contains(query.toLowerCase(Locale.getDefault()))
+            coin.name.toLowerCase(Locale.getDefault()).contains(query.toLowerCase(Locale.getDefault()))
         }
     }
 }

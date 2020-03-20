@@ -1,23 +1,23 @@
 package com.paperspace.kyleamyx.luckycoins.models
 
 import android.os.Parcelable
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
+import kotlinx.serialization.Serializable
+
 
 @Parcelize
-data class CoinDetailItem(@Expose
-                          @SerializedName("id")
-                          val id: String,
-                          @Expose
-                          @SerializedName("logo")
-                          val logo: String? = null,
-                          @Expose
-                          @SerializedName("name")
-                          val name: String? = null,
-                          @Expose
-                          @SerializedName("symbol")
-                          val symbol: String? = null,
-                          @Expose
-                          @SerializedName("description")
-                          val description: String? = null) : Parcelable
+@Serializable
+data class CoinDetailItem(
+        val id: String,
+        val logo: String? = null,
+        val name: String,
+        val symbol: String,
+        val description: String? = null,
+        val urls: CoinDetailUrlItem? = null) : Parcelable {
+
+    companion object {
+        val EMPTY
+            get() =
+                CoinDetailItem("", "", "", "", "Unfortunately we couldn't find this listing :(")
+    }
+}
