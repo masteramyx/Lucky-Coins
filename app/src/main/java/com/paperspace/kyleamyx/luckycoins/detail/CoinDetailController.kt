@@ -88,7 +88,9 @@ class CoinDetailController :
     }
 
     private fun setBottomSheetItems(urls: CoinDetailUrlItem) {
-        adapter.addItems(urls.buildUrlMap())
+        val urlMap = urls.buildUrlMap()
+        val titleList = urlMap.keys.toMutableList()
+        adapter.addItems(urls.buildUrlMap(), titleList)
     }
 
     companion object {

@@ -69,9 +69,9 @@ class CoinListController : BaseMvvmController<CoinListViewModel, CoinListContrac
         super.onAttach(view)
         Log.d("LIST_CONTROLLER", "Attached")
         with(viewModel) {
+            setSearchListener(view)
             if (list.isEmpty()) {
                 getCoinList(listLoadingView)
-                setSearchListener(view)
             } else {
                 //Reset adapter in case controller was detached(adapter set to null)
                 view.listRecycler.adapter = adapter
