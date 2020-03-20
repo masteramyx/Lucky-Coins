@@ -1,12 +1,15 @@
 # Lucky-Coins
-Simple Android App using CoinMarketCap API and a few extra libraries
+Simple Android App using CoinMarketCap API and a few extra libraries. This is just a constant WIP really, first app I
+built and will probably come back to this and try new things every now and then. Fork this and do what
+you will.
 
 
 Sections
 --------
 
 - [API](#CoinMarketCap-API)
-- [Base Classes](#Base-Classes)
+- [Libraries](#Libraries)
+- [Architecture](#Architecture)
 
 
 # CoinMarketCap-API
@@ -16,5 +19,11 @@ must generate your own API Key at
 
 
 
-# Base-Classes
- Using `Karakum` library which contains base lifecycle components
+# Libraries
+[x] RxJava2
+[x] Room
+[x] Jetpack
+[x] Karakum(base classes and ext. methods)
+
+# Architecture
+
