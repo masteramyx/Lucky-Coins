@@ -12,7 +12,8 @@ class CoinDetailBottomSheetAdapter(context: Context) : RecyclerView.Adapter<Coin
 
     private var urlList = mutableMapOf<String, List<String>>()
     private val inflater: LayoutInflater = LayoutInflater.from(context)
-    private val list = mutableListOf("website", "technicalDoc", "twitter", "reddit", "explorer")
+    //private val list = mutableListOf("website", "technicalDoc", "twitter", "reddit", "explorer")
+    private lateinit var list : MutableList<String>
 
     interface CoinDetailBottomSheetListener {
         fun onCoinClicked(coin: CoinListItem)
@@ -36,7 +37,8 @@ class CoinDetailBottomSheetAdapter(context: Context) : RecyclerView.Adapter<Coin
             holder.bindView(list[position], urlListItem)
     }
 
-    fun addItems(urls: MutableMap<String, List<String>>) {
+    fun addItems(urls: MutableMap<String, List<String>>, titleList : MutableList<String>) {
+        list = titleList
         filterUrlList(urls)
     }
 
