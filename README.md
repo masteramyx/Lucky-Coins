@@ -20,10 +20,11 @@ must generate your own API Key at
 
 
 # Libraries
-[x] RxJava2
-[x] Room
-[x] Jetpack
-[x] Karakum(base classes and ext. methods)
+[x] RxJava2  
+[x] Room  
+[x] Jetpack  
+[x] Koin  
+[x] Karakum(base classes and ext. methods)  
 
 # App Details
 
