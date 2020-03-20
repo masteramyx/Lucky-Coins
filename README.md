@@ -9,7 +9,7 @@ Sections
 
 - [API](#CoinMarketCap-API)
 - [Libraries](#Libraries)
-- [App Details](#App Details)
+- [App Details](#App-Details)
 
 
 # CoinMarketCap-API
@@ -26,7 +26,7 @@ must generate your own API Key at
 [x] Koin  
 [x] Karakum(base classes and ext. methods)  
 
-# App Details
+# App-Details
 
 I chose to use the MVVM pattern with this app, therefore each screen follows the same pattern. 
 
