@@ -28,25 +28,25 @@ must generate your own API Key at
 
 # App-Details
 
-I chose to use the MVVM pattern with this app, therefore each screen follows the same pattern. 
+I chose to use the MVVM pattern with this app. Diagram is WIP
 
 MainActivity:
     The MainActivity has a host tabbed controller to navigate between list and favorites.
 
     List Controller:
-![List Controller](imgs/listController.png)
+![List Controller](imgs/listController.png =600x1200)
 
 The list controller is basically the view, communicating with the view model which calls the repository and makes the
  api calls to fetch the coin info list and images. There is a local DB for storing favorites.
  
-![Favorites](imgs/favorites.gif)
+![Favorites](imgs/favorites.gif =600x1200)
  
     Detail Controller:
-![Detail Controller](imgs/detail.png)
+![Detail Controller](imgs/detail.png =600x1200)
 
 
     Settings Activity:
-![Settings Activity](imgs/settings.png)
+![Settings Activity](imgs/settings.png =600x1200)
 
 The settings activity uses an RxBus to communicate the action across lifecycles. 
     
