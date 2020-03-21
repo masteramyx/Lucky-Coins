@@ -34,7 +34,7 @@ MainActivity:
     The MainActivity has a host tabbed controller to navigate between list and favorites.
 
     List Controller:
-![List Controller](imgs/listController.png =600x1200)
+<img src="imgs/listController.png" width= "600" height="1200" />
 
 The list controller is basically the view, communicating with the view model which calls the repository and makes the
  api calls to fetch the coin info list and images. There is a local DB for storing favorites.
