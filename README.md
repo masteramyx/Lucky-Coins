@@ -39,14 +39,14 @@ MainActivity:
 The list controller is basically the view, communicating with the view model which calls the repository and makes the
  api calls to fetch the coin info list and images. There is a local DB for storing favorites.
  
-![Favorites](imgs/favorites.gif =600x1200)
+<img src="imgs/favorites.gif" width= "600" height="1200" />
  
     Detail Controller:
-![Detail Controller](imgs/detail.png =600x1200)
+<img src="imgs/detail.png" width= "600" height="1200" />
 
 
     Settings Activity:
-![Settings Activity](imgs/settings.png =600x1200)
+<img src="imgs/settings.png" width= "600" height="1200" />
 
 The settings activity uses an RxBus to communicate the action across lifecycles. 
     
